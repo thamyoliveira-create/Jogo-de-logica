@@ -204,6 +204,55 @@ table.kk-grid td.cell.br{border-right:2px solid var(--ink);}
 }
 .cell-val{display:block;}
 
+/* ---------- TRAVESSIA DO RIO ---------- */
+.river-game{display:grid;gap:16px}
+.river-scene{display:grid;grid-template-columns:minmax(130px,1fr) minmax(160px,1.25fr) minmax(130px,1fr);gap:12px;align-items:stretch}
+.river-bank,.river-water{min-height:220px;border-radius:20px;padding:16px}
+.river-bank{background:linear-gradient(145deg,rgba(3,227,157,.16),rgba(3,227,157,.05));border:1px solid rgba(3,227,157,.3)}
+.river-water{background:linear-gradient(145deg,#DDF6FF,#B8E5F6);border:1px solid #A1D4E7;display:flex;align-items:center;justify-content:center}
+.river-bank h3{font:700 1rem 'Space Grotesk',sans-serif;margin:0 0 12px}
+.river-characters{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.character-btn{min-height:48px;border:2px solid transparent;border-radius:14px;background:#fff;padding:8px 11px;font:700 .88rem 'DM Sans',sans-serif;color:var(--ameixa);cursor:pointer;box-shadow:0 5px 14px rgba(26,15,28,.08)}
+.character-btn[aria-pressed="true"]{border-color:var(--rosa);background:rgba(251,88,167,.13)}
+.character-btn:disabled{cursor:default;opacity:.75}
+.boat{width:min(100%,230px);min-height:94px;border:3px solid var(--ameixa);border-top:none;border-radius:12px 12px 60px 60px;background:linear-gradient(120deg,var(--rosa),var(--rosa-claro));padding:20px 12px 12px;text-align:center;position:relative}
+.boat::before{content:"";position:absolute;left:50%;top:-45px;height:45px;border-left:3px solid var(--ameixa)}
+.boat-status{font-weight:800;line-height:1.45}
+.game-counter{margin:0;font-weight:700;color:var(--ink-soft)}
+
+/* ---------- EINSTEIN ---------- */
+.clue-panel{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(220px,.75fr);gap:20px;align-items:start}
+.einstein-clues{margin:0;padding:16px 16px 16px 38px;background:var(--papel);border:1px solid var(--line);border-radius:18px;columns:2;column-gap:30px}
+.einstein-clues li{break-inside:avoid;margin:0 0 8px;line-height:1.4;font-size:.88rem}
+.einstein-question{background:var(--ameixa);color:var(--papel);padding:20px;border-radius:18px;position:sticky;top:12px}
+.einstein-question strong{color:var(--menta);display:block;font:700 1.3rem 'Space Grotesk',sans-serif;margin-bottom:7px}
+.logic-table-wrap{overflow:auto;margin-top:20px;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.logic-table{border-collapse:separate;border-spacing:5px;min-width:790px;width:100%}
+.logic-table th{font:700 .78rem 'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.05em;padding:8px;color:var(--ink-soft)}
+.logic-table td{padding:0}
+.logic-table select{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ameixa);font:600 .86rem 'DM Sans',sans-serif;padding:7px 28px 7px 9px}
+.logic-table select:focus{outline:3px solid rgba(3,227,157,.35);border-color:#087B5B}
+
+/* ---------- TORRES DE HANÓI ---------- */
+.hanoi-board{display:grid;grid-template-columns:repeat(3,minmax(100px,1fr));gap:14px;align-items:end;min-height:285px;padding:18px;border-radius:20px;background:linear-gradient(180deg,#FFF,#FFF5FB)}
+.tower{height:230px;border:2px solid var(--line);border-radius:16px;background:rgba(255,255,255,.72);position:relative;display:flex;flex-direction:column-reverse;align-items:center;padding:12px 6px 20px;cursor:pointer;overflow:hidden}
+.tower::before{content:"";position:absolute;width:8px;height:165px;left:calc(50% - 4px);bottom:20px;background:var(--ameixa);border-radius:8px 8px 0 0;z-index:0}
+.tower::after{content:"";position:absolute;width:86%;height:10px;left:7%;bottom:12px;background:var(--ameixa);border-radius:8px;z-index:0}
+.tower.selected{border-color:var(--rosa);box-shadow:0 0 0 4px rgba(251,88,167,.14)}
+.disk{height:27px;border:2px solid var(--ameixa);border-radius:999px;margin-top:3px;background:linear-gradient(90deg,var(--menta),var(--rosa));position:relative;z-index:1;box-shadow:0 4px 8px rgba(26,15,28,.14)}
+.disk[data-size="1"]{width:38%}.disk[data-size="2"]{width:52%}.disk[data-size="3"]{width:68%}.disk[data-size="4"]{width:84%}
+.tower-label{position:absolute;top:10px;left:0;right:0;font-weight:800;font-size:.82rem;z-index:2}
+
+/* ---------- SEQUÊNCIAS ---------- */
+.sequence-card{border:1px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,30px);background:linear-gradient(135deg,rgba(244,182,223,.18),rgba(3,227,157,.08))}
+.sequence-level{margin:0 0 10px;color:#8F174E;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.75rem}
+.sequence-display{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 22px}
+.sequence-number{min-width:54px;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center;font:700 clamp(1.15rem,4vw,1.55rem) 'Space Grotesk',sans-serif}
+.sequence-number.missing{background:var(--ameixa);color:var(--menta)}
+.sequence-options{display:flex;gap:10px;flex-wrap:wrap}
+.sequence-options button{min-width:70px;min-height:48px;border:2px solid var(--ameixa);border-radius:14px;background:#fff;color:var(--ameixa);font:800 1rem 'DM Sans',sans-serif;cursor:pointer}
+.sequence-options button:hover,.sequence-options button:focus-visible{background:var(--rosa-claro)}
+
 footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-soft);font-size:.82rem;line-height:1.5}
 @media (max-width:720px){
   body{padding-inline:8px}
@@ -215,6 +264,14 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   .ws-wrap{grid-template-columns:1fr}
   ul.ws-words{grid-template-columns:repeat(3,minmax(78px,1fr))}
   .actions>button{flex:1 1 140px}
+  .river-scene{grid-template-columns:1fr 1fr}
+  .river-water{grid-column:1/-1;grid-row:2;min-height:150px}
+  .river-bank{min-height:145px}
+  .clue-panel{grid-template-columns:1fr}
+  .einstein-clues{columns:1;max-height:330px;overflow:auto}
+  .einstein-question{position:static}
+  .hanoi-board{gap:6px;padding:10px 5px;min-height:245px}
+  .tower{height:205px;padding-inline:2px}
 }
 @media (max-width:430px){
   .brand-mark{width:58px}
@@ -223,6 +280,11 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   .header p:last-child{font-size:.84rem}
   nav.tabs button{min-height:44px;padding-inline:14px;font-size:.86rem}
   ul.ws-words{grid-template-columns:repeat(2,minmax(90px,1fr))}
+  .character-btn{flex:1 1 100%;font-size:.8rem;padding-inline:6px}
+  .river-bank,.river-water{padding:10px}
+  .hanoi-board{grid-template-columns:repeat(3,minmax(82px,1fr))}
+  .tower-label{font-size:.72rem}
+  .sequence-number{min-width:46px;padding-inline:8px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -248,6 +310,10 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   <button id="tab-ilhas" role="tab" aria-controls="ilhas" aria-selected="false" data-tab="ilhas">🌉 Ilhas</button>
   <button id="tab-futoshiki" role="tab" aria-controls="futoshiki" aria-selected="false" data-tab="futoshiki">🔢 Davi e Golias</button>
   <button id="tab-kenken" role="tab" aria-controls="kenken" aria-selected="false" data-tab="kenken">➗ KenKen</button>
+  <button id="tab-rio" role="tab" aria-controls="rio" aria-selected="false" data-tab="rio">🚣 Travessia do Rio</button>
+  <button id="tab-einstein" role="tab" aria-controls="einstein" aria-selected="false" data-tab="einstein">🏠 Enigma de Einstein</button>
+  <button id="tab-hanoi" role="tab" aria-controls="hanoi" aria-selected="false" data-tab="hanoi">🗼 Torres de Hanói</button>
+  <button id="tab-sequencias" role="tab" aria-controls="sequencias" aria-selected="false" data-tab="sequencias">✨ Sequências</button>
 </nav>
 
 <main>
@@ -320,6 +386,69 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
       <button class="reset-btn" id="kk-reset">Limpar</button>
     </div>
     <div id="kk-msg" aria-live="polite"></div>
+  </section>
+
+  <section id="rio" role="tabpanel" aria-labelledby="tab-rio">
+    <h2>Travessia do Rio</h2>
+    <div class="instructions">O barqueiro precisa levar o lobo, a cabra e o repolho para a margem direita. O barco leva o barqueiro e, no máximo, um passageiro. Sem o barqueiro, o lobo não pode ficar com a cabra, e a cabra não pode ficar com o repolho.</div>
+    <div class="river-game">
+      <p class="game-counter" id="river-counter">Travessias: 0</p>
+      <div class="river-scene">
+        <div class="river-bank"><h3>Margem esquerda</h3><div class="river-characters" id="river-left"></div></div>
+        <div class="river-water"><div class="boat"><div class="boat-status" id="boat-status"></div></div></div>
+        <div class="river-bank"><h3>Margem direita</h3><div class="river-characters" id="river-right"></div></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="check-btn" id="river-cross">Atravessar o rio</button>
+      <button class="reset-btn" id="river-reset">Recomeçar</button>
+    </div>
+    <div id="river-msg" aria-live="polite"></div>
+  </section>
+
+  <section id="einstein" role="tabpanel" aria-labelledby="tab-einstein">
+    <h2>Enigma de Einstein</h2>
+    <div class="instructions">Há cinco casas, cada uma com cor, morador, bebida, animal e preferência diferentes. Use as pistas para completar a tabela. Nenhuma opção se repete na mesma categoria.</div>
+    <div class="clue-panel">
+      <ol class="einstein-clues">
+        <li>O britânico mora na casa vermelha.</li><li>O sueco cria cachorros.</li><li>O dinamarquês bebe chá.</li>
+        <li>A casa verde fica imediatamente à esquerda da branca.</li><li>O morador da casa verde bebe café.</li>
+        <li>Quem prefere leitura cria pássaros.</li><li>O morador da casa amarela prefere xadrez.</li>
+        <li>O morador da casa central bebe leite.</li><li>O norueguês mora na primeira casa.</li>
+        <li>Quem prefere música mora ao lado de quem cria gatos.</li><li>Quem cria cavalos mora ao lado de quem prefere xadrez.</li>
+        <li>Quem prefere desenho bebe cerveja.</li><li>O alemão prefere fotografia.</li>
+        <li>O norueguês mora ao lado da casa azul.</li><li>Quem prefere música tem um vizinho que bebe água.</li>
+      </ol>
+      <aside class="einstein-question"><strong>Desafio final</strong>Quem é o dono do peixe? Complete todas as casas para descobrir.</aside>
+    </div>
+    <div class="logic-table-wrap"><table class="logic-table" id="einstein-table"></table></div>
+    <div class="actions">
+      <button class="check-btn" id="einstein-check">Verificar solução</button>
+      <button class="reset-btn" id="einstein-hint">Usar uma pista</button>
+      <button class="reset-btn" id="einstein-reset">Limpar tabela</button>
+    </div>
+    <div id="einstein-msg" aria-live="polite"></div>
+  </section>
+
+  <section id="hanoi" role="tabpanel" aria-labelledby="tab-hanoi">
+    <h2>Torres de Hanói</h2>
+    <div class="instructions">Leve todos os discos para a terceira torre. Mova apenas um disco por vez e nunca coloque um disco maior sobre um menor. Clique na torre de origem e depois na torre de destino.</div>
+    <p class="game-counter" id="hanoi-counter">Movimentos: 0 · mínimo: 15</p>
+    <div class="hanoi-board" id="hanoi-board"></div>
+    <div class="actions"><button class="reset-btn" id="hanoi-reset">Recomeçar</button></div>
+    <div id="hanoi-msg" aria-live="polite"></div>
+  </section>
+
+  <section id="sequencias" role="tabpanel" aria-labelledby="tab-sequencias">
+    <h2>Sequências Lógicas</h2>
+    <div class="instructions">Observe como os números mudam e escolha o próximo termo. A regra é diferente em cada desafio.</div>
+    <div class="sequence-card">
+      <p class="sequence-level" id="sequence-level"></p>
+      <div class="sequence-display" id="sequence-display"></div>
+      <div class="sequence-options" id="sequence-options"></div>
+    </div>
+    <div class="actions"><button class="reset-btn" id="sequence-restart">Recomeçar desafios</button></div>
+    <div id="sequence-msg" aria-live="polite"></div>
   </section>
 
 </main>
@@ -1014,6 +1143,284 @@ function checkKk(){
 document.getElementById('kk-check').addEventListener('click',checkKk);
 document.getElementById('kk-reset').addEventListener('click',()=>loadKk(kkIdx));
 loadKk(0);
+
+/* ============================================================
+   TRAVESSIA DO RIO
+   ============================================================ */
+const RIVER_CHARACTERS = {
+  farmer:{label:'Barqueiro',icon:'🧑‍🌾'},
+  wolf:{label:'Lobo',icon:'🐺'},
+  goat:{label:'Cabra',icon:'🐐'},
+  cabbage:{label:'Repolho',icon:'🥬'}
+};
+let riverState=null;
+
+function riverReset(){
+  riverState={farmer:'left',wolf:'left',goat:'left',cabbage:'left',selected:null,moves:0};
+  clearMsg('river-msg');
+  drawRiver();
+}
+
+function riverIsSafe(state){
+  for(const side of ['left','right']){
+    if(state.farmer===side) continue;
+    if(state.wolf===side && state.goat===side) return false;
+    if(state.goat===side && state.cabbage===side) return false;
+  }
+  return true;
+}
+
+function riverCharacterButton(key){
+  const item=RIVER_CHARACTERS[key];
+  const button=document.createElement('button');
+  button.className='character-btn';
+  button.type='button';
+  button.textContent=item.icon+' '+item.label;
+  if(key==='farmer'){
+    button.disabled=true;
+  } else {
+    button.disabled=riverState[key]!==riverState.farmer;
+    button.setAttribute('aria-pressed',String(riverState.selected===key));
+    button.addEventListener('click',()=>{
+      riverState.selected=riverState.selected===key?null:key;
+      clearMsg('river-msg');
+      drawRiver();
+    });
+  }
+  return button;
+}
+
+function drawRiver(){
+  const left=document.getElementById('river-left');
+  const right=document.getElementById('river-right');
+  left.innerHTML=''; right.innerHTML='';
+  Object.keys(RIVER_CHARACTERS).forEach(key=>{
+    const target=riverState[key]==='left'?left:right;
+    target.appendChild(riverCharacterButton(key));
+  });
+  const sideName=riverState.farmer==='left'?'esquerda':'direita';
+  const passenger=riverState.selected?RIVER_CHARACTERS[riverState.selected].icon+' '+RIVER_CHARACTERS[riverState.selected].label:'sem passageiro';
+  document.getElementById('boat-status').textContent='🧑‍🌾 Barqueiro + '+passenger+'\nMargem '+sideName;
+  document.getElementById('river-counter').textContent='Travessias: '+riverState.moves;
+}
+
+function riverCross(){
+  const from=riverState.farmer;
+  const to=from==='left'?'right':'left';
+  const passenger=riverState.selected;
+  if(passenger && riverState[passenger]!==from){
+    showMsg('river-msg',false,'Esse passageiro não está na mesma margem do barqueiro.');
+    return;
+  }
+  const next={...riverState,farmer:to,selected:null,moves:riverState.moves+1};
+  if(passenger) next[passenger]=to;
+  if(!riverIsSafe(next)){
+    showMsg('river-msg',false,'Essa travessia deixaria dois personagens em perigo. Tente outra escolha.');
+    return;
+  }
+  riverState=next;
+  drawRiver();
+  const solved=Object.keys(RIVER_CHARACTERS).every(key=>riverState[key]==='right');
+  if(solved) showMsg('river-msg',true,'Travessia concluída em '+riverState.moves+' movimentos! O menor caminho usa 7. 🎉');
+  else showMsg('river-msg',true,'Travessia segura. Agora planeje o próximo movimento.');
+}
+
+document.getElementById('river-cross').addEventListener('click',riverCross);
+document.getElementById('river-reset').addEventListener('click',riverReset);
+riverReset();
+
+/* ============================================================
+   ENIGMA DE EINSTEIN
+   ============================================================ */
+const EINSTEIN_CATEGORIES = [
+  {key:'color',label:'Cor',options:['Amarela','Azul','Vermelha','Verde','Branca']},
+  {key:'nationality',label:'Morador',options:['Norueguês','Dinamarquês','Britânico','Alemão','Sueco']},
+  {key:'drink',label:'Bebida',options:['Água','Chá','Leite','Café','Cerveja']},
+  {key:'pet',label:'Animal',options:['Gatos','Cavalos','Pássaros','Peixe','Cachorros']},
+  {key:'hobby',label:'Passatempo',options:['Xadrez','Música','Leitura','Fotografia','Desenho']}
+];
+const EINSTEIN_SOLUTION = [
+  {color:'Amarela',nationality:'Norueguês',drink:'Água',pet:'Gatos',hobby:'Xadrez'},
+  {color:'Azul',nationality:'Dinamarquês',drink:'Chá',pet:'Cavalos',hobby:'Música'},
+  {color:'Vermelha',nationality:'Britânico',drink:'Leite',pet:'Pássaros',hobby:'Leitura'},
+  {color:'Verde',nationality:'Alemão',drink:'Café',pet:'Peixe',hobby:'Fotografia'},
+  {color:'Branca',nationality:'Sueco',drink:'Cerveja',pet:'Cachorros',hobby:'Desenho'}
+];
+let einsteinHints=0;
+
+function buildEinstein(){
+  const table=document.getElementById('einstein-table');
+  table.innerHTML='';
+  const head=document.createElement('thead');
+  const headRow=document.createElement('tr');
+  ['Casa',...EINSTEIN_CATEGORIES.map(category=>category.label)].forEach(label=>{
+    const th=document.createElement('th'); th.scope='col'; th.textContent=label; headRow.appendChild(th);
+  });
+  head.appendChild(headRow); table.appendChild(head);
+  const body=document.createElement('tbody');
+  for(let house=0;house<5;house++){
+    const row=document.createElement('tr');
+    const number=document.createElement('th'); number.scope='row'; number.textContent=house+1; row.appendChild(number);
+    EINSTEIN_CATEGORIES.forEach(category=>{
+      const cell=document.createElement('td');
+      const select=document.createElement('select');
+      select.id='einstein-'+category.key+'-'+house;
+      select.setAttribute('aria-label',category.label+' da casa '+(house+1));
+      const empty=document.createElement('option'); empty.value=''; empty.textContent='Selecione'; select.appendChild(empty);
+      category.options.forEach(value=>{
+        const option=document.createElement('option'); option.value=value; option.textContent=value; select.appendChild(option);
+      });
+      cell.appendChild(select); row.appendChild(cell);
+    });
+    body.appendChild(row);
+  }
+  table.appendChild(body);
+  einsteinHints=0;
+  clearMsg('einstein-msg');
+}
+
+function einsteinValues(){
+  return EINSTEIN_SOLUTION.map((_,house)=>Object.fromEntries(EINSTEIN_CATEGORIES.map(category=>[
+    category.key,document.getElementById('einstein-'+category.key+'-'+house).value
+  ])));
+}
+
+function checkEinstein(){
+  const values=einsteinValues();
+  if(values.some(house=>Object.values(house).some(value=>!value))){
+    showMsg('einstein-msg',false,'Complete todas as casas antes de verificar.'); return;
+  }
+  for(const category of EINSTEIN_CATEGORIES){
+    const chosen=values.map(house=>house[category.key]);
+    if(new Set(chosen).size!==5){
+      showMsg('einstein-msg',false,'Há uma opção repetida na categoria “'+category.label+'”.'); return;
+    }
+  }
+  for(let house=0;house<5;house++){
+    for(const category of EINSTEIN_CATEGORIES){
+      if(values[house][category.key]!==EINSTEIN_SOLUTION[house][category.key]){
+        showMsg('einstein-msg',false,'Algumas relações ainda não atendem a todas as pistas. Revise a tabela.'); return;
+      }
+    }
+  }
+  showMsg('einstein-msg',true,'Correto! O alemão, que mora na casa verde, é o dono do peixe. 🎉');
+}
+
+function einsteinHint(){
+  const cells=[];
+  for(let house=0;house<5;house++) for(const category of EINSTEIN_CATEGORIES) cells.push({house,category});
+  const target=cells.find(({house,category})=>document.getElementById('einstein-'+category.key+'-'+house).value!==EINSTEIN_SOLUTION[house][category.key]);
+  if(!target){ checkEinstein(); return; }
+  const select=document.getElementById('einstein-'+target.category.key+'-'+target.house);
+  select.value=EINSTEIN_SOLUTION[target.house][target.category.key];
+  select.focus();
+  einsteinHints++;
+  showMsg('einstein-msg',true,'Pista '+einsteinHints+': preenchi “'+target.category.label+'” da casa '+(target.house+1)+'.');
+}
+
+document.getElementById('einstein-check').addEventListener('click',checkEinstein);
+document.getElementById('einstein-hint').addEventListener('click',einsteinHint);
+document.getElementById('einstein-reset').addEventListener('click',buildEinstein);
+buildEinstein();
+
+/* ============================================================
+   TORRES DE HANÓI
+   ============================================================ */
+let hanoiTowers=null, hanoiSelected=null, hanoiMoves=0;
+
+function hanoiReset(){
+  hanoiTowers=[[4,3,2,1],[],[]]; hanoiSelected=null; hanoiMoves=0;
+  clearMsg('hanoi-msg'); drawHanoi();
+}
+
+function drawHanoi(){
+  const board=document.getElementById('hanoi-board'); board.innerHTML='';
+  hanoiTowers.forEach((disks,index)=>{
+    const tower=document.createElement('button');
+    tower.type='button'; tower.className='tower'+(hanoiSelected===index?' selected':'');
+    tower.setAttribute('aria-label','Torre '+(index+1)+', '+disks.length+' discos');
+    tower.setAttribute('aria-pressed',String(hanoiSelected===index));
+    const label=document.createElement('span'); label.className='tower-label'; label.textContent='Torre '+(index+1); tower.appendChild(label);
+    disks.forEach(size=>{
+      const disk=document.createElement('span'); disk.className='disk'; disk.dataset.size=size; disk.setAttribute('aria-hidden','true'); tower.appendChild(disk);
+    });
+    tower.addEventListener('click',()=>hanoiClick(index)); board.appendChild(tower);
+  });
+  document.getElementById('hanoi-counter').textContent='Movimentos: '+hanoiMoves+' · mínimo: 15';
+}
+
+function hanoiClick(index){
+  clearMsg('hanoi-msg');
+  if(hanoiSelected===null){
+    if(hanoiTowers[index].length===0){showMsg('hanoi-msg',false,'Essa torre está vazia. Escolha outra.');return;}
+    hanoiSelected=index; drawHanoi(); return;
+  }
+  if(hanoiSelected===index){hanoiSelected=null;drawHanoi();return;}
+  const from=hanoiTowers[hanoiSelected];
+  const to=hanoiTowers[index];
+  const disk=from[from.length-1];
+  const top=to[to.length-1];
+  if(top!==undefined && top<disk){
+    hanoiSelected=null; drawHanoi(); showMsg('hanoi-msg',false,'Um disco maior não pode ficar sobre um menor.'); return;
+  }
+  from.pop(); to.push(disk); hanoiSelected=null; hanoiMoves++; drawHanoi();
+  if(hanoiTowers[2].length===4){
+    const note=hanoiMoves===15?'Você encontrou o menor caminho!':'Tente novamente para chegar ao mínimo de 15.';
+    showMsg('hanoi-msg',true,'Torre concluída em '+hanoiMoves+' movimentos. '+note+' 🎉');
+  }
+}
+
+document.getElementById('hanoi-reset').addEventListener('click',hanoiReset);
+hanoiReset();
+
+/* ============================================================
+   SEQUÊNCIAS LÓGICAS
+   ============================================================ */
+const SEQUENCE_PUZZLES = [
+  {numbers:[2,6,12,20,30],answer:42,options:[36,40,42,44],explanation:'Os termos são 1×2, 2×3, 3×4, 4×5, 5×6; depois vem 6×7.'},
+  {numbers:[81,27,9,3],answer:1,options:[0,1,2,6],explanation:'Cada termo é o anterior dividido por 3.'},
+  {numbers:[1,1,2,3,5,8],answer:13,options:[11,12,13,16],explanation:'Cada termo é a soma dos dois anteriores.'},
+  {numbers:[3,6,11,18,27],answer:38,options:[36,37,38,39],explanation:'Somam-se números ímpares consecutivos: +3, +5, +7, +9 e +11.'},
+  {numbers:[2,3,5,8,12,17],answer:23,options:[21,22,23,24],explanation:'Os acréscimos aumentam uma unidade: +1, +2, +3, +4, +5 e +6.'}
+];
+let sequenceIndex=0, sequenceScore=0, sequenceTimer=null;
+
+function drawSequence(){
+  clearTimeout(sequenceTimer);
+  const puzzle=SEQUENCE_PUZZLES[sequenceIndex];
+  document.getElementById('sequence-level').textContent='Desafio '+(sequenceIndex+1)+' de '+SEQUENCE_PUZZLES.length+' · acertos: '+sequenceScore;
+  const display=document.getElementById('sequence-display'); display.innerHTML='';
+  [...puzzle.numbers,'?'].forEach(value=>{
+    const item=document.createElement('span'); item.className='sequence-number'+(value==='?'?' missing':''); item.textContent=value; display.appendChild(item);
+  });
+  const options=document.getElementById('sequence-options'); options.innerHTML='';
+  puzzle.options.forEach(value=>{
+    const button=document.createElement('button'); button.type='button'; button.textContent=value;
+    button.addEventListener('click',()=>answerSequence(value)); options.appendChild(button);
+  });
+  clearMsg('sequence-msg');
+}
+
+function answerSequence(value){
+  const puzzle=SEQUENCE_PUZZLES[sequenceIndex];
+  if(value!==puzzle.answer){showMsg('sequence-msg',false,'Ainda não. Observe a diferença entre os termos e tente novamente.');return;}
+  sequenceScore++;
+  document.querySelectorAll('#sequence-options button').forEach(button=>button.disabled=true);
+  showMsg('sequence-msg',true,'Correto! '+puzzle.explanation);
+  sequenceTimer=setTimeout(()=>{
+    if(sequenceIndex===SEQUENCE_PUZZLES.length-1){
+      document.getElementById('sequence-level').textContent='Atividade concluída · '+sequenceScore+' de '+SEQUENCE_PUZZLES.length;
+      document.getElementById('sequence-options').innerHTML='';
+      showMsg('sequence-msg',true,'Você concluiu todas as sequências! 🎉');
+    } else {
+      sequenceIndex++; drawSequence();
+    }
+  },1800);
+}
+
+function sequenceRestart(){sequenceIndex=0;sequenceScore=0;drawSequence();}
+document.getElementById('sequence-restart').addEventListener('click',sequenceRestart);
+drawSequence();
 </script>
 </body>
 </html>
