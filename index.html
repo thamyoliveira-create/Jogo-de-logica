@@ -3,222 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oficina de Raciocínio Lógico — Professor Santinho</title>
+<title>Desafio de Lógica — Professora Tamiris</title>
+<meta name="theme-color" content="#1A0F1C">
+<meta name="description" content="Jogos interativos de raciocínio lógico da Professora Tamiris.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F6F1E4;
-  --card:#FFFDF8;
-  --ink:#22303C;
-  --ink-soft:#55606B;
-  --accent:#2F6B4F;
-  --accent-dark:#1F4D38;
-  --amber:#E3963E;
-  --clay:#C0533B;
-  --line:#DDD3BB;
-  --tan:#EDE6D4;
+  --ameixa:#1A0F1C;
+  --ameixa-2:#2A172D;
+  --papel:#FFF5FB;
+  --menta:#03E39D;
+  --rosa:#FB58A7;
+  --rosa-claro:#F4B6DF;
+  --card:#FFFFFF;
+  --ink:var(--ameixa);
+  --ink-soft:#685D69;
+  --line:#E9DAE4;
+  --shadow:0 24px 64px rgba(26,15,28,.12);
 }
-*{box-sizing:border-box;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
-  background:var(--bg);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 9% 8%,rgba(3,227,157,.15),transparent 24rem),
+    radial-gradient(circle at 92% 22%,rgba(251,88,167,.18),transparent 28rem),
+    var(--papel);
   color:var(--ink);
-  font-family:'Nunito',sans-serif;
-  padding-bottom:40px;
+  font-family:'DM Sans',sans-serif;
+  padding:clamp(12px,3vw,32px) clamp(10px,3vw,24px) 40px;
 }
 .header{
-  max-width:900px;
-  margin:24px auto 14px;
-  border:3px solid var(--ink);
-  border-radius:24px;
-  padding:20px 24px;
-  text-align:center;
-  background:var(--card);
+  max-width:1080px;
+  margin:0 auto 18px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:clamp(24px,4vw,40px);
+  padding:clamp(22px,4vw,42px);
+  background:var(--ameixa);
+  color:var(--papel);
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
 }
-.header h1{
-  font-family:'Kalam',cursive;
-  font-size:1.9rem;
-  margin:0 0 4px;
-  color:var(--accent-dark);
+.header::after{
+  content:"";position:absolute;right:-80px;bottom:-120px;width:330px;height:330px;
+  border:42px solid rgba(251,88,167,.13);border-radius:50%;pointer-events:none
 }
-.header p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+.brand-row{display:flex;align-items:center;gap:clamp(16px,3vw,28px);position:relative;z-index:1}
+.brand-mark{width:clamp(76px,12vw,116px);height:auto;flex:0 0 auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.22))}
+.eyebrow{margin:0 0 7px;color:var(--menta);font-weight:800;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase}
+.header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.95rem,5vw,3.45rem);line-height:.98;letter-spacing:-.045em;margin:0 0 10px;max-width:720px}
+.header p:last-child{margin:0;color:#E9DDE7;font-size:clamp(.9rem,2vw,1.05rem);max-width:650px;line-height:1.5}
 
 nav.tabs{
-  max-width:900px;
-  margin:0 auto;
+  max-width:1080px;
+  margin:0 auto 10px;
   display:flex;
-  gap:6px;
-  padding:0 12px;
+  gap:8px;
+  padding:6px 2px 9px;
   overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--rosa-claro) transparent;
+  -webkit-overflow-scrolling:touch;
 }
 nav.tabs button{
-  font-family:'Kalam',cursive;
-  font-size:1rem;
+  min-height:46px;
+  font:700 .94rem 'DM Sans',sans-serif;
   padding:10px 16px;
-  border:2px solid var(--ink);
-  border-bottom:none;
-  border-radius:12px 12px 0 0;
-  background:var(--tan);
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
   cursor:pointer;
   color:var(--ink);
   white-space:nowrap;
   flex-shrink:0;
+  box-shadow:0 5px 16px rgba(26,15,28,.05);
+  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
 }
-nav.tabs button.active{
-  background:var(--card);
-  position:relative;
-  top:2px;
-  color:var(--accent-dark);
-}
+nav.tabs button:hover{transform:translateY(-2px);border-color:var(--rosa)}
+nav.tabs button.active{background:var(--ameixa);border-color:var(--ameixa);color:var(--papel)}
 
 main{
-  max-width:900px;
+  max-width:1080px;
   margin:0 auto;
-  border:2px solid var(--ink);
-  border-radius:0 14px 14px 14px;
+  border:1px solid rgba(26,15,28,.07);
+  border-radius:clamp(22px,4vw,34px);
   background:var(--card);
-  padding:22px;
+  padding:clamp(18px,4vw,38px);
   min-height:420px;
+  box-shadow:var(--shadow);
 }
 section{display:none;}
-section.active{display:block;}
-h2{font-family:'Kalam',cursive;color:var(--accent-dark);margin-top:0;}
+section.active{display:block;animation:section-in .28s ease both}
+@keyframes section-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.55rem,3vw,2.15rem);letter-spacing:-.035em;color:var(--ameixa);margin:0 0 14px}
 .instructions{
-  background:var(--tan);
-  border-left:4px solid var(--amber);
-  padding:10px 14px;
-  border-radius:6px;
-  font-size:0.92rem;
-  margin-bottom:16px;
-  line-height:1.4;
+  background:linear-gradient(110deg,rgba(244,182,223,.35),rgba(3,227,157,.10));
+  border:1px solid rgba(251,88,167,.2);
+  border-left:5px solid var(--rosa);
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:.95rem;
+  margin-bottom:20px;
+  line-height:1.55;
 }
-.puzzle-picker{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.puzzle-picker{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
 .puzzle-picker button{
-  padding:6px 14px;
-  border-radius:20px;
-  border:2px solid var(--accent);
+  min-height:44px;padding:8px 16px;border-radius:999px;border:2px solid var(--ameixa);
   background:#fff;
-  color:var(--accent-dark);
+  color:var(--ameixa);
   cursor:pointer;
   font-weight:700;
-  font-family:'Nunito',sans-serif;
+  font-family:'DM Sans',sans-serif;
 }
-.puzzle-picker button.active{background:var(--accent);color:#fff;}
+.puzzle-picker button.active{background:var(--menta);border-color:var(--menta);color:var(--ameixa)}
 
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
 button.check-btn, button.reset-btn{
-  border:none;
-  font-weight:800;
-  padding:10px 20px;
-  border-radius:24px;
-  cursor:pointer;
-  font-size:0.95rem;
-  font-family:'Nunito',sans-serif;
+  min-height:48px;border:none;font-weight:800;padding:11px 22px;border-radius:999px;
+  cursor:pointer;font-size:.95rem;font-family:'DM Sans',sans-serif;transition:transform .18s ease,box-shadow .18s ease
 }
-button.check-btn{background:var(--amber);color:#fff;}
-button.check-btn:hover{filter:brightness(0.95);}
-button.reset-btn{background:#fff;color:var(--clay);border:2px solid var(--clay);}
+button.check-btn{background:var(--rosa);color:var(--ameixa);box-shadow:0 9px 20px rgba(251,88,167,.25)}
+button.check-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(251,88,167,.32)}
+button.reset-btn{background:#fff;color:var(--ameixa);border:2px solid var(--ameixa)}
+button:focus-visible,.ws-cell:focus-visible,td:focus-visible{outline:4px solid rgba(3,227,157,.55);outline-offset:3px}
 
-.msg{margin-top:2px;padding:10px 14px;border-radius:8px;font-weight:700;}
-.msg.ok{background:#E4F3EA;color:var(--accent-dark);border:2px solid var(--accent);}
-.msg.err{background:#FBE7E2;color:var(--clay);border:2px solid var(--clay);}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:700}
+.msg.ok{background:rgba(3,227,157,.13);color:#075A42;border:1px solid rgba(3,227,157,.55)}
+.msg.err{background:rgba(251,88,167,.12);color:#8F174E;border:1px solid rgba(251,88,167,.48)}
 
 /* ---------- BARRACAS ---------- */
-.tents-wrap{overflow-x:auto;}
+.tents-wrap,.hashi-wrap{overflow:auto;padding:8px 2px 12px;-webkit-overflow-scrolling:touch}
 table.tents-grid{border-collapse:collapse;margin:0 auto;}
 table.tents-grid td{
-  width:42px;height:42px;
-  border:1px solid #B9AF95;
+  width:clamp(40px,10vw,52px);height:clamp(40px,10vw,52px);
+  border:1px solid var(--line);border-radius:4px;
   text-align:center;vertical-align:middle;
-  font-size:1.4rem;cursor:pointer;background:#fff;
+  font-size:1.4rem;cursor:pointer;background:#fff;touch-action:manipulation;
 }
-table.tents-grid td.tree{background:#DCEBDC;cursor:default;}
-table.tents-grid td.tent{background:#FCEAD2;}
+table.tents-grid td.tree{background:rgba(3,227,157,.13);cursor:default}
+table.tents-grid td.tent{background:rgba(251,88,167,.15)}
 table.tents-grid td.clue{
-  font-family:'Kalam',cursive;font-weight:700;font-size:1.1rem;
-  background:transparent;border:none;cursor:default;color:var(--accent-dark);
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;
+  background:transparent;border:none;cursor:default;color:var(--ameixa);
 }
-table.tents-grid td.clue.match{color:var(--accent);}
+table.tents-grid td.clue.match{color:#087B5B}
 table.tents-grid td.corner{border:none;background:transparent;cursor:default;}
 
 /* ---------- WORD SEEK ---------- */
-.ws-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
-.ws-grid{display:grid;gap:2px;user-select:none;touch-action:none;}
+.ws-wrap{display:grid;grid-template-columns:minmax(0,auto) minmax(140px,1fr);gap:clamp(18px,4vw,36px);align-items:start;overflow:auto;padding-bottom:10px}
+.ws-grid{display:grid;gap:2px;user-select:none;touch-action:none;width:max-content}
 .ws-cell{
-  width:24px;height:24px;
+  width:clamp(24px,5.4vw,34px);height:clamp(24px,5.4vw,34px);
   display:flex;align-items:center;justify-content:center;
-  background:#fff;border:1px solid #eee;
-  font-weight:700;font-size:0.8rem;cursor:pointer;
+  background:#fff;border:1px solid var(--line);border-radius:5px;
+  font-weight:800;font-size:clamp(.68rem,2vw,.88rem);cursor:pointer;
 }
-.ws-cell.sel{background:#FCEAD2;}
-.ws-cell.found{background:#CFE9D6;color:var(--accent-dark);}
-ul.ws-words{list-style:none;padding:0;margin:0;min-width:150px;}
-ul.ws-words li{padding:3px 0;font-weight:700;}
+.ws-cell.sel{background:var(--rosa-claro)}
+.ws-cell.found{background:var(--menta);color:var(--ameixa)}
+ul.ws-words{list-style:none;padding:14px;margin:0;min-width:140px;background:var(--papel);border-radius:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:4px 14px}
+ul.ws-words li{padding:3px 0;font-weight:700;font-size:.88rem}
 ul.ws-words li.found{text-decoration:line-through;color:#9aa39a;}
 
 /* ---------- ILHAS ---------- */
-.hashi-wrap{overflow-x:auto;}
-svg.hashi-svg{background:#fff;border:1px solid var(--line);border-radius:8px;display:block;margin:0 auto;}
+svg.hashi-svg{background:#fff;border:1px solid var(--line);border-radius:18px;display:block;margin:0 auto;max-width:100%;height:auto}
 .island-circle{fill:#fff;stroke:var(--ink);stroke-width:2;cursor:pointer;}
-.island-circle.done{stroke:var(--accent);fill:#E4F3EA;}
-.island-circle.selected{stroke:var(--amber);stroke-width:3;}
-.island-label{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;pointer-events:none;}
+.island-circle.done{stroke:#087B5B;fill:rgba(3,227,157,.18)}
+.island-circle.selected{stroke:var(--rosa);stroke-width:4}
+.island-label{font-family:'DM Sans',sans-serif;font-weight:800;font-size:15px;pointer-events:none;}
 .bridge-line{stroke:var(--ink);stroke-width:3;}
 
 /* ---------- FUTOSHIKI / KENKEN shared numeric grid ---------- */
 table.num-grid{border-collapse:collapse;margin:0 auto;}
 table.num-grid td.cell{
-  width:46px;height:46px;
-  border:1px solid #B9AF95;
+  width:clamp(42px,11vw,56px);height:clamp(42px,11vw,56px);
+  border:1px solid var(--line);
   text-align:center;vertical-align:middle;
   font-size:1.25rem;font-weight:800;cursor:pointer;background:#fff;
-  position:relative;
+  position:relative;touch-action:manipulation;
 }
-table.num-grid td.cell.given{background:var(--tan);color:var(--accent-dark);cursor:default;}
+table.num-grid td.cell.given{background:rgba(244,182,223,.28);color:var(--ameixa);cursor:default;}
 table.num-grid td.gap{border:none;background:transparent;cursor:default;padding:0;}
 table.num-grid td.gap-h{width:16px;}
 table.num-grid td.gap-v{height:16px;}
-.sym{font-weight:900;color:var(--clay);font-size:1rem;}
+.sym{font-weight:900;color:#B21E64;font-size:1rem;}
 
 /* kenken cage borders */
-table.kk-grid td.cell{border:1px solid #ddd3bb;}
+table.kk-grid td.cell{border:1px solid var(--line);}
 table.kk-grid td.cell.bt{border-top:2px solid var(--ink);}
 table.kk-grid td.cell.bb{border-bottom:2px solid var(--ink);}
 table.kk-grid td.cell.bl{border-left:2px solid var(--ink);}
 table.kk-grid td.cell.br{border-right:2px solid var(--ink);}
 .cage-label{
   position:absolute;top:2px;left:4px;
-  font-size:0.68rem;font-weight:800;color:var(--clay);
+  font-size:0.68rem;font-weight:800;color:#B21E64;
 }
 .cell-val{display:block;}
 
-footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft);font-size:0.8rem;}
-@media (max-width:600px){
-  table.tents-grid td{width:32px;height:32px;font-size:1.1rem;}
-  table.num-grid td.cell{width:36px;height:36px;font-size:1.05rem;}
-  .ws-cell{width:20px;height:20px;font-size:0.7rem;}
+footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-soft);font-size:.82rem;line-height:1.5}
+@media (max-width:720px){
+  body{padding-inline:8px}
+  .header{border-radius:24px;padding:22px 20px}
+  .brand-row{align-items:flex-start}
+  .brand-mark{width:72px}
+  nav.tabs{margin-inline:4px}
+  main{border-radius:22px;padding:20px 14px}
+  .ws-wrap{grid-template-columns:1fr}
+  ul.ws-words{grid-template-columns:repeat(3,minmax(78px,1fr))}
+  .actions>button{flex:1 1 140px}
+}
+@media (max-width:430px){
+  .brand-mark{width:58px}
+  .eyebrow{font-size:.66rem}
+  .header h1{font-size:1.72rem}
+  .header p:last-child{font-size:.84rem}
+  nav.tabs button{min-height:44px;padding-inline:14px;font-size:.86rem}
+  ul.ws-words{grid-template-columns:repeat(2,minmax(90px,1fr))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Oficina de Raciocínio Lógico</h1>
-  <p>Professor Santinho · versão digital dos jogos, jogue direto no navegador</p>
-</div>
+<header class="header">
+  <div class="brand-row">
+    <img class="brand-mark" src="assets/marca-tamiris.svg" alt="">
+    <div>
+      <p class="eyebrow">Professora Tamiris · Curso Técnico ADM</p>
+      <h1>Desafio de Lógica</h1>
+      <p>Exercite seu raciocínio com jogos rápidos, interativos e feitos para qualquer tela.</p>
+    </div>
+  </div>
+</header>
 
-<nav class="tabs">
-  <button data-tab="barracas" class="active">⛺ Barracas</button>
-  <button data-tab="wordseek">🔤 Word Seek</button>
-  <button data-tab="ilhas">🌉 Ilhas</button>
-  <button data-tab="futoshiki">🔢 Davi e Golias</button>
-  <button data-tab="kenken">➗ KenKen</button>
+<nav class="tabs" role="tablist" aria-label="Escolha um jogo">
+  <button id="tab-barracas" role="tab" aria-controls="barracas" aria-selected="true" data-tab="barracas" class="active">⛺ Barracas</button>
+  <button id="tab-wordseek" role="tab" aria-controls="wordseek" aria-selected="false" data-tab="wordseek">🔤 Word Seek</button>
+  <button id="tab-ilhas" role="tab" aria-controls="ilhas" aria-selected="false" data-tab="ilhas">🌉 Ilhas</button>
+  <button id="tab-futoshiki" role="tab" aria-controls="futoshiki" aria-selected="false" data-tab="futoshiki">🔢 Davi e Golias</button>
+  <button id="tab-kenken" role="tab" aria-controls="kenken" aria-selected="false" data-tab="kenken">➗ KenKen</button>
 </nav>
 
 <main>
 
-  <section id="barracas" class="active">
+  <section id="barracas" class="active" role="tabpanel" aria-labelledby="tab-barracas">
     <h2>Barracas</h2>
     <div class="instructions">Clique nos quadradinhos vazios para colocar uma barraca (⛺). Toda barraca precisa
     ficar ao lado de uma árvore (🌳), e duas barracas nunca podem ficar coladas, nem na diagonal. Os números nas
@@ -229,10 +263,10 @@ footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft
       <button class="check-btn" id="barracas-check">Verificar</button>
       <button class="reset-btn" id="barracas-reset">Limpar</button>
     </div>
-    <div id="barracas-msg"></div>
+    <div id="barracas-msg" aria-live="polite"></div>
   </section>
 
-  <section id="wordseek">
+  <section id="wordseek" role="tabpanel" aria-labelledby="tab-wordseek">
     <h2>Word Seek — Agilidade Visual</h2>
     <div class="instructions">Arraste do início ao fim de uma palavra (na horizontal, vertical ou diagonal) para
     marcá-la. As palavras encontradas ficam riscadas na lista.</div>
@@ -243,10 +277,10 @@ footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft
       <div id="ws-grid" class="ws-grid"></div>
       <ul id="ws-words" class="ws-words"></ul>
     </div>
-    <div id="ws-msg"></div>
+    <div id="ws-msg" aria-live="polite"></div>
   </section>
 
-  <section id="ilhas">
+  <section id="ilhas" role="tabpanel" aria-labelledby="tab-ilhas">
     <h2>Ilhas</h2>
     <div class="instructions">Clique em duas ilhas alinhadas (mesma linha ou coluna) para criar uma ponte entre
     elas. Clique de novo no mesmo par para aumentar para 2 pontes, e mais uma vez para remover. Cada ilha precisa
@@ -257,10 +291,10 @@ footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft
       <button class="check-btn" id="ilhas-check">Verificar</button>
       <button class="reset-btn" id="ilhas-reset">Limpar</button>
     </div>
-    <div id="ilhas-msg"></div>
+    <div id="ilhas-msg" aria-live="polite"></div>
   </section>
 
-  <section id="futoshiki">
+  <section id="futoshiki" role="tabpanel" aria-labelledby="tab-futoshiki">
     <h2>Davi e Golias</h2>
     <div class="instructions">Clique num quadradinho para ir passando pelos números (em branco → 1 → 2 → 3...).
     Não pode repetir número na mesma linha nem na mesma coluna. Respeite os sinais de maior/menor entre as
@@ -271,10 +305,10 @@ footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft
       <button class="check-btn" id="fut-check">Verificar</button>
       <button class="reset-btn" id="fut-reset">Limpar</button>
     </div>
-    <div id="fut-msg"></div>
+    <div id="fut-msg" aria-live="polite"></div>
   </section>
 
-  <section id="kenken">
+  <section id="kenken" role="tabpanel" aria-labelledby="tab-kenken">
     <h2>KenKen</h2>
     <div class="instructions">Preencha os quadradinhos com números de 1 a 4, sem repetir na horizontal nem na
     vertical. Em cada região (cercada por linha mais grossa) o resultado da operação indicada deve dar o número
@@ -285,20 +319,24 @@ footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft
       <button class="check-btn" id="kk-check">Verificar</button>
       <button class="reset-btn" id="kk-reset">Limpar</button>
     </div>
-    <div id="kk-msg"></div>
+    <div id="kk-msg" aria-live="polite"></div>
   </section>
 
 </main>
 
-<footer>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
+<footer>Professora Tamiris · Curso Técnico em Administração<br>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
 
 <script>
 /* ============ TAB NAVIGATION ============ */
 document.querySelectorAll('nav.tabs button').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('nav.tabs button').forEach(b=>{
+      b.classList.remove('active');
+      b.setAttribute('aria-selected','false');
+    });
     document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
     btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
     document.getElementById(btn.dataset.tab).classList.add('active');
   });
 });
