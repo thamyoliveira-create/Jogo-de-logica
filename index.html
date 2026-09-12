@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oficina de Raciocínio Lógico — Professor Santinho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1E4;
+  --card:#FFFDF8;
+  --ink:#22303C;
+  --ink-soft:#55606B;
+  --accent:#2F6B4F;
+  --accent-dark:#1F4D38;
+  --amber:#E3963E;
+  --clay:#C0533B;
+  --line:#DDD3BB;
+  --tan:#EDE6D4;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Nunito',sans-serif;
+  padding-bottom:40px;
+}
+.header{
+  max-width:900px;
+  margin:24px auto 14px;
+  border:3px solid var(--ink);
+  border-radius:24px;
+  padding:20px 24px;
+  text-align:center;
+  background:var(--card);
+}
+.header h1{
+  font-family:'Kalam',cursive;
+  font-size:1.9rem;
+  margin:0 0 4px;
+  color:var(--accent-dark);
+}
+.header p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+
+nav.tabs{
+  max-width:900px;
+  margin:0 auto;
+  display:flex;
+  gap:6px;
+  padding:0 12px;
+  overflow-x:auto;
+}
+nav.tabs button{
+  font-family:'Kalam',cursive;
+  font-size:1rem;
+  padding:10px 16px;
+  border:2px solid var(--ink);
+  border-bottom:none;
+  border-radius:12px 12px 0 0;
+  background:var(--tan);
+  cursor:pointer;
+  color:var(--ink);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+nav.tabs button.active{
+  background:var(--card);
+  position:relative;
+  top:2px;
+  color:var(--accent-dark);
+}
+
+main{
+  max-width:900px;
+  margin:0 auto;
+  border:2px solid var(--ink);
+  border-radius:0 14px 14px 14px;
+  background:var(--card);
+  padding:22px;
+  min-height:420px;
+}
+section{display:none;}
+section.active{display:block;}
+h2{font-family:'Kalam',cursive;color:var(--accent-dark);margin-top:0;}
+.instructions{
+  background:var(--tan);
+  border-left:4px solid var(--amber);
+  padding:10px 14px;
+  border-radius:6px;
+  font-size:0.92rem;
+  margin-bottom:16px;
+  line-height:1.4;
+}
+.puzzle-picker{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.puzzle-picker button{
+  padding:6px 14px;
+  border-radius:20px;
+  border:2px solid var(--accent);
+  background:#fff;
+  color:var(--accent-dark);
+  cursor:pointer;
+  font-weight:700;
+  font-family:'Nunito',sans-serif;
+}
+.puzzle-picker button.active{background:var(--accent);color:#fff;}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;}
+button.check-btn, button.reset-btn{
+  border:none;
+  font-weight:800;
+  padding:10px 20px;
+  border-radius:24px;
+  cursor:pointer;
+  font-size:0.95rem;
+  font-family:'Nunito',sans-serif;
+}
+button.check-btn{background:var(--amber);color:#fff;}
+button.check-btn:hover{filter:brightness(0.95);}
+button.reset-btn{background:#fff;color:var(--clay);border:2px solid var(--clay);}
+
+.msg{margin-top:2px;padding:10px 14px;border-radius:8px;font-weight:700;}
+.msg.ok{background:#E4F3EA;color:var(--accent-dark);border:2px solid var(--accent);}
+.msg.err{background:#FBE7E2;color:var(--clay);border:2px solid var(--clay);}
+
+/* ---------- BARRACAS ---------- */
+.tents-wrap{overflow-x:auto;}
+table.tents-grid{border-collapse:collapse;margin:0 auto;}
+table.tents-grid td{
+  width:42px;height:42px;
+  border:1px solid #B9AF95;
+  text-align:center;vertical-align:middle;
+  font-size:1.4rem;cursor:pointer;background:#fff;
+}
+table.tents-grid td.tree{background:#DCEBDC;cursor:default;}
+table.tents-grid td.tent{background:#FCEAD2;}
+table.tents-grid td.clue{
+  font-family:'Kalam',cursive;font-weight:700;font-size:1.1rem;
+  background:transparent;border:none;cursor:default;color:var(--accent-dark);
+}
+table.tents-grid td.clue.match{color:var(--accent);}
+table.tents-grid td.corner{border:none;background:transparent;cursor:default;}
+
+/* ---------- WORD SEEK ---------- */
+.ws-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+.ws-grid{display:grid;gap:2px;user-select:none;touch-action:none;}
+.ws-cell{
+  width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid #eee;
+  font-weight:700;font-size:0.8rem;cursor:pointer;
+}
+.ws-cell.sel{background:#FCEAD2;}
+.ws-cell.found{background:#CFE9D6;color:var(--accent-dark);}
+ul.ws-words{list-style:none;padding:0;margin:0;min-width:150px;}
+ul.ws-words li{padding:3px 0;font-weight:700;}
+ul.ws-words li.found{text-decoration:line-through;color:#9aa39a;}
+
+/* ---------- ILHAS ---------- */
+.hashi-wrap{overflow-x:auto;}
+svg.hashi-svg{background:#fff;border:1px solid var(--line);border-radius:8px;display:block;margin:0 auto;}
+.island-circle{fill:#fff;stroke:var(--ink);stroke-width:2;cursor:pointer;}
+.island-circle.done{stroke:var(--accent);fill:#E4F3EA;}
+.island-circle.selected{stroke:var(--amber);stroke-width:3;}
+.island-label{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;pointer-events:none;}
+.bridge-line{stroke:var(--ink);stroke-width:3;}
+
+/* ---------- FUTOSHIKI / KENKEN shared numeric grid ---------- */
+table.num-grid{border-collapse:collapse;margin:0 auto;}
+table.num-grid td.cell{
+  width:46px;height:46px;
+  border:1px solid #B9AF95;
+  text-align:center;vertical-align:middle;
+  font-size:1.25rem;font-weight:800;cursor:pointer;background:#fff;
+  position:relative;
+}
+table.num-grid td.cell.given{background:var(--tan);color:var(--accent-dark);cursor:default;}
+table.num-grid td.gap{border:none;background:transparent;cursor:default;padding:0;}
+table.num-grid td.gap-h{width:16px;}
+table.num-grid td.gap-v{height:16px;}
+.sym{font-weight:900;color:var(--clay);font-size:1rem;}
+
+/* kenken cage borders */
+table.kk-grid td.cell{border:1px solid #ddd3bb;}
+table.kk-grid td.cell.bt{border-top:2px solid var(--ink);}
+table.kk-grid td.cell.bb{border-bottom:2px solid var(--ink);}
+table.kk-grid td.cell.bl{border-left:2px solid var(--ink);}
+table.kk-grid td.cell.br{border-right:2px solid var(--ink);}
+.cage-label{
+  position:absolute;top:2px;left:4px;
+  font-size:0.68rem;font-weight:800;color:var(--clay);
+}
+.cell-val{display:block;}
+
+footer{max-width:900px;margin:16px auto 0;text-align:center;color:var(--ink-soft);font-size:0.8rem;}
+@media (max-width:600px){
+  table.tents-grid td{width:32px;height:32px;font-size:1.1rem;}
+  table.num-grid td.cell{width:36px;height:36px;font-size:1.05rem;}
+  .ws-cell{width:20px;height:20px;font-size:0.7rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Oficina de Raciocínio Lógico</h1>
+  <p>Professor Santinho · versão digital dos jogos, jogue direto no navegador</p>
+</div>
+
+<nav class="tabs">
+  <button data-tab="barracas" class="active">⛺ Barracas</button>
+  <button data-tab="wordseek">🔤 Word Seek</button>
+  <button data-tab="ilhas">🌉 Ilhas</button>
+  <button data-tab="futoshiki">🔢 Davi e Golias</button>
+  <button data-tab="kenken">➗ KenKen</button>
+</nav>
+
+<main>
+
+  <section id="barracas" class="active">
+    <h2>Barracas</h2>
+    <div class="instructions">Clique nos quadradinhos vazios para colocar uma barraca (⛺). Toda barraca precisa
+    ficar ao lado de uma árvore (🌳), e duas barracas nunca podem ficar coladas, nem na diagonal. Os números nas
+    bordas mostram quantas barracas cada linha e cada coluna deve ter.</div>
+    <div class="puzzle-picker" id="barracas-picker"></div>
+    <div class="tents-wrap"><div id="barracas-board"></div></div>
+    <div class="actions">
+      <button class="check-btn" id="barracas-check">Verificar</button>
+      <button class="reset-btn" id="barracas-reset">Limpar</button>
+    </div>
+    <div id="barracas-msg"></div>
+  </section>
+
+  <section id="wordseek">
+    <h2>Word Seek — Agilidade Visual</h2>
+    <div class="instructions">Arraste do início ao fim de uma palavra (na horizontal, vertical ou diagonal) para
+    marcá-la. As palavras encontradas ficam riscadas na lista.</div>
+    <div class="actions" style="margin-top:0;margin-bottom:14px;">
+      <button class="check-btn" id="ws-new">Gerar novo diagrama</button>
+    </div>
+    <div class="ws-wrap">
+      <div id="ws-grid" class="ws-grid"></div>
+      <ul id="ws-words" class="ws-words"></ul>
+    </div>
+    <div id="ws-msg"></div>
+  </section>
+
+  <section id="ilhas">
+    <h2>Ilhas</h2>
+    <div class="instructions">Clique em duas ilhas alinhadas (mesma linha ou coluna) para criar uma ponte entre
+    elas. Clique de novo no mesmo par para aumentar para 2 pontes, e mais uma vez para remover. Cada ilha precisa
+    receber exatamente o número de pontes indicado, e todas as ilhas devem formar uma única figura interligada.</div>
+    <div class="puzzle-picker" id="ilhas-picker"></div>
+    <div class="hashi-wrap"><div id="ilhas-board"></div></div>
+    <div class="actions">
+      <button class="check-btn" id="ilhas-check">Verificar</button>
+      <button class="reset-btn" id="ilhas-reset">Limpar</button>
+    </div>
+    <div id="ilhas-msg"></div>
+  </section>
+
+  <section id="futoshiki">
+    <h2>Davi e Golias</h2>
+    <div class="instructions">Clique num quadradinho para ir passando pelos números (em branco → 1 → 2 → 3...).
+    Não pode repetir número na mesma linha nem na mesma coluna. Respeite os sinais de maior/menor entre as
+    células.</div>
+    <div class="puzzle-picker" id="fut-picker"></div>
+    <div class="tents-wrap"><div id="fut-board"></div></div>
+    <div class="actions">
+      <button class="check-btn" id="fut-check">Verificar</button>
+      <button class="reset-btn" id="fut-reset">Limpar</button>
+    </div>
+    <div id="fut-msg"></div>
+  </section>
+
+  <section id="kenken">
+    <h2>KenKen</h2>
+    <div class="instructions">Preencha os quadradinhos com números de 1 a 4, sem repetir na horizontal nem na
+    vertical. Em cada região (cercada por linha mais grossa) o resultado da operação indicada deve dar o número
+    mostrado. Clique num quadradinho para passar pelos números.</div>
+    <div class="puzzle-picker" id="kk-picker"></div>
+    <div class="tents-wrap"><div id="kk-board"></div></div>
+    <div class="actions">
+      <button class="check-btn" id="kk-check">Verificar</button>
+      <button class="reset-btn" id="kk-reset">Limpar</button>
+    </div>
+    <div id="kk-msg"></div>
+  </section>
+
+</main>
+
+<footer>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
+
+<script>
+/* ============ TAB NAVIGATION ============ */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+function showMsg(elId, ok, text){
+  const el=document.getElementById(elId);
+  el.innerHTML = '<div class="msg '+(ok?'ok':'err')+'">'+text+'</div>';
+}
+function clearMsg(elId){ document.getElementById(elId).innerHTML=''; }
+
+/* ============================================================
+   BARRACAS (TENTS)
+   ============================================================ */
+const TENTS_PUZZLES = [
+  { n:4,
+    trees:[[0,1],[1,3],[2,0],[3,2]],
+    rowClues:[2,0,0,2],
+    colClues:[2,0,0,2] },
+  { n:5,
+    trees:[[0,0],[0,3],[2,2],[4,0],[4,3]],
+    rowClues:[0,2,0,2,1],
+    colClues:[2,0,1,1,1] }
+];
+let tentsState=null, tentsPuzzleIdx=0;
+
+function isTree(p,r,c){ return p.trees.some(t=>t[0]===r&&t[1]===c); }
+
+function renderTentsPicker(){
+  const picker=document.getElementById('barracas-picker');
+  picker.innerHTML='';
+  TENTS_PUZZLES.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.textContent='Diagrama '+(i+1);
+    if(i===tentsPuzzleIdx) b.classList.add('active');
+    b.addEventListener('click',()=>{ tentsPuzzleIdx=i; loadTents(i); });
+    picker.appendChild(b);
+  });
+}
+
+function loadTents(idx){
+  const p=TENTS_PUZZLES[idx];
+  tentsState = Array.from({length:p.n},()=>Array(p.n).fill(false)); // tent placed?
+  renderTentsPicker();
+  drawTents();
+  clearMsg('barracas-msg');
+}
+
+function drawTents(){
+  const p=TENTS_PUZZLES[tentsPuzzleIdx];
+  const board=document.getElementById('barracas-board');
+  board.innerHTML='';
+  const table=document.createElement('table');
+  table.className='tents-grid';
+  for(let r=0;r<p.n;r++){
+    const tr=document.createElement('tr');
+    for(let c=0;c<p.n;c++){
+      const td=document.createElement('td');
+      if(isTree(p,r,c)){
+        td.className='tree'; td.textContent='🌳';
+      } else {
+        if(tentsState[r][c]){ td.className='tent'; td.textContent='⛺'; }
+        td.addEventListener('click',()=>{
+          tentsState[r][c]=!tentsState[r][c];
+          drawTents();
+        });
+      }
+      tr.appendChild(td);
+    }
+    const tdClue=document.createElement('td');
+    tdClue.className='clue';
+    tdClue.textContent=p.rowClues[r];
+    tr.appendChild(tdClue);
+    table.appendChild(tr);
+  }
+  const trBottom=document.createElement('tr');
+  for(let c=0;c<p.n;c++){
+    const td=document.createElement('td');
+    td.className='clue';
+    td.textContent=p.colClues[c];
+    trBottom.appendChild(td);
+  }
+  trBottom.appendChild(document.createElement('td')).className='corner';
+  table.appendChild(trBottom);
+  board.appendChild(table);
+}
+
+function checkTents(){
+  const p=TENTS_PUZZLES[tentsPuzzleIdx];
+  const n=p.n;
+  let tentCells=[];
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(tentsState[r][c]) tentCells.push([r,c]);
+
+  // row/col counts
+  for(let r=0;r<n;r++){
+    const cnt=tentCells.filter(t=>t[0]===r).length;
+    if(cnt!==p.rowClues[r]){ showMsg('barracas-msg',false,'A linha '+(r+1)+' não tem o número certo de barracas.'); return; }
+  }
+  for(let c=0;c<n;c++){
+    const cnt=tentCells.filter(t=>t[1]===c).length;
+    if(cnt!==p.colClues[c]){ showMsg('barracas-msg',false,'A coluna '+(c+1)+' não tem o número certo de barracas.'); return; }
+  }
+  // adjacency (incl diagonal) between tents
+  for(let i=0;i<tentCells.length;i++){
+    for(let j=i+1;j<tentCells.length;j++){
+      const dr=Math.abs(tentCells[i][0]-tentCells[j][0]);
+      const dc=Math.abs(tentCells[i][1]-tentCells[j][1]);
+      if(dr<=1 && dc<=1){ showMsg('barracas-msg',false,'Tem duas barracas coladas (ou na diagonal).'); return; }
+    }
+  }
+  // each tent must touch a tree orthogonally
+  for(const [r,c] of tentCells){
+    const near=[[r-1,c],[r+1,c],[r,c-1],[r,c+1]];
+    const ok=near.some(([nr,nc])=> isTree(p,nr,nc));
+    if(!ok){ showMsg('barracas-msg',false,'Tem barraca que não está ao lado de nenhuma árvore.'); return; }
+  }
+  if(tentCells.length!==p.trees.length){ showMsg('barracas-msg',false,'O número de barracas precisa ser igual ao número de árvores.'); return; }
+  showMsg('barracas-msg',true,'Isso aí! Diagrama resolvido corretamente. 🎉');
+}
+
+document.getElementById('barracas-check').addEventListener('click',checkTents);
+document.getElementById('barracas-reset').addEventListener('click',()=>loadTents(tentsPuzzleIdx));
+loadTents(0);
+
+/* ============================================================
+   WORD SEEK
+   ============================================================ */
+const WS_WORDS = ["BORDER","BRICK","CORK","DARK","LIGHT","LOOP","MARBLE","MIXING","MUTED","TILES","TONES","VINYL","WOODS","SLATE","RUSTIC"];
+const WS_SIZE = 13;
+let wsGrid=[], wsRemaining=[], wsSelecting=false, wsStart=null, wsCurrentPath=[];
+
+function wsBuild(){
+  const size=WS_SIZE;
+  wsGrid = Array.from({length:size},()=>Array(size).fill(null));
+  const dirs=[[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+  const words=[...WS_WORDS].sort((a,b)=>b.length-a.length);
+  const placed=[];
+  words.forEach(word=>{
+    let done=false;
+    for(let attempt=0;attempt<400 && !done;attempt++){
+      const dir=dirs[Math.floor(Math.random()*dirs.length)];
+      const r0=Math.floor(Math.random()*size);
+      const c0=Math.floor(Math.random()*size);
+      const r1=r0+dir[0]*(word.length-1);
+      const c1=c0+dir[1]*(word.length-1);
+      if(r1<0||r1>=size||c1<0||c1>=size) continue;
+      let ok=true;
+      for(let i=0;i<word.length;i++){
+        const rr=r0+dir[0]*i, cc=c0+dir[1]*i;
+        const existing=wsGrid[rr][cc];
+        if(existing!==null && existing!==word[i]){ ok=false; break; }
+      }
+      if(!ok) continue;
+      for(let i=0;i<word.length;i++){
+        const rr=r0+dir[0]*i, cc=c0+dir[1]*i;
+        wsGrid[rr][cc]=word[i];
+      }
+      done=true;
+      placed.push(word);
+    }
+  });
+  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for(let r=0;r<size;r++) for(let c=0;c<size;c++)
+    if(wsGrid[r][c]===null) wsGrid[r][c]=alpha[Math.floor(Math.random()*26)];
+  wsRemaining = placed;
+  drawWordSeek();
+}
+
+function drawWordSeek(){
+  const gridEl=document.getElementById('ws-grid');
+  gridEl.style.gridTemplateColumns='repeat('+WS_SIZE+', 1fr)';
+  gridEl.innerHTML='';
+  for(let r=0;r<WS_SIZE;r++){
+    for(let c=0;c<WS_SIZE;c++){
+      const div=document.createElement('div');
+      div.className='ws-cell';
+      div.textContent=wsGrid[r][c];
+      div.dataset.r=r; div.dataset.c=c;
+      gridEl.appendChild(div);
+    }
+  }
+  const list=document.getElementById('ws-words');
+  list.innerHTML='';
+  wsRemaining.forEach(w=>{
+    const li=document.createElement('li');
+    li.textContent=w;
+    li.dataset.word=w;
+    list.appendChild(li);
+  });
+  clearMsg('ws-msg');
+}
+
+function wsCellAt(r,c){
+  return document.querySelector('.ws-cell[data-r="'+r+'"][data-c="'+c+'"]');
+}
+function wsClearSelHighlight(){
+  document.querySelectorAll('.ws-cell.sel').forEach(el=>el.classList.remove('sel'));
+}
+function wsPathFrom(start,end){
+  const dr=end.r-start.r, dc=end.c-start.c;
+  if(!(dr===0 || dc===0 || Math.abs(dr)===Math.abs(dc))) return null;
+  const steps=Math.max(Math.abs(dr),Math.abs(dc));
+  const sr=Math.sign(dr), sc=Math.sign(dc);
+  const path=[];
+  for(let i=0;i<=steps;i++) path.push({r:start.r+sr*i, c:start.c+sc*i});
+  return path;
+}
+function wsGetCellFromPoint(x,y){
+  const el=document.elementFromPoint(x,y);
+  if(el && el.classList.contains('ws-cell')) return {r:+el.dataset.r,c:+el.dataset.c,el};
+  return null;
+}
+
+document.getElementById('ws-grid').addEventListener('pointerdown', e=>{
+  const cell=wsGetCellFromPoint(e.clientX,e.clientY);
+  if(!cell) return;
+  wsSelecting=true; wsStart=cell; wsCurrentPath=[cell];
+  cell.el.classList.add('sel');
+  e.preventDefault();
+});
+document.addEventListener('pointermove', e=>{
+  if(!wsSelecting) return;
+  const cell=wsGetCellFromPoint(e.clientX,e.clientY);
+  if(!cell) return;
+  const path=wsPathFrom(wsStart,cell);
+  if(!path) return;
+  wsClearSelHighlight();
+  path.forEach(p=>{ const el=wsCellAt(p.r,p.c); if(el) el.classList.add('sel'); });
+  wsCurrentPath=path;
+});
+document.addEventListener('pointerup', e=>{
+  if(!wsSelecting) return;
+  wsSelecting=false;
+  const letters=wsCurrentPath.map(p=>wsGrid[p.r][p.c]).join('');
+  const rev=letters.split('').reverse().join('');
+  const match=wsRemaining.find(w=>w===letters||w===rev);
+  if(match){
+    wsCurrentPath.forEach(p=>{ const el=wsCellAt(p.r,p.c); el.classList.remove('sel'); el.classList.add('found'); });
+    wsRemaining=wsRemaining.filter(w=>w!==match);
+    const li=document.querySelector('#ws-words li[data-word="'+match+'"]');
+    if(li) li.classList.add('found');
+    if(wsRemaining.length===0) showMsg('ws-msg',true,'Você encontrou todas as palavras! 🎉');
+  } else {
+    wsClearSelHighlight();
+  }
+  wsCurrentPath=[];
+});
+document.getElementById('ws-new').addEventListener('click', wsBuild);
+wsBuild();
+
+/* ============================================================
+   ILHAS (HASHI)
+   ============================================================ */
+const ILHAS_PUZZLES = [
+  {
+    islands:[
+      {row:0,col:0,val:2},{row:0,col:2,val:3},{row:0,col:4,val:2},
+      {row:2,col:0,val:2},{row:2,col:2,val:3},{row:2,col:4,val:2}
+    ],
+    edges:[[0,1],[1,2],[3,4],[4,5],[0,3],[1,4],[2,5]]
+  }
+];
+let ilhasIdx=0, ilhasBridges={}, ilhasSelected=null;
+
+function ilhasKey(a,b){ return a<b ? a+'-'+b : b+'-'+a; }
+function ilhasEdgeExists(p,a,b){ return p.edges.some(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a)); }
+
+function renderIlhasPicker(){
+  const picker=document.getElementById('ilhas-picker');
+  picker.innerHTML='';
+  ILHAS_PUZZLES.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.textContent='Diagrama '+(i+1);
+    if(i===ilhasIdx) b.classList.add('active');
+    b.addEventListener('click',()=>{ ilhasIdx=i; loadIlhas(i); });
+    picker.appendChild(b);
+  });
+}
+
+function loadIlhas(idx){
+  ilhasIdx=idx;
+  ilhasBridges={};
+  ilhasSelected=null;
+  renderIlhasPicker();
+  drawIlhas();
+  clearMsg('ilhas-msg');
+}
+
+function ilhasCurrentTotal(p, id){
+  let total=0;
+  p.edges.forEach(e=>{
+    if(e[0]===id||e[1]===id){
+      const k=ilhasKey(e[0],e[1]);
+      total += (ilhasBridges[k]||0);
+    }
+  });
+  return total;
+}
+
+function drawIlhas(){
+  const p=ILHAS_PUZZLES[ilhasIdx];
+  const board=document.getElementById('ilhas-board');
+  board.innerHTML='';
+  const spacing=90, pad=50;
+  const maxRow=Math.max(...p.islands.map(i=>i.row));
+  const maxCol=Math.max(...p.islands.map(i=>i.col));
+  const w=pad*2+maxCol*spacing, h=pad*2+maxRow*spacing;
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('width',w); svg.setAttribute('height',h);
+  svg.classList.add('hashi-svg');
+
+  function pos(i){ return {x:pad+p.islands[i].col*spacing, y:pad+p.islands[i].row*spacing}; }
+
+  // draw bridges first (so islands sit on top)
+  p.edges.forEach(e=>{
+    const k=ilhasKey(e[0],e[1]);
+    const n=ilhasBridges[k]||0;
+    if(n===0) return;
+    const A=pos(e[0]), B=pos(e[1]);
+    const horizontal = A.y===B.y;
+    for(let line=0; line<n; line++){
+      const offset = n===2 ? (line===0?-4:4) : 0;
+      const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+      if(horizontal){
+        l.setAttribute('x1',A.x); l.setAttribute('x2',B.x);
+        l.setAttribute('y1',A.y+offset); l.setAttribute('y2',B.y+offset);
+      } else {
+        l.setAttribute('x1',A.x+offset); l.setAttribute('x2',B.x+offset);
+        l.setAttribute('y1',A.y); l.setAttribute('y2',B.y);
+      }
+      l.classList.add('bridge-line');
+      svg.appendChild(l);
+    }
+  });
+
+  p.islands.forEach((isl,i)=>{
+    const {x,y}=pos(i);
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',x); circle.setAttribute('cy',y); circle.setAttribute('r',20);
+    circle.classList.add('island-circle');
+    const total=ilhasCurrentTotal(p,i);
+    if(total===isl.val) circle.classList.add('done');
+    if(ilhasSelected===i) circle.classList.add('selected');
+    circle.addEventListener('click',()=>ilhasClickIsland(i));
+    const text=document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x',x); text.setAttribute('y',y+5);
+    text.setAttribute('text-anchor','middle');
+    text.classList.add('island-label');
+    text.textContent=isl.val;
+    text.style.pointerEvents='none';
+    g.appendChild(circle); g.appendChild(text);
+    svg.appendChild(g);
+  });
+  board.appendChild(svg);
+}
+
+function ilhasClickIsland(i){
+  const p=ILHAS_PUZZLES[ilhasIdx];
+  if(ilhasSelected===null){
+    ilhasSelected=i;
+  } else if(ilhasSelected===i){
+    ilhasSelected=null;
+  } else if(ilhasEdgeExists(p,ilhasSelected,i)){
+    const k=ilhasKey(ilhasSelected,i);
+    const cur=ilhasBridges[k]||0;
+    ilhasBridges[k]=(cur+1)%3;
+    ilhasSelected=null;
+  } else {
+    ilhasSelected=i;
+  }
+  drawIlhas();
+}
+
+function checkIlhas(){
+  const p=ILHAS_PUZZLES[ilhasIdx];
+  // check totals
+  for(let i=0;i<p.islands.length;i++){
+    if(ilhasCurrentTotal(p,i)!==p.islands[i].val){
+      showMsg('ilhas-msg',false,'Ainda tem ilha com número errado de pontes.');
+      return;
+    }
+  }
+  // check connectivity
+  const n=p.islands.length;
+  const adj=Array.from({length:n},()=>[]);
+  p.edges.forEach(e=>{
+    const k=ilhasKey(e[0],e[1]);
+    if((ilhasBridges[k]||0)>0){ adj[e[0]].push(e[1]); adj[e[1]].push(e[0]); }
+  });
+  const visited=new Set([0]);
+  const stack=[0];
+  while(stack.length){
+    const cur=stack.pop();
+    adj[cur].forEach(nb=>{ if(!visited.has(nb)){ visited.add(nb); stack.push(nb); } });
+  }
+  if(visited.size!==n){
+    showMsg('ilhas-msg',false,'As ilhas ainda não formam uma única figura interligada.');
+    return;
+  }
+  showMsg('ilhas-msg',true,'Perfeito! Todas as ilhas estão ligadas corretamente. 🎉');
+}
+document.getElementById('ilhas-check').addEventListener('click',checkIlhas);
+document.getElementById('ilhas-reset').addEventListener('click',()=>loadIlhas(ilhasIdx));
+loadIlhas(0);
+
+/* ============================================================
+   DAVI E GOLIAS (FUTOSHIKI)
+   ============================================================ */
+const FUT_PUZZLES = [
+  { n:4,
+    givens:[{r:0,c:3,val:4},{r:2,c:2,val:1}],
+    constraints:[
+      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
+      {r1:1,c1:2,r2:1,c2:3,rel:'>'},
+      {r1:0,c1:2,r2:1,c2:2,rel:'<'},
+      {r1:2,c1:1,r2:3,c2:1,rel:'>'},
+      {r1:3,c1:0,r2:3,c2:1,rel:'>'},
+      {r1:2,c1:2,r2:2,c2:3,rel:'<'}
+    ]
+  },
+  { n:5,
+    givens:[{r:2,c:2,val:5},{r:4,c:4,val:4}],
+    constraints:[
+      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
+      {r1:1,c1:3,r2:1,c2:4,rel:'>'},
+      {r1:1,c1:0,r2:2,c2:0,rel:'<'},
+      {r1:2,c1:4,r2:3,c2:4,rel:'<'},
+      {r1:3,c1:1,r2:3,c2:2,rel:'>'},
+      {r1:4,c1:2,r2:4,c2:3,rel:'<'}
+    ]
+  }
+];
+
+let futIdx=0, futGrid=null;
+
+function renderFutPicker(){
+  const picker=document.getElementById('fut-picker');
+  picker.innerHTML='';
+  FUT_PUZZLES.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.textContent='Diagrama '+(i+1);
+    if(i===futIdx) b.classList.add('active');
+    b.addEventListener('click',()=>{ futIdx=i; loadFut(i); });
+    picker.appendChild(b);
+  });
+}
+
+function loadFut(idx){
+  futIdx=idx;
+  const p=FUT_PUZZLES[idx];
+  futGrid=Array.from({length:p.n},()=>Array(p.n).fill(0));
+  p.givens.forEach(g=>{ futGrid[g.r][g.c]=g.val; });
+  renderFutPicker();
+  drawFut();
+  clearMsg('fut-msg');
+}
+
+function futIsGiven(p,r,c){ return p.givens.some(g=>g.r===r&&g.c===c); }
+function futConstraintBetween(p,r1,c1,r2,c2){
+  return p.constraints.find(k=>(k.r1===r1&&k.c1===c1&&k.r2===r2&&k.c2===c2));
+}
+
+function drawFut(){
+  const p=FUT_PUZZLES[futIdx];
+  const n=p.n;
+  const board=document.getElementById('fut-board');
+  board.innerHTML='';
+  const table=document.createElement('table');
+  table.className='num-grid';
+  for(let r=0;r<n;r++){
+    // main row
+    const tr=document.createElement('tr');
+    for(let c=0;c<n;c++){
+      const td=document.createElement('td');
+      td.className='cell'+(futIsGiven(p,r,c)?' given':'');
+      td.textContent=futGrid[r][c]===0?'':futGrid[r][c];
+      if(!futIsGiven(p,r,c)){
+        td.addEventListener('click',()=>{
+          futGrid[r][c]=(futGrid[r][c]+1)%(n+1);
+          drawFut();
+        });
+      }
+      tr.appendChild(td);
+      if(c<n-1){
+        const gap=document.createElement('td');
+        gap.className='gap gap-h';
+        const con=futConstraintBetween(p,r,c,r,c+1);
+        if(con) gap.innerHTML='<span class="sym">'+con.rel+'</span>';
+        tr.appendChild(gap);
+      }
+    }
+    table.appendChild(tr);
+    // gap row (vertical constraints) if not last row
+    if(r<n-1){
+      const trGap=document.createElement('tr');
+      for(let c=0;c<n;c++){
+        const gap=document.createElement('td');
+        gap.className='gap gap-v';
+        const con=futConstraintBetween(p,r,c,r+1,c);
+        if(con) gap.innerHTML='<span class="sym">'+(con.rel==='<'?'▲':'▼')+'</span>';
+        trGap.appendChild(gap);
+        if(c<n-1){
+          const corner=document.createElement('td');
+          corner.className='gap';
+          trGap.appendChild(corner);
+        }
+      }
+      table.appendChild(trGap);
+    }
+  }
+  board.appendChild(table);
+}
+
+function checkFut(){
+  const p=FUT_PUZZLES[futIdx];
+  const n=p.n;
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(futGrid[r][c]===0){
+    showMsg('fut-msg',false,'Preencha todos os quadradinhos antes de verificar.'); return;
+  }
+  for(let r=0;r<n;r++){
+    const vals=futGrid[r];
+    if(new Set(vals).size!==n){ showMsg('fut-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
+  }
+  for(let c=0;c<n;c++){
+    const vals=[]; for(let r=0;r<n;r++) vals.push(futGrid[r][c]);
+    if(new Set(vals).size!==n){ showMsg('fut-msg',false,'Tem número repetido na coluna '+(c+1)+'.'); return; }
+  }
+  for(const con of p.constraints){
+    const a=futGrid[con.r1][con.c1], b=futGrid[con.r2][con.c2];
+    const ok = con.rel==='<' ? a<b : a>b;
+    if(!ok){ showMsg('fut-msg',false,'Algum sinal de maior/menor não está sendo respeitado.'); return; }
+  }
+  showMsg('fut-msg',true,'Show! Diagrama correto. 🎉');
+}
+document.getElementById('fut-check').addEventListener('click',checkFut);
+document.getElementById('fut-reset').addEventListener('click',()=>loadFut(futIdx));
+loadFut(0);
+
+/* ============================================================
+   KENKEN
+   ============================================================ */
+const KK_PUZZLES = [
+  { n:4,
+    cages:[
+      {cells:[[0,0],[1,0]], op:'+', target:4},
+      {cells:[[0,1],[0,2]], op:'+', target:5},
+      {cells:[[0,3]], op:null, target:4},
+      {cells:[[1,1],[2,1]], op:'-', target:3},
+      {cells:[[1,2],[1,3]], op:'+', target:3},
+      {cells:[[2,0],[3,0]], op:'×', target:8},
+      {cells:[[2,2],[2,3]], op:'+', target:7},
+      {cells:[[3,1],[3,2]], op:'-', target:1},
+      {cells:[[3,3]], op:null, target:1}
+    ]
+  },
+  { n:4,
+    cages:[
+      {cells:[[0,0],[1,0]], op:'+', target:3},
+      {cells:[[0,1],[0,2]], op:'+', target:5},
+      {cells:[[0,3]], op:null, target:3},
+      {cells:[[1,1],[2,1]], op:'-', target:1},
+      {cells:[[1,2],[1,3]], op:'+', target:6},
+      {cells:[[2,0],[3,0]], op:'+', target:7},
+      {cells:[[2,2],[2,3]], op:'-', target:2},
+      {cells:[[3,1],[3,2]], op:'+', target:3},
+      {cells:[[3,3]], op:null, target:4}
+    ]
+  }
+];
+let kkIdx=0, kkGrid=null;
+
+function renderKkPicker(){
+  const picker=document.getElementById('kk-picker');
+  picker.innerHTML='';
+  KK_PUZZLES.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.textContent='Diagrama '+(i+1);
+    if(i===kkIdx) b.classList.add('active');
+    b.addEventListener('click',()=>{ kkIdx=i; loadKk(i); });
+    picker.appendChild(b);
+  });
+}
+
+function kkCageOf(p,r,c){
+  return p.cages.find(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c));
+}
+function kkCageIndex(p,r,c){
+  return p.cages.findIndex(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c));
+}
+function kkIsAnchor(cage,r,c){
+  const sorted=[...cage.cells].sort((a,b)=>(a[0]*100+a[1])-(b[0]*100+b[1]));
+  return sorted[0][0]===r && sorted[0][1]===c;
+}
+
+function loadKk(idx){
+  kkIdx=idx;
+  const p=KK_PUZZLES[idx];
+  kkGrid=Array.from({length:p.n},()=>Array(p.n).fill(0));
+  p.cages.forEach(cg=>{
+    if(cg.op===null){ kkGrid[cg.cells[0][0]][cg.cells[0][1]]=cg.target; }
+  });
+  renderKkPicker();
+  drawKk();
+  clearMsg('kk-msg');
+}
+
+function drawKk(){
+  const p=KK_PUZZLES[kkIdx];
+  const n=p.n;
+  const board=document.getElementById('kk-board');
+  board.innerHTML='';
+  const table=document.createElement('table');
+  table.className='num-grid kk-grid';
+  for(let r=0;r<n;r++){
+    const tr=document.createElement('tr');
+    for(let c=0;c<n;c++){
+      const td=document.createElement('td');
+      const cageIdx=kkCageIndex(p,r,c);
+      const cage=p.cages[cageIdx];
+      const isSingle = cage.op===null;
+      td.className='cell'+(isSingle?' given':'');
+      if(kkCageIndex(p,r,c-1)!==cageIdx || c===0) td.classList.add('bl');
+      if(kkCageIndex(p,r,c+1)!==cageIdx || c===n-1) td.classList.add('br');
+      if(kkCageIndex(p,r-1,c)!==cageIdx || r===0) td.classList.add('bt');
+      if(kkCageIndex(p,r+1,c)!==cageIdx || r===n-1) td.classList.add('bb');
+
+      if(kkIsAnchor(cage,r,c) && !isSingle){
+        const lbl=document.createElement('div');
+        lbl.className='cage-label';
+        lbl.textContent=cage.target+cage.op;
+        td.appendChild(lbl);
+      }
+      const val=document.createElement('div');
+      val.className='cell-val';
+      val.textContent = kkGrid[r][c]===0 ? '' : kkGrid[r][c];
+      td.appendChild(val);
+
+      if(!isSingle){
+        td.addEventListener('click',()=>{
+          kkGrid[r][c]=(kkGrid[r][c]+1)%(n+1);
+          drawKk();
+        });
+      }
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  board.appendChild(table);
+}
+
+function checkKk(){
+  const p=KK_PUZZLES[kkIdx];
+  const n=p.n;
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(kkGrid[r][c]===0){
+    showMsg('kk-msg',false,'Preencha todos os quadradinhos antes de verificar.'); return;
+  }
+  for(let r=0;r<n;r++){
+    if(new Set(kkGrid[r]).size!==n){ showMsg('kk-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
+  }
+  for(let c=0;c<n;c++){
+    const vals=[]; for(let r=0;r<n;r++) vals.push(kkGrid[r][c]);
+    if(new Set(vals).size!==n){ showMsg('kk-msg',false,'Tem número repetido na coluna '+(c+1)+'.'); return; }
+  }
+  for(const cage of p.cages){
+    const vals=cage.cells.map(([r,c])=>kkGrid[r][c]);
+    let ok=true;
+    if(cage.op==='+') ok = vals.reduce((a,b)=>a+b,0)===cage.target;
+    else if(cage.op==='×') ok = vals.reduce((a,b)=>a*b,1)===cage.target;
+    else if(cage.op==='-') ok = Math.abs(vals[0]-vals[1])===cage.target;
+    else if(cage.op===null) ok = vals[0]===cage.target;
+    if(!ok){ showMsg('kk-msg',false,'Alguma região não bate com a conta indicada.'); return; }
+  }
+  showMsg('kk-msg',true,'Mandou bem! KenKen resolvido. 🎉');
+}
+document.getElementById('kk-check').addEventListener('click',checkKk);
+document.getElementById('kk-reset').addEventListener('click',()=>loadKk(kkIdx));
+loadKk(0);
+</script>
+</body>
+</html>
