@@ -1,1088 +1,548 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafio de Lógica — Professora Tamiris</title>
-<meta name="theme-color" content="#1A0F1C">
-<meta name="description" content="Jogos interativos de raciocínio lógico da Professora Tamiris.">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ameixa:#1A0F1C;
-  --ameixa-2:#2A172D;
-  --papel:#FFF5FB;
-  --menta:#03E39D;
-  --rosa:#FB58A7;
-  --rosa-claro:#F4B6DF;
-  --card:#FFFFFF;
-  --ink:var(--ameixa);
-  --ink-soft:#685D69;
-  --line:#E9DAE4;
-  --shadow:0 24px 64px rgba(26,15,28,.12);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 9% 8%,rgba(3,227,157,.15),transparent 24rem),
-    radial-gradient(circle at 92% 22%,rgba(251,88,167,.18),transparent 28rem),
-    var(--papel);
-  color:var(--ink);
-  font-family:'DM Sans',sans-serif;
-  padding:clamp(12px,3vw,32px) clamp(10px,3vw,24px) 40px;
-}
-.header{
-  max-width:1080px;
-  margin:0 auto 18px;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:clamp(24px,4vw,40px);
-  padding:clamp(22px,4vw,42px);
-  background:var(--ameixa);
-  color:var(--papel);
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-.header::after{
-  content:"";position:absolute;right:-80px;bottom:-120px;width:330px;height:330px;
-  border:42px solid rgba(251,88,167,.13);border-radius:50%;pointer-events:none
-}
-.brand-row{display:flex;align-items:center;gap:clamp(16px,3vw,28px);position:relative;z-index:1}
-.brand-mark{width:clamp(76px,12vw,116px);height:auto;flex:0 0 auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.22))}
-.eyebrow{margin:0 0 7px;color:var(--menta);font-weight:800;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase}
-.header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.95rem,5vw,3.45rem);line-height:.98;letter-spacing:-.045em;margin:0 0 10px;max-width:720px}
-.header p:last-of-type{margin:0;color:#E9DDE7;font-size:clamp(.9rem,2vw,1.05rem);max-width:650px;line-height:1.5}
-#student-greeting{margin:12px 0 0;font-size:.85rem;font-weight:700;color:var(--menta);position:relative;z-index:1;display:none}
-#student-greeting a{color:var(--rosa-claro);text-decoration:underline}
-
-/* name gate */
-.name-gate{position:fixed;inset:0;background:rgba(26,15,28,.88);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
-.name-gate.hidden{display:none}
-.name-card{background:var(--papel);border-radius:24px;padding:34px 28px;max-width:360px;width:100%;text-align:center;box-shadow:var(--shadow)}
-.name-card h2{font-family:'Space Grotesk',sans-serif;margin:0 0 6px;color:var(--ameixa);font-size:1.5rem}
-.name-card p{margin:0 0 18px;color:var(--ink-soft)}
-.name-card input{width:100%;padding:13px 14px;border-radius:12px;border:2px solid var(--line);font-size:1rem;font-family:'DM Sans',sans-serif;margin-bottom:16px;box-sizing:border-box}
-.name-card input:focus{outline:none;border-color:var(--rosa)}
-
-nav.tabs{
-  max-width:1080px;
-  margin:0 auto 10px;
-  display:flex;
-  gap:8px;
-  padding:6px 2px 9px;
-  overflow-x:auto;
-  scrollbar-width:thin;
-  scrollbar-color:var(--rosa-claro) transparent;
-  -webkit-overflow-scrolling:touch;
-}
-nav.tabs button{
-  min-height:46px;
-  font:700 .94rem 'DM Sans',sans-serif;
-  padding:10px 16px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:rgba(255,255,255,.78);
-  cursor:pointer;
-  color:var(--ink);
-  white-space:nowrap;
-  flex-shrink:0;
-  box-shadow:0 5px 16px rgba(26,15,28,.05);
-  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
-}
-nav.tabs button:hover{transform:translateY(-2px);border-color:var(--rosa)}
-nav.tabs button.active{background:var(--ameixa);border-color:var(--ameixa);color:var(--papel)}
-main{
-  max-width:1080px;
-  margin:0 auto;
-  border:1px solid rgba(26,15,28,.07);
-  border-radius:clamp(22px,4vw,34px);
-  background:var(--card);
-  padding:clamp(18px,4vw,38px);
-  min-height:420px;
-  box-shadow:var(--shadow);
-}
-section{display:none;}
-section.active{display:block;animation:section-in .28s ease both}
-@keyframes section-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.55rem,3vw,2.15rem);letter-spacing:-.035em;color:var(--ameixa);margin:0 0 14px}
-.instructions{
-  background:linear-gradient(110deg,rgba(244,182,223,.35),rgba(3,227,157,.10));
-  border:1px solid rgba(251,88,167,.2);
-  border-left:5px solid var(--rosa);
-  padding:14px 16px;
-  border-radius:12px;
-  font-size:.95rem;
-  margin-bottom:20px;
-  line-height:1.55;
-}
-.puzzle-picker{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
-.puzzle-picker button{
-  min-height:44px;padding:8px 16px;border-radius:999px;border:2px solid var(--ameixa);
-  background:#fff;
-  color:var(--ameixa);
-  cursor:pointer;
-  font-weight:700;
-  font-family:'DM Sans',sans-serif;
-}
-.puzzle-picker button.active{background:var(--menta);border-color:var(--menta);color:var(--ameixa)}
-.round-tag{font-weight:800;color:var(--ink-soft);font-size:.9rem}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
-button.check-btn, button.reset-btn{
-  min-height:48px;border:none;font-weight:800;padding:11px 22px;border-radius:999px;
-  cursor:pointer;font-size:.95rem;font-family:'DM Sans',sans-serif;transition:transform .18s ease,box-shadow .18s ease
-}
-button.check-btn{background:var(--rosa);color:var(--ameixa);box-shadow:0 9px 20px rgba(251,88,167,.25)}
-button.check-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(251,88,167,.32)}
-button.reset-btn{background:#fff;color:var(--ameixa);border:2px solid var(--ameixa)}
-button:focus-visible,.ws-cell:focus-visible,td:focus-visible{outline:4px solid rgba(3,227,157,.55);outline-offset:3px}
-.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:700}
-.msg.ok{background:rgba(3,227,157,.13);color:#075A42;border:1px solid rgba(3,227,157,.55)}
-.msg.err{background:rgba(251,88,167,.12);color:#8F174E;border:1px solid rgba(251,88,167,.48)}
-
-/* ---------- BARRACAS ---------- */
-.tents-wrap,.hashi-wrap{overflow:auto;padding:8px 2px 12px;-webkit-overflow-scrolling:touch}
-table.tents-grid{border-collapse:collapse;margin:0 auto;}
-table.tents-grid td{
-  width:clamp(40px,10vw,52px);height:clamp(40px,10vw,52px);
-  border:1px solid var(--line);border-radius:4px;
-  text-align:center;vertical-align:middle;
-  font-size:1.4rem;cursor:pointer;background:#fff;touch-action:manipulation;
-}
-table.tents-grid td.tree{background:rgba(3,227,157,.13);cursor:default}
-table.tents-grid td.tent{background:rgba(251,88,167,.15)}
-table.tents-grid td.clue{
-  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;
-  background:transparent;border:none;cursor:default;color:var(--ameixa);
-}
-table.tents-grid td.corner{border:none;background:transparent;cursor:default;}
-
-/* ---------- WORD SEEK ---------- */
-.ws-wrap{display:grid;grid-template-columns:minmax(0,auto) minmax(140px,1fr);gap:clamp(18px,4vw,36px);align-items:start;overflow:auto;padding-bottom:10px}
-.ws-grid{display:grid;gap:2px;user-select:none;touch-action:none;width:max-content}
-.ws-cell{
-  width:clamp(24px,5.4vw,34px);height:clamp(24px,5.4vw,34px);
-  display:flex;align-items:center;justify-content:center;
-  background:#fff;border:1px solid var(--line);border-radius:5px;
-  font-weight:800;font-size:clamp(.68rem,2vw,.88rem);cursor:pointer;
-}
-.ws-cell.sel{background:var(--rosa-claro)}
-.ws-cell.found{background:var(--menta);color:var(--ameixa)}
-ul.ws-words{list-style:none;padding:14px;margin:0;min-width:140px;background:var(--papel);border-radius:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:4px 14px}
-ul.ws-words li{padding:3px 0;font-weight:700;font-size:.88rem}
-ul.ws-words li.found{text-decoration:line-through;color:#9aa39a;}
-
-/* ---------- ILHAS ---------- */
-svg.hashi-svg{background:#fff;border:1px solid var(--line);border-radius:18px;display:block;margin:0 auto;max-width:100%;height:auto}
-.island-circle{fill:#fff;stroke:var(--ink);stroke-width:2;cursor:pointer;}
-.island-circle.done{stroke:#087B5B;fill:rgba(3,227,157,.18)}
-.island-circle.selected{stroke:var(--rosa);stroke-width:4}
-.island-label{font-family:'DM Sans',sans-serif;font-weight:800;font-size:15px;pointer-events:none;}
-.bridge-line{stroke:var(--ink);stroke-width:3;}
-
-/* ---------- FUTOSHIKI / KENKEN shared numeric grid ---------- */
-table.num-grid{border-collapse:collapse;margin:0 auto;}
-table.num-grid td.cell{
-  width:clamp(42px,11vw,56px);height:clamp(42px,11vw,56px);
-  border:1px solid var(--line);
-  text-align:center;vertical-align:middle;
-  font-size:1.25rem;font-weight:800;cursor:pointer;background:#fff;
-  position:relative;touch-action:manipulation;
-}
-table.num-grid td.cell.given{background:rgba(244,182,223,.28);color:var(--ameixa);cursor:default;}
-table.num-grid td.gap{border:none;background:transparent;cursor:default;padding:0;}
-table.num-grid td.gap-h{width:16px;}
-table.num-grid td.gap-v{height:16px;}
-.sym{font-weight:900;color:#B21E64;font-size:1rem;}
-
-/* kenken cage borders */
-table.kk-grid td.cell{border:1px solid var(--line);}
-table.kk-grid td.cell.bt{border-top:2px solid var(--ink);}
-table.kk-grid td.cell.bb{border-bottom:2px solid var(--ink);}
-table.kk-grid td.cell.bl{border-left:2px solid var(--ink);}
-table.kk-grid td.cell.br{border-right:2px solid var(--ink);}
-.cage-label{
-  position:absolute;top:2px;left:4px;
-  font-size:0.68rem;font-weight:800;color:#B21E64;
-}
-.cell-val{display:block;}
-
-footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-soft);font-size:.82rem;line-height:1.5}
-@media (max-width:720px){
-  body{padding-inline:8px}
-  .header{border-radius:24px;padding:22px 20px}
-  .brand-row{align-items:flex-start}
-  .brand-mark{width:72px}
-  nav.tabs{margin-inline:4px}
-  main{border-radius:22px;padding:20px 14px}
-  .ws-wrap{grid-template-columns:1fr}
-  ul.ws-words{grid-template-columns:repeat(3,minmax(78px,1fr))}
-  .actions>button{flex:1 1 140px}
-}
-@media (max-width:430px){
-  .brand-mark{width:58px}
-  .eyebrow{font-size:.66rem}
-  .header h1{font-size:1.72rem}
-  .header p:last-of-type{font-size:.84rem}
-  nav.tabs button{min-height:44px;padding-inline:14px;font-size:.86rem}
-  ul.ws-words{grid-template-columns:repeat(2,minmax(90px,1fr))}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mesa de Lógica</title>
+  <meta name="description" content="Cinco jogos interativos para exercitar estratégia, atenção e raciocínio lógico com a Professora Tamiris.">
+  <meta name="theme-color" content="#211720">
+  <meta property="og:title" content="Mesa de Lógica">
+  <meta property="og:description" content="Uma mesa de desafios rápidos de estratégia, atenção e raciocínio.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#game-workspace">Pular para o jogo</a>
 
-<div id="name-gate" class="name-gate">
-  <div class="name-card">
-    <h2>Antes de começar…</h2>
-    <p>Qual é o seu nome?</p>
-    <input id="name-input" type="text" placeholder="Digite seu nome" maxlength="40">
-    <button class="check-btn" id="name-submit">Começar a jogar</button>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Mesa de Lógica — início">
+      <img src="assets/marca-tamiris.svg" alt="" width="72" height="72">
+      <span class="brand-copy">
+        <span>Professora Tamiris</span>
+        <strong>Mesa de Lógica</strong>
+      </span>
+    </a>
+
+    <div class="header-progress" aria-labelledby="progress-heading">
+      <span id="progress-heading" class="micro-label">Seu percurso</span>
+      <div class="progress-line">
+        <strong id="progress-value">0/26</strong>
+        <progress id="progress-bar" value="0" max="26">0 de 26</progress>
+      </div>
+      <span id="progress-text">0% dos desafios concluídos</span>
+    </div>
+
+    <div class="profile-tools">
+      <button id="edit-profile" class="profile-button" type="button">
+        <span class="profile-dot" aria-hidden="true"></span>
+        <span id="player-display">Visitante</span>
+        <span aria-hidden="true">✎</span>
+      </button>
+      <button id="reset-all" class="icon-button" type="button" aria-label="Reiniciar todo o progresso" title="Reiniciar progresso">↺</button>
+    </div>
+  </header>
+
+  <div class="page-shell" id="top">
+    <aside class="game-rail" aria-label="Jogos disponíveis">
+      <p class="rail-kicker">Escolha a missão</p>
+      <div class="game-tabs" role="tablist" aria-orientation="vertical">
+        <button id="tab-tents" class="game-tab" type="button" role="tab" aria-controls="panel-tents" aria-selected="true" tabindex="0" data-game="tents">
+          <span class="game-tab-icon tents-icon" aria-hidden="true">▲</span>
+          <span class="game-tab-copy"><strong>Barracas</strong><small>dedução espacial</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
+        <button id="tab-words" class="game-tab" type="button" role="tab" aria-controls="panel-words" aria-selected="false" tabindex="-1" data-game="words">
+          <span class="game-tab-icon words-icon" aria-hidden="true">A</span>
+          <span class="game-tab-copy"><strong>Caça-palavras</strong><small>atenção visual</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-bridges" class="game-tab" type="button" role="tab" aria-controls="panel-bridges" aria-selected="false" tabindex="-1" data-game="bridges">
+          <span class="game-tab-icon bridges-icon" aria-hidden="true">━</span>
+          <span class="game-tab-copy"><strong>Ilhas</strong><small>rede e conexão</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-futoshiki" class="game-tab" type="button" role="tab" aria-controls="panel-futoshiki" aria-selected="false" tabindex="-1" data-game="futoshiki">
+          <span class="game-tab-icon futoshiki-icon" aria-hidden="true">&lt;</span>
+          <span class="game-tab-copy"><strong>Davi e Golias</strong><small>ordem e comparação</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-kenken" class="game-tab" type="button" role="tab" aria-controls="panel-kenken" aria-selected="false" tabindex="-1" data-game="kenken">
+          <span class="game-tab-icon kenken-icon" aria-hidden="true">×</span>
+          <span class="game-tab-copy"><strong>KenKen</strong><small>cálculo estratégico</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-river" class="game-tab" type="button" role="tab" aria-controls="panel-river" aria-selected="false" tabindex="-1" data-game="river">
+          <span class="game-tab-icon river-icon" aria-hidden="true">⛵</span>
+          <span class="game-tab-copy"><strong>Travessia do Rio</strong><small>planejamento e travessia</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-einstein" class="game-tab" type="button" role="tab" aria-controls="panel-einstein" aria-selected="false" tabindex="-1" data-game="einstein">
+          <span class="game-tab-icon einstein-icon" aria-hidden="true">🧠</span>
+          <span class="game-tab-copy"><strong>Enigma de Einstein</strong><small>dedução e matriz</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-hanoi" class="game-tab" type="button" role="tab" aria-controls="panel-hanoi" aria-selected="false" tabindex="-1" data-game="hanoi">
+          <span class="game-tab-icon hanoi-icon" aria-hidden="true">🗼</span>
+          <span class="game-tab-copy"><strong>Torre de Hanói</strong><small>recursão e estratégia</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
+        <button id="tab-twentyfour" class="game-tab" type="button" role="tab" aria-controls="panel-twentyfour" aria-selected="false" tabindex="-1" data-game="twentyfour">
+          <span class="game-tab-icon twentyfour-icon" aria-hidden="true">24</span>
+          <span class="game-tab-copy"><strong>Jogo do 24</strong><small>aritmética e expressões</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
+        <button id="tab-kakuro" class="game-tab" type="button" role="tab" aria-controls="panel-kakuro" aria-selected="false" tabindex="-1" data-game="kakuro">
+          <span class="game-tab-icon kakuro-icon" aria-hidden="true">∑</span>
+          <span class="game-tab-copy"><strong>Kakuro</strong><small>somas cruzadas</small></span>
+          <span class="game-tab-score" data-game-progress>0/3</span>
+        </button>
+        <button id="tab-pyramid" class="game-tab" type="button" role="tab" aria-controls="panel-pyramid" aria-selected="false" tabindex="-1" data-game="pyramid">
+          <span class="game-tab-icon pyramid-icon" aria-hidden="true">🔺</span>
+          <span class="game-tab-copy"><strong>Pirâmides & Mágicos</strong><small>estruturas numéricas</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
+        <button id="tab-balance" class="game-tab" type="button" role="tab" aria-controls="panel-balance" aria-selected="false" tabindex="-1" data-game="balance">
+          <span class="game-tab-icon balance-icon" aria-hidden="true">⚖️</span>
+          <span class="game-tab-copy"><strong>Balança Lógica</strong><small>dedução algébrica</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
+      </div>
+      <div class="rail-note">
+        <span aria-hidden="true">↗</span>
+        <p><strong>Um passo de cada vez.</strong><br>Os níveis abrem conforme você avança.</p>
+      </div>
+    </aside>
+
+    <main id="game-workspace" class="workspace" tabindex="-1">
+      <section id="panel-tents" class="game-panel" role="tabpanel" aria-labelledby="tab-tents" data-game="tents">
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 01 · Dedução espacial</p>
+            <h1>Barracas</h1>
+            <p class="lead">Encontre um lugar para cada barraca sem deixar o acampamento apertado.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Cada árvore precisa de uma barraca vizinha na horizontal ou vertical.</li>
+              <li>Barracas não podem se encostar, nem pela diagonal.</li>
+              <li>Os números mostram quantas barracas cabem em cada linha e coluna.</li>
+            </ol>
+            <p>Toque uma célula para alternar entre <strong>barraca</strong>, <strong>não cabe</strong> e vazio.</p>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Barracas"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Tabuleiro</span><h2>Monte o acampamento</h2></div>
+            <span class="legend"><i class="legend-tree"></i> árvore <i class="legend-tent"></i> barraca</span>
+          </div>
+          <div class="board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir estratégia</button>
+            <button class="text-button" type="button" data-action="reset">Limpar tabuleiro</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-words" class="game-panel" role="tabpanel" aria-labelledby="tab-words" data-game="words" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 02 · Atenção visual</p>
+            <h1>Caça-palavras</h1>
+            <p class="lead">Localize termos em inglês sobre negócios e gestão em todas as direções.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Arraste da primeira à última letra; ou toque nas duas pontas.</li>
+              <li>Vale horizontal, vertical e diagonal — nos dois sentidos.</li>
+              <li>No teclado, use as setas e Enter para marcar início e fim.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Caça-palavras"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Mapa de letras</span><h2>Encontre os termos</h2></div>
+            <strong class="counter" data-word-counter>0/8 encontradas</strong>
+          </div>
+          <div class="word-layout">
+            <div class="board-wrap word-board" data-board></div>
+            <aside class="word-bank" aria-label="Palavras para encontrar">
+              <span class="micro-label">Na sua lista</span>
+              <ul data-word-list></ul>
+            </aside>
+          </div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="text-button" type="button" data-action="reset">Recomeçar mapa</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-bridges" class="game-panel" role="tabpanel" aria-labelledby="tab-bridges" data-game="bridges" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 03 · Rede e conexão</p>
+            <h1>Ilhas</h1>
+            <p class="lead">Construa uma única rede de pontes sem deixar nenhuma ilha isolada.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Escolha duas ilhas vizinhas na mesma linha ou coluna.</li>
+              <li>Repita o par para criar uma ponte dupla; na terceira vez, remova.</li>
+              <li>O total de pontes deve ser igual ao número da ilha. Pontes não cruzam.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Ilhas"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Mapa</span><h2>Conecte a rede</h2></div>
+            <span class="legend"><i class="legend-island"></i> total dentro da ilha</span>
+          </div>
+          <div class="board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir conexões</button>
+            <button class="text-button" type="button" data-action="reset">Remover pontes</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-futoshiki" class="game-panel" role="tabpanel" aria-labelledby="tab-futoshiki" data-game="futoshiki" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 04 · Ordem e comparação</p>
+            <h1>Davi e Golias</h1>
+            <p class="lead">Um Futoshiki em que cada sinal aponta quem é maior e quem é menor.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Use os números de 1 até o tamanho da grade, sem repetir na linha ou coluna.</li>
+              <li>A ponta menor do sinal fica voltada para o menor número.</li>
+              <li>Escolha um número abaixo e toque na célula; no teclado, digite o número.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Davi e Golias"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Grade numérica</span><h2>Complete as comparações</h2></div>
+            <span class="legend">sem repetir ↔ ↕</span>
+          </div>
+          <div class="board-wrap" data-board></div>
+          <div class="number-tools"><span class="micro-label">Número escolhido</span><div class="number-palette" data-number-palette></div></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir comparações</button>
+            <button class="text-button" type="button" data-action="reset">Limpar respostas</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-kenken" class="game-panel" role="tabpanel" aria-labelledby="tab-kenken" data-game="kenken" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 05 · Cálculo estratégico</p>
+            <h1>KenKen</h1>
+            <p class="lead">Feche as contas de cada região enquanto mantém linhas e colunas únicas.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Preencha com números de 1 a 4, sem repetir em linhas ou colunas.</li>
+              <li>Os números pequenos são o resultado da operação em cada região.</li>
+              <li>Escolha um número abaixo e toque na célula; no teclado, digite o número.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de KenKen"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Grade de operações</span><h2>Faça cada conta fechar</h2></div>
+            <span class="legend">+ − × ÷</span>
+          </div>
+          <div class="board-wrap" data-board></div>
+          <div class="number-tools"><span class="micro-label">Número escolhido</span><div class="number-palette" data-number-palette></div></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir operações</button>
+            <button class="text-button" type="button" data-action="reset">Limpar respostas</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-river" class="game-panel" role="tabpanel" aria-labelledby="tab-river" data-game="river" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 06 · Planejamento e travessia</p>
+            <h1>Travessia do Rio</h1>
+            <p class="lead">Leve todos com segurança para a outra margem respeitando as regras de convivência e capacidade do barco.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Toque nos personagens na margem para colocá-los no barco (máximo 2 tripulantes).</li>
+              <li>Pelo menos um piloto habilitado (com estrela ⭐) deve estar no barco para remar.</li>
+              <li>Nenhum personagem vulnerável pode ficar sozinho com uma ameaça em qualquer margem.</li>
+              <li>O objetivo é levar todos para a Margem Direita com o menor número de viagens possível.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Travessia do Rio"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Cenário da Travessia</span><h2>Cruze o rio em segurança</h2></div>
+            <strong class="counter" data-river-moves>Viagens: 0</strong>
+          </div>
+          <div class="board-wrap river-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="sail">Remar para outra margem ⛵</button>
+            <button class="secondary-button" type="button" data-action="undo">Desfazer viagem</button>
+            <button class="text-button" type="button" data-action="reset">Recomeçar travessia</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-einstein" class="game-panel" role="tabpanel" aria-labelledby="tab-einstein" data-game="einstein" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 07 · Dedução e matriz lógica</p>
+            <h1>Enigma de Einstein</h1>
+            <p class="lead">Analise cada pista com rigor para associar casa, cor, morador, hábito e animal sem contradições.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Leia cada pista atentamente e observe a matriz de casas numeradas da esquerda para a direita.</li>
+              <li>Em cada casa, selecione o valor correto para cada característica.</li>
+              <li>Cada característica é única e pertence a apenas uma casa.</li>
+              <li>As pistas mostram se uma hipótese já foi atendida (✓) ou se gerou conflito (✗).</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis do Enigma de Einstein"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Objetivo Final</span><h2 data-einstein-question>Resolva o enigma</h2></div>
+          </div>
+          <div class="einstein-layout">
+            <div class="board-wrap einstein-board-wrap" data-board></div>
+            <aside class="einstein-clues-panel" aria-label="Pistas do enigma">
+              <span class="micro-label">Pistas lógicas</span>
+              <ul class="einstein-clues-list" data-einstein-clues></ul>
+            </aside>
+          </div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir dedução</button>
+            <button class="text-button" type="button" data-action="reset">Limpar respostas</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-hanoi" class="game-panel" role="tabpanel" aria-labelledby="tab-hanoi" data-game="hanoi" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 08 · Recursão e estratégia espacial</p>
+            <h1>Torre de Hanói</h1>
+            <p class="lead">Transfira todos os discos da Haste A para a Haste C sem nunca apoiar um disco maior sobre um menor.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Toque na haste de onde deseja retirar o disco do topo.</li>
+              <li>Em seguida, toque na haste de destino para posicionar o disco.</li>
+              <li>Regra de ouro: nunca coloque um disco maior sobre um disco menor.</li>
+              <li>O objetivo é levar todos os discos para a Haste C (Destino) no menor número de movimentos.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis da Torre de Hanói"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Hastes e Discos</span><h2>Transfira a torre para a Haste C</h2></div>
+            <strong class="counter" data-hanoi-moves>Movimentos: 0</strong>
+          </div>
+          <div class="board-wrap hanoi-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="secondary-button" type="button" data-action="undo">Desfazer movimento</button>
+            <button class="text-button" type="button" data-action="reset">Recomeçar torre</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-twentyfour" class="game-panel" role="tabpanel" aria-labelledby="tab-twentyfour" data-game="twentyfour" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 09 · Aritmética e ordem das operações</p>
+            <h1>Jogo do 24</h1>
+            <p class="lead">Combine os 4 números disponíveis usando as 4 operações básicas e parênteses para atingir o valor alvo exato.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Use cada um dos 4 números disponíveis exatamente uma vez.</li>
+              <li>Utilize as operações +, −, ×, ÷ e parênteses () para definir a ordem das contas.</li>
+              <li>Obtenha exatamente o valor do alvo matemático (geralmente 24).</li>
+              <li>Divisões fracionárias intermediárias são permitidas (ex.: (5 - 1 ÷ 5) × 5 = 24).</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis do Jogo do 24"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Área de Cálculo</span><h2>Monte a expressão exata</h2></div>
+            <span class="legend">+ − × ÷ ( )</span>
+          </div>
+          <div class="board-wrap twentyfour-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir expressão</button>
+            <button class="text-button" type="button" data-action="reset">Limpar expressão</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-kakuro" class="game-panel" role="tabpanel" aria-labelledby="tab-kakuro" data-game="kakuro" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 10 · Somas cruzadas e raciocínio combinatório</p>
+            <h1>Kakuro</h1>
+            <p class="lead">Preencha os blocos brancos com dígitos de 1 a 9 sem repetir números em uma mesma linha ou coluna de soma.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Preencha as células brancas com dígitos inteiros de 1 a 9.</li>
+              <li>O número inferior/esquerdo da célula preta indica a soma da coluna vertical.</li>
+              <li>O número superior/direito indica a soma da linha horizontal.</li>
+              <li>Nenhum número pode se repetir dentro de uma mesma sequência contínua de soma.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis do Kakuro"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Grade de Somas Cruzadas</span><h2>Preencha as somas sem repetições</h2></div>
+            <span class="legend">Dígitos 1 a 9</span>
+          </div>
+          <div class="board-wrap kakuro-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir somas</button>
+            <button class="text-button" type="button" data-action="reset">Limpar respostas</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-pyramid" class="game-panel" role="tabpanel" aria-labelledby="tab-pyramid" data-game="pyramid" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 11 · Estruturas numéricas e álgebra visual</p>
+            <h1>Pirâmides & Quadrados Mágicos</h1>
+            <p class="lead">Complete os blocos da pirâmide e as matrizes mágicas respeitando as propriedades de soma e multiplicação.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Na Pirâmide: o valor de cada tijolo superior é igual à operação (soma ou multiplicação) dos dois tijolos diretamente abaixo dele.</li>
+              <li>No Quadrado Mágico: complete a grade com números de 1 a N² para que todas as linhas, colunas e diagonais somem a constante indicada.</li>
+              <li>Use dedução inversa (subtração e divisão) para preencher a base e os blocos ocultos.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis de Pirâmides & Quadrados Mágicos"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Estrutura Numérica</span><h2>Descubra os valores ocultos</h2></div>
+          </div>
+          <div class="board-wrap pyramid-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir cálculos</button>
+            <button class="text-button" type="button" data-action="reset">Limpar valores</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-balance" class="game-panel" role="tabpanel" aria-labelledby="tab-balance" data-game="balance" hidden>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 12 · Dedução algébrica e sistemas de equações</p>
+            <h1>Balança Lógica</h1>
+            <p class="lead">Descubra as relações de peso entre os objetos mágicos e equilibre a balança misteriosa.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Observe as balanças de referência: elas já estão perfeitamente em equilíbrio (peso esquerdo = peso direito).</li>
+              <li>Use substituição algébrica para deduzir o peso relativo de cada forma geométrica.</li>
+              <li>Coloque no prato direito da Balança Misteriosa as formas necessárias para igualar o peso do prato esquerdo.</li>
+              <li>Clique em uma forma no prato direito para removê-la se precisar ajustar.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis da Balança Lógica"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Balança Interativa</span><h2>Equilibre os dois pratos</h2></div>
+          </div>
+          <div class="board-wrap balance-board-wrap" data-board></div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir equilíbrio</button>
+            <button class="text-button" type="button" data-action="reset">Limpar prato</button>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
-</div>
 
-<header class="header">
-  <div class="brand-row">
-    <img class="brand-mark" src="assets/marca-tamiris.svg" alt="">
+  <footer class="site-footer">
+    <p><strong>Mesa de Lógica</strong> · Professora Tamiris · Curso Técnico em Administração</p>
+    <p>Inspirado na Oficina de Raciocínio Lógico do Professor Santinho.</p>
+  </footer>
+
+  <dialog id="profile-dialog" class="dialog-card" aria-labelledby="profile-title" aria-describedby="profile-description">
+    <form id="profile-form" method="dialog">
+      <img src="assets/marca-tamiris.svg" alt="" width="64" height="64">
+      <p class="eyebrow">Sua mesa está pronta</p>
+      <h2 id="profile-title">Como você quer jogar?</h2>
+      <p id="profile-description">Seu nome e progresso ficam somente neste navegador.</p>
+      <label for="player-name">Seu nome</label>
+      <input id="player-name" name="player-name" type="text" autocomplete="name" maxlength="40" placeholder="Ex.: Ana">
+      <p id="name-error" class="field-error" hidden>Digite um nome ou escolha jogar como visitante.</p>
+      <div class="dialog-actions">
+        <button class="primary-button" type="submit">Entrar na mesa</button>
+        <button id="play-as-visitor" class="text-button" type="button">Jogar como visitante</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="reset-dialog" class="dialog-card compact" aria-labelledby="reset-title" aria-describedby="reset-description">
     <div>
-      <p class="eyebrow">Professora Tamiris · Curso Técnico ADM</p>
-      <h1>Desafio de Lógica</h1>
-      <p>Exercite seu raciocínio com jogos rápidos, interativos e feitos para qualquer tela.</p>
-      <p id="student-greeting"></p>
+      <p class="eyebrow">Recomeçar percurso</p>
+      <h2 id="reset-title">Apagar todo o progresso?</h2>
+      <p id="reset-description">Níveis concluídos e tabuleiros em andamento serão removidos deste navegador. Seu nome será mantido.</p>
+      <div class="dialog-actions">
+        <button id="confirm-reset" class="danger-button" type="button">Sim, apagar progresso</button>
+        <button id="cancel-reset" class="text-button" type="button">Continuar jogando</button>
+      </div>
     </div>
-  </div>
-</header>
+  </dialog>
 
-<nav class="tabs" role="tablist" aria-label="Escolha um jogo">
-  <button id="tab-barracas" role="tab" aria-controls="barracas" aria-selected="true" data-tab="barracas" class="active">⛺ Barracas</button>
-  <button id="tab-wordseek" role="tab" aria-controls="wordseek" aria-selected="false" data-tab="wordseek">🔤 Word Seek</button>
-  <button id="tab-ilhas" role="tab" aria-controls="ilhas" aria-selected="false" data-tab="ilhas">🌉 Ilhas</button>
-  <button id="tab-futoshiki" role="tab" aria-controls="futoshiki" aria-selected="false" data-tab="futoshiki">🔢 Davi e Golias</button>
-  <button id="tab-kenken" role="tab" aria-controls="kenken" aria-selected="false" data-tab="kenken">➗ KenKen</button>
-</nav>
-
-<main>
-
-  <section id="barracas" class="active" role="tabpanel" aria-labelledby="tab-barracas">
-    <h2>Barracas</h2>
-    <div class="instructions">Clique nos quadradinhos vazios para colocar uma barraca (⛺). Toda barraca precisa
-    ficar ao lado de uma árvore (🌳), e duas barracas nunca podem ficar coladas, nem na diagonal. Os números nas
-    bordas mostram quantas barracas cada linha e cada coluna deve ter. Ao acertar, o jogo já leva você pro
-    próximo nível.</div>
-    <div class="puzzle-picker" id="barracas-picker"></div>
-    <div class="tents-wrap"><div id="barracas-board"></div></div>
-    <div class="actions">
-      <button class="check-btn" id="barracas-check">Verificar</button>
-      <button class="reset-btn" id="barracas-reset">Limpar</button>
-    </div>
-    <div id="barracas-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="wordseek" role="tabpanel" aria-labelledby="tab-wordseek">
-    <h2>Word Seek — Agilidade Visual</h2>
-    <div class="instructions">Arraste do início ao fim de uma palavra (na horizontal, vertical ou diagonal) para
-    marcá-la. Quando encontrar todas, um novo diagrama aparece automaticamente.</div>
-    <div class="actions" style="margin-top:0;margin-bottom:14px;">
-      <span class="round-tag" id="ws-round"></span>
-      <button class="check-btn" id="ws-new">Gerar novo diagrama</button>
-    </div>
-    <div class="ws-wrap">
-      <div id="ws-grid" class="ws-grid"></div>
-      <ul id="ws-words" class="ws-words"></ul>
-    </div>
-    <div id="ws-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="ilhas" role="tabpanel" aria-labelledby="tab-ilhas">
-    <h2>Ilhas</h2>
-    <div class="instructions">Clique em duas ilhas alinhadas (mesma linha ou coluna) para criar uma ponte entre
-    elas. Clique de novo no mesmo par para aumentar para 2 pontes, e mais uma vez para remover. Cada ilha precisa
-    receber exatamente o número de pontes indicado, e todas as ilhas devem formar uma única figura interligada.
-    Ao acertar, você avança de nível.</div>
-    <div class="puzzle-picker" id="ilhas-picker"></div>
-    <div class="hashi-wrap"><div id="ilhas-board"></div></div>
-    <div class="actions">
-      <button class="check-btn" id="ilhas-check">Verificar</button>
-      <button class="reset-btn" id="ilhas-reset">Limpar</button>
-    </div>
-    <div id="ilhas-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="futoshiki" role="tabpanel" aria-labelledby="tab-futoshiki">
-    <h2>Davi e Golias</h2>
-    <div class="instructions">Clique num quadradinho para ir passando pelos números (em branco → 1 → 2 → 3...).
-    Não pode repetir número na mesma linha nem na mesma coluna. Respeite os sinais de maior/menor entre as
-    células. Ao acertar, você avança de nível.</div>
-    <div class="puzzle-picker" id="fut-picker"></div>
-    <div class="tents-wrap"><div id="fut-board"></div></div>
-    <div class="actions">
-      <button class="check-btn" id="fut-check">Verificar</button>
-      <button class="reset-btn" id="fut-reset">Limpar</button>
-    </div>
-    <div id="fut-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="kenken" role="tabpanel" aria-labelledby="tab-kenken">
-    <h2>KenKen</h2>
-    <div class="instructions">Preencha os quadradinhos com números de 1 a 4, sem repetir na horizontal nem na
-    vertical. Em cada região (cercada por linha mais grossa) o resultado da operação indicada deve dar o número
-    mostrado. Ao acertar, você avança de nível.</div>
-    <div class="puzzle-picker" id="kk-picker"></div>
-    <div class="tents-wrap"><div id="kk-board"></div></div>
-    <div class="actions">
-      <button class="check-btn" id="kk-check">Verificar</button>
-      <button class="reset-btn" id="kk-reset">Limpar</button>
-    </div>
-    <div id="kk-msg" aria-live="polite"></div>
-  </section>
-
-</main>
-
-<footer>Professora Tamiris · Curso Técnico em Administração<br>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
-
-<script>
-/* ============ NOME DO ALUNO (gamificação) ============ */
-const NAME_KEY='jl_name';
-function getName(){ try{return localStorage.getItem(NAME_KEY)||'';}catch(e){return '';} }
-function setName(n){ try{localStorage.setItem(NAME_KEY,n);}catch(e){} }
-function persist(key,val){ try{localStorage.setItem(key,val);}catch(e){} }
-function restore(key,fallback,max){
-  try{
-    const v=parseInt(localStorage.getItem(key));
-    if(!isNaN(v) && v>=0 && v<=max) return v;
-  }catch(e){}
-  return fallback;
-}
-function greetName(){ const n=getName(); return n ? n : 'Você'; }
-
-function updateGreeting(){
-  const n=getName();
-  const el=document.getElementById('student-greeting');
-  if(n){
-    el.style.display='block';
-    el.innerHTML='Jogando como <strong>'+n+'</strong> · <a href="#" id="change-name">trocar</a>';
-    document.getElementById('change-name').addEventListener('click', e=>{ e.preventDefault(); document.getElementById('name-gate').classList.remove('hidden'); });
-  } else {
-    el.style.display='none';
-  }
-}
-(function initGate(){
-  const existing=getName();
-  if(existing) document.getElementById('name-gate').classList.add('hidden');
-  updateGreeting();
-  const submit=()=>{
-    const v=document.getElementById('name-input').value.trim();
-    if(!v) return;
-    setName(v);
-    document.getElementById('name-gate').classList.add('hidden');
-    updateGreeting();
-  };
-  document.getElementById('name-submit').addEventListener('click',submit);
-  document.getElementById('name-input').addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
-})();
-
-/* ============ TAB NAVIGATION ============ */
-document.querySelectorAll('nav.tabs button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('nav.tabs button').forEach(b=>{
-      b.classList.remove('active');
-      b.setAttribute('aria-selected','false');
-    });
-    document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
-    btn.classList.add('active');
-    btn.setAttribute('aria-selected','true');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
-
-function showMsg(elId, ok, text){
-  const el=document.getElementById(elId);
-  el.innerHTML = '<div class="msg '+(ok?'ok':'err')+'">'+text+'</div>';
-}
-function clearMsg(elId){ document.getElementById(elId).innerHTML=''; }
-
-/* ============================================================
-   BARRACAS (TENTS)
-   ============================================================ */
-const TENTS_PUZZLES = [
-  { n:4, trees:[[0,1],[1,3],[2,0],[3,2]], rowClues:[2,0,0,2], colClues:[2,0,0,2] },
-  { n:5, trees:[[0,0],[0,3],[2,2],[4,0],[4,3]], rowClues:[0,2,0,2,1], colClues:[2,0,1,1,1] },
-  { n:5, trees:[[0,0],[0,4],[2,2],[4,0],[4,4]], rowClues:[0,2,0,3,0], colClues:[2,0,1,0,2] },
-  { n:6, trees:[[0,0],[0,3],[1,5],[3,0],[4,3],[5,5]], rowClues:[0,2,1,0,3,0], colClues:[2,0,1,1,0,2] }
-];
-let tentsState=null, tentsPuzzleIdx=restore('jl_lvl_barracas',0,TENTS_PUZZLES.length-1);
-
-function isTree(p,r,c){ return p.trees.some(t=>t[0]===r&&t[1]===c); }
-
-function renderTentsPicker(){
-  const picker=document.getElementById('barracas-picker');
-  picker.innerHTML='';
-  TENTS_PUZZLES.forEach((p,i)=>{
-    const b=document.createElement('button');
-    b.textContent='Nível '+(i+1);
-    if(i===tentsPuzzleIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ tentsPuzzleIdx=i; persist('jl_lvl_barracas',i); loadTents(i); });
-    picker.appendChild(b);
-  });
-}
-function loadTents(idx){
-  const p=TENTS_PUZZLES[idx];
-  tentsState = Array.from({length:p.n},()=>Array(p.n).fill(false));
-  renderTentsPicker();
-  drawTents();
-  clearMsg('barracas-msg');
-}
-function drawTents(){
-  const p=TENTS_PUZZLES[tentsPuzzleIdx];
-  const board=document.getElementById('barracas-board');
-  board.innerHTML='';
-  const table=document.createElement('table');
-  table.className='tents-grid';
-  for(let r=0;r<p.n;r++){
-    const tr=document.createElement('tr');
-    for(let c=0;c<p.n;c++){
-      const td=document.createElement('td');
-      if(isTree(p,r,c)){
-        td.className='tree'; td.textContent='🌳';
-      } else {
-        if(tentsState[r][c]){ td.className='tent'; td.textContent='⛺'; }
-        td.addEventListener('click',()=>{ tentsState[r][c]=!tentsState[r][c]; drawTents(); });
-      }
-      tr.appendChild(td);
-    }
-    const tdClue=document.createElement('td');
-    tdClue.className='clue';
-    tdClue.textContent=p.rowClues[r];
-    tr.appendChild(tdClue);
-    table.appendChild(tr);
-  }
-  const trBottom=document.createElement('tr');
-  for(let c=0;c<p.n;c++){
-    const td=document.createElement('td');
-    td.className='clue';
-    td.textContent=p.colClues[c];
-    trBottom.appendChild(td);
-  }
-  trBottom.appendChild(document.createElement('td')).className='corner';
-  table.appendChild(trBottom);
-  board.appendChild(table);
-}
-function checkTents(){
-  const p=TENTS_PUZZLES[tentsPuzzleIdx];
-  const n=p.n;
-  let tentCells=[];
-  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(tentsState[r][c]) tentCells.push([r,c]);
-  for(let r=0;r<n;r++){
-    const cnt=tentCells.filter(t=>t[0]===r).length;
-    if(cnt!==p.rowClues[r]){ showMsg('barracas-msg',false,'A linha '+(r+1)+' não tem o número certo de barracas.'); return; }
-  }
-  for(let c=0;c<n;c++){
-    const cnt=tentCells.filter(t=>t[1]===c).length;
-    if(cnt!==p.colClues[c]){ showMsg('barracas-msg',false,'A coluna '+(c+1)+' não tem o número certo de barracas.'); return; }
-  }
-  for(let i=0;i<tentCells.length;i++){
-    for(let j=i+1;j<tentCells.length;j++){
-      const dr=Math.abs(tentCells[i][0]-tentCells[j][0]);
-      const dc=Math.abs(tentCells[i][1]-tentCells[j][1]);
-      if(dr<=1 && dc<=1){ showMsg('barracas-msg',false,'Tem duas barracas coladas (ou na diagonal).'); return; }
-    }
-  }
-  for(const [r,c] of tentCells){
-    const near=[[r-1,c],[r+1,c],[r,c-1],[r,c+1]];
-    const ok=near.some(([nr,nc])=> isTree(p,nr,nc));
-    if(!ok){ showMsg('barracas-msg',false,'Tem barraca que não está ao lado de nenhuma árvore.'); return; }
-  }
-  if(tentCells.length!==p.trees.length){ showMsg('barracas-msg',false,'O número de barracas precisa ser igual ao número de árvores.'); return; }
-
-  const isLast = tentsPuzzleIdx===TENTS_PUZZLES.length-1;
-  if(isLast){
-    showMsg('barracas-msg',true,'Isso aí, '+greetName()+'! Nível '+(tentsPuzzleIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
-  } else {
-    showMsg('barracas-msg',true,'Isso aí, '+greetName()+'! Nível '+(tentsPuzzleIdx+1)+' concluído. Indo para o próximo nível... 🎉');
-    setTimeout(()=>{ tentsPuzzleIdx++; persist('jl_lvl_barracas',tentsPuzzleIdx); loadTents(tentsPuzzleIdx); }, 1400);
-  }
-}
-document.getElementById('barracas-check').addEventListener('click',checkTents);
-document.getElementById('barracas-reset').addEventListener('click',()=>loadTents(tentsPuzzleIdx));
-loadTents(tentsPuzzleIdx);
-
-/* ============================================================
-   WORD SEEK
-   ============================================================ */
-const WS_WORDS = ["BORDER","BRICK","CORK","DARK","LIGHT","LOOP","MARBLE","MIXING","MUTED","TILES","TONES","VINYL","WOODS","SLATE","RUSTIC"];
-const WS_SIZE = 13;
-let wsGrid=[], wsRemaining=[], wsSelecting=false, wsStart=null, wsCurrentPath=[];
-let wsRound=restore('jl_round_ws',1,999999) || 1;
-
-function wsUpdateRoundTag(){ document.getElementById('ws-round').textContent='Rodada '+wsRound; }
-
-function wsBuild(){
-  const size=WS_SIZE;
-  wsGrid = Array.from({length:size},()=>Array(size).fill(null));
-  const dirs=[[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
-  const words=[...WS_WORDS].sort((a,b)=>b.length-a.length);
-  const placed=[];
-  words.forEach(word=>{
-    let done=false;
-    for(let attempt=0;attempt<400 && !done;attempt++){
-      const dir=dirs[Math.floor(Math.random()*dirs.length)];
-      const r0=Math.floor(Math.random()*size);
-      const c0=Math.floor(Math.random()*size);
-      const r1=r0+dir[0]*(word.length-1);
-      const c1=c0+dir[1]*(word.length-1);
-      if(r1<0||r1>=size||c1<0||c1>=size) continue;
-      let ok=true;
-      for(let i=0;i<word.length;i++){
-        const rr=r0+dir[0]*i, cc=c0+dir[1]*i;
-        const existing=wsGrid[rr][cc];
-        if(existing!==null && existing!==word[i]){ ok=false; break; }
-      }
-      if(!ok) continue;
-      for(let i=0;i<word.length;i++){
-        const rr=r0+dir[0]*i, cc=c0+dir[1]*i;
-        wsGrid[rr][cc]=word[i];
-      }
-      done=true;
-      placed.push(word);
-    }
-  });
-  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for(let r=0;r<size;r++) for(let c=0;c<size;c++)
-    if(wsGrid[r][c]===null) wsGrid[r][c]=alpha[Math.floor(Math.random()*26)];
-  wsRemaining = placed;
-  wsUpdateRoundTag();
-  drawWordSeek();
-}
-function drawWordSeek(){
-  const gridEl=document.getElementById('ws-grid');
-  gridEl.style.gridTemplateColumns='repeat('+WS_SIZE+', 1fr)';
-  gridEl.innerHTML='';
-  for(let r=0;r<WS_SIZE;r++){
-    for(let c=0;c<WS_SIZE;c++){
-      const div=document.createElement('div');
-      div.className='ws-cell';
-      div.textContent=wsGrid[r][c];
-      div.dataset.r=r; div.dataset.c=c;
-      gridEl.appendChild(div);
-    }
-  }
-  const list=document.getElementById('ws-words');
-  list.innerHTML='';
-  wsRemaining.forEach(w=>{
-    const li=document.createElement('li');
-    li.textContent=w;
-    li.dataset.word=w;
-    list.appendChild(li);
-  });
-  clearMsg('ws-msg');
-}
-function wsCellAt(r,c){ return document.querySelector('.ws-cell[data-r="'+r+'"][data-c="'+c+'"]'); }
-function wsClearSelHighlight(){ document.querySelectorAll('.ws-cell.sel').forEach(el=>el.classList.remove('sel')); }
-function wsPathFrom(start,end){
-  const dr=end.r-start.r, dc=end.c-start.c;
-  if(!(dr===0 || dc===0 || Math.abs(dr)===Math.abs(dc))) return null;
-  const steps=Math.max(Math.abs(dr),Math.abs(dc));
-  const sr=Math.sign(dr), sc=Math.sign(dc);
-  const path=[];
-  for(let i=0;i<=steps;i++) path.push({r:start.r+sr*i, c:start.c+sc*i});
-  return path;
-}
-function wsGetCellFromPoint(x,y){
-  const el=document.elementFromPoint(x,y);
-  if(el && el.classList.contains('ws-cell')) return {r:+el.dataset.r,c:+el.dataset.c,el};
-  return null;
-}
-document.getElementById('ws-grid').addEventListener('pointerdown', e=>{
-  const cell=wsGetCellFromPoint(e.clientX,e.clientY);
-  if(!cell) return;
-  wsSelecting=true; wsStart=cell; wsCurrentPath=[cell];
-  cell.el.classList.add('sel');
-  e.preventDefault();
-});
-document.addEventListener('pointermove', e=>{
-  if(!wsSelecting) return;
-  const cell=wsGetCellFromPoint(e.clientX,e.clientY);
-  if(!cell) return;
-  const path=wsPathFrom(wsStart,cell);
-  if(!path) return;
-  wsClearSelHighlight();
-  path.forEach(p=>{ const el=wsCellAt(p.r,p.c); if(el) el.classList.add('sel'); });
-  wsCurrentPath=path;
-});
-document.addEventListener('pointerup', e=>{
-  if(!wsSelecting) return;
-  wsSelecting=false;
-  const letters=wsCurrentPath.map(p=>wsGrid[p.r][p.c]).join('');
-  const rev=letters.split('').reverse().join('');
-  const match=wsRemaining.find(w=>w===letters||w===rev);
-  if(match){
-    wsCurrentPath.forEach(p=>{ const el=wsCellAt(p.r,p.c); el.classList.remove('sel'); el.classList.add('found'); });
-    wsRemaining=wsRemaining.filter(w=>w!==match);
-    const li=document.querySelector('#ws-words li[data-word="'+match+'"]');
-    if(li) li.classList.add('found');
-    if(wsRemaining.length===0){
-      showMsg('ws-msg',true,'Mandou bem, '+greetName()+'! Você encontrou todas as palavras da Rodada '+wsRound+'. Próxima rodada já vem aí... 🎉');
-      setTimeout(()=>{ wsRound++; persist('jl_round_ws',wsRound); wsBuild(); }, 1600);
-    }
-  } else {
-    wsClearSelHighlight();
-  }
-  wsCurrentPath=[];
-});
-document.getElementById('ws-new').addEventListener('click', ()=>{ wsRound++; persist('jl_round_ws',wsRound); wsBuild(); });
-wsBuild();
-
-/* ============================================================
-   ILHAS (HASHI)
-   ============================================================ */
-const ILHAS_PUZZLES = [
-  {
-    islands:[
-      {row:0,col:0,val:2},{row:0,col:2,val:3},{row:0,col:4,val:2},
-      {row:2,col:0,val:2},{row:2,col:2,val:3},{row:2,col:4,val:2}
-    ],
-    edges:[[0,1],[1,2],[3,4],[4,5],[0,3],[1,4],[2,5]]
-  },
-  {
-    islands:[
-      {row:0,col:0,val:3},{row:0,col:2,val:4},{row:0,col:4,val:2},
-      {row:2,col:0,val:2},{row:2,col:2,val:5},{row:2,col:4,val:3},
-      {row:4,col:2,val:1}
-    ],
-    edges:[[0,1],[1,2],[0,3],[1,4],[2,5],[3,4],[4,5],[4,6]]
-  },
-  {
-    islands:[
-      {row:0,col:0,val:2},{row:0,col:3,val:3},{row:0,col:6,val:2},
-      {row:2,col:0,val:2},{row:2,col:3,val:2},{row:2,col:6,val:2},
-      {row:4,col:0,val:1},{row:4,col:3,val:1},{row:4,col:6,val:1}
-    ],
-    edges:[[0,1],[1,2],[3,4],[4,5],[6,7],[7,8],[0,3],[3,6],[1,4],[4,7],[2,5],[5,8]]
-  }
-];
-let ilhasIdx=restore('jl_lvl_ilhas',0,ILHAS_PUZZLES.length-1), ilhasBridges={}, ilhasSelected=null;
-
-function ilhasKey(a,b){ return a<b ? a+'-'+b : b+'-'+a; }
-function ilhasEdgeExists(p,a,b){ return p.edges.some(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a)); }
-
-function renderIlhasPicker(){
-  const picker=document.getElementById('ilhas-picker');
-  picker.innerHTML='';
-  ILHAS_PUZZLES.forEach((p,i)=>{
-    const b=document.createElement('button');
-    b.textContent='Nível '+(i+1);
-    if(i===ilhasIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ ilhasIdx=i; persist('jl_lvl_ilhas',i); loadIlhas(i); });
-    picker.appendChild(b);
-  });
-}
-function loadIlhas(idx){
-  ilhasIdx=idx;
-  ilhasBridges={};
-  ilhasSelected=null;
-  renderIlhasPicker();
-  drawIlhas();
-  clearMsg('ilhas-msg');
-}
-function ilhasCurrentTotal(p, id){
-  let total=0;
-  p.edges.forEach(e=>{
-    if(e[0]===id||e[1]===id){ const k=ilhasKey(e[0],e[1]); total += (ilhasBridges[k]||0); }
-  });
-  return total;
-}
-function drawIlhas(){
-  const p=ILHAS_PUZZLES[ilhasIdx];
-  const board=document.getElementById('ilhas-board');
-  board.innerHTML='';
-  const spacing=90, pad=50;
-  const maxRow=Math.max(...p.islands.map(i=>i.row));
-  const maxCol=Math.max(...p.islands.map(i=>i.col));
-  const w=pad*2+maxCol*spacing, h=pad*2+maxRow*spacing;
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.setAttribute('width',w); svg.setAttribute('height',h);
-  svg.classList.add('hashi-svg');
-  function pos(i){ return {x:pad+p.islands[i].col*spacing, y:pad+p.islands[i].row*spacing}; }
-  p.edges.forEach(e=>{
-    const k=ilhasKey(e[0],e[1]);
-    const n=ilhasBridges[k]||0;
-    if(n===0) return;
-    const A=pos(e[0]), B=pos(e[1]);
-    const horizontal = A.y===B.y;
-    for(let line=0; line<n; line++){
-      const offset = n===2 ? (line===0?-4:4) : 0;
-      const l=document.createElementNS('http://www.w3.org/2000/svg','line');
-      if(horizontal){
-        l.setAttribute('x1',A.x); l.setAttribute('x2',B.x);
-        l.setAttribute('y1',A.y+offset); l.setAttribute('y2',B.y+offset);
-      } else {
-        l.setAttribute('x1',A.x+offset); l.setAttribute('x2',B.x+offset);
-        l.setAttribute('y1',A.y); l.setAttribute('y2',B.y);
-      }
-      l.classList.add('bridge-line');
-      svg.appendChild(l);
-    }
-  });
-  p.islands.forEach((isl,i)=>{
-    const {x,y}=pos(i);
-    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('cx',x); circle.setAttribute('cy',y); circle.setAttribute('r',20);
-    circle.classList.add('island-circle');
-    const total=ilhasCurrentTotal(p,i);
-    if(total===isl.val) circle.classList.add('done');
-    if(ilhasSelected===i) circle.classList.add('selected');
-    circle.addEventListener('click',()=>ilhasClickIsland(i));
-    const text=document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x',x); text.setAttribute('y',y+5);
-    text.setAttribute('text-anchor','middle');
-    text.classList.add('island-label');
-    text.textContent=isl.val;
-    text.style.pointerEvents='none';
-    g.appendChild(circle); g.appendChild(text);
-    svg.appendChild(g);
-  });
-  board.appendChild(svg);
-}
-function ilhasClickIsland(i){
-  const p=ILHAS_PUZZLES[ilhasIdx];
-  if(ilhasSelected===null){ ilhasSelected=i; }
-  else if(ilhasSelected===i){ ilhasSelected=null; }
-  else if(ilhasEdgeExists(p,ilhasSelected,i)){
-    const k=ilhasKey(ilhasSelected,i);
-    const cur=ilhasBridges[k]||0;
-    ilhasBridges[k]=(cur+1)%3;
-    ilhasSelected=null;
-  } else { ilhasSelected=i; }
-  drawIlhas();
-}
-function checkIlhas(){
-  const p=ILHAS_PUZZLES[ilhasIdx];
-  for(let i=0;i<p.islands.length;i++){
-    if(ilhasCurrentTotal(p,i)!==p.islands[i].val){
-      showMsg('ilhas-msg',false,'Ainda tem ilha com número errado de pontes.');
-      return;
-    }
-  }
-  const n=p.islands.length;
-  const adj=Array.from({length:n},()=>[]);
-  p.edges.forEach(e=>{
-    const k=ilhasKey(e[0],e[1]);
-    if((ilhasBridges[k]||0)>0){ adj[e[0]].push(e[1]); adj[e[1]].push(e[0]); }
-  });
-  const visited=new Set([0]);
-  const stack=[0];
-  while(stack.length){
-    const cur=stack.pop();
-    adj[cur].forEach(nb=>{ if(!visited.has(nb)){ visited.add(nb); stack.push(nb); } });
-  }
-  if(visited.size!==n){
-    showMsg('ilhas-msg',false,'As ilhas ainda não formam uma única figura interligada.');
-    return;
-  }
-  const isLast = ilhasIdx===ILHAS_PUZZLES.length-1;
-  if(isLast){
-    showMsg('ilhas-msg',true,'Perfeito, '+greetName()+'! Nível '+(ilhasIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
-  } else {
-    showMsg('ilhas-msg',true,'Perfeito, '+greetName()+'! Nível '+(ilhasIdx+1)+' concluído. Indo para o próximo nível... 🎉');
-    setTimeout(()=>{ ilhasIdx++; persist('jl_lvl_ilhas',ilhasIdx); loadIlhas(ilhasIdx); }, 1400);
-  }
-}
-document.getElementById('ilhas-check').addEventListener('click',checkIlhas);
-document.getElementById('ilhas-reset').addEventListener('click',()=>loadIlhas(ilhasIdx));
-loadIlhas(ilhasIdx);
-
-/* ============================================================
-   DAVI E GOLIAS (FUTOSHIKI)
-   ============================================================ */
-const FUT_PUZZLES = [
-  { n:4,
-    givens:[{r:0,c:3,val:4},{r:2,c:2,val:1}],
-    constraints:[
-      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
-      {r1:1,c1:2,r2:1,c2:3,rel:'>'},
-      {r1:0,c1:2,r2:1,c2:2,rel:'<'},
-      {r1:2,c1:1,r2:3,c2:1,rel:'>'},
-      {r1:3,c1:0,r2:3,c2:1,rel:'>'},
-      {r1:2,c1:2,r2:2,c2:3,rel:'<'}
-    ]
-  },
-  { n:5,
-    givens:[{r:2,c:2,val:5},{r:4,c:4,val:4}],
-    constraints:[
-      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
-      {r1:1,c1:3,r2:1,c2:4,rel:'>'},
-      {r1:1,c1:0,r2:2,c2:0,rel:'<'},
-      {r1:2,c1:4,r2:3,c2:4,rel:'<'},
-      {r1:3,c1:1,r2:3,c2:2,rel:'>'},
-      {r1:4,c1:2,r2:4,c2:3,rel:'<'}
-    ]
-  },
-  { n:5,
-    givens:[{r:2,c:2,val:2}],
-    constraints:[
-      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
-      {r1:0,c1:3,r2:0,c2:4,rel:'<'},
-      {r1:2,c1:0,r2:2,c2:1,rel:'>'},
-      {r1:3,c1:2,r2:3,c2:3,rel:'<'},
-      {r1:0,c1:1,r2:1,c2:1,rel:'<'},
-      {r1:1,c1:3,r2:2,c2:3,rel:'<'},
-      {r1:3,c1:0,r2:4,c2:0,rel:'<'},
-      {r1:2,c1:4,r2:3,c2:4,rel:'<'}
-    ]
-  }
-];
-let futIdx=restore('jl_lvl_fut',0,FUT_PUZZLES.length-1), futGrid=null;
-
-function renderFutPicker(){
-  const picker=document.getElementById('fut-picker');
-  picker.innerHTML='';
-  FUT_PUZZLES.forEach((p,i)=>{
-    const b=document.createElement('button');
-    b.textContent='Nível '+(i+1);
-    if(i===futIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ futIdx=i; persist('jl_lvl_fut',i); loadFut(i); });
-    picker.appendChild(b);
-  });
-}
-function loadFut(idx){
-  futIdx=idx;
-  const p=FUT_PUZZLES[idx];
-  futGrid=Array.from({length:p.n},()=>Array(p.n).fill(0));
-  p.givens.forEach(g=>{ futGrid[g.r][g.c]=g.val; });
-  renderFutPicker();
-  drawFut();
-  clearMsg('fut-msg');
-}
-function futIsGiven(p,r,c){ return p.givens.some(g=>g.r===r&&g.c===c); }
-function futConstraintBetween(p,r1,c1,r2,c2){
-  return p.constraints.find(k=>(k.r1===r1&&k.c1===c1&&k.r2===r2&&k.c2===c2));
-}
-function drawFut(){
-  const p=FUT_PUZZLES[futIdx];
-  const n=p.n;
-  const board=document.getElementById('fut-board');
-  board.innerHTML='';
-  const table=document.createElement('table');
-  table.className='num-grid';
-  for(let r=0;r<n;r++){
-    const tr=document.createElement('tr');
-    for(let c=0;c<n;c++){
-      const td=document.createElement('td');
-      td.className='cell'+(futIsGiven(p,r,c)?' given':'');
-      td.textContent=futGrid[r][c]===0?'':futGrid[r][c];
-      if(!futIsGiven(p,r,c)){
-        td.addEventListener('click',()=>{ futGrid[r][c]=(futGrid[r][c]+1)%(n+1); drawFut(); });
-      }
-      tr.appendChild(td);
-      if(c<n-1){
-        const gap=document.createElement('td');
-        gap.className='gap gap-h';
-        const con=futConstraintBetween(p,r,c,r,c+1);
-        if(con) gap.innerHTML='<span class="sym">'+con.rel+'</span>';
-        tr.appendChild(gap);
-      }
-    }
-    table.appendChild(tr);
-    if(r<n-1){
-      const trGap=document.createElement('tr');
-      for(let c=0;c<n;c++){
-        const gap=document.createElement('td');
-        gap.className='gap gap-v';
-        const con=futConstraintBetween(p,r,c,r+1,c);
-        if(con) gap.innerHTML='<span class="sym">'+(con.rel==='<'?'▲':'▼')+'</span>';
-        trGap.appendChild(gap);
-        if(c<n-1){
-          const corner=document.createElement('td');
-          corner.className='gap';
-          trGap.appendChild(corner);
-        }
-      }
-      table.appendChild(trGap);
-    }
-  }
-  board.appendChild(table);
-}
-function checkFut(){
-  const p=FUT_PUZZLES[futIdx];
-  const n=p.n;
-  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(futGrid[r][c]===0){
-    showMsg('fut-msg',false,'Preencha todos os quadradinhos antes de verificar.'); return;
-  }
-  for(let r=0;r<n;r++){
-    if(new Set(futGrid[r]).size!==n){ showMsg('fut-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
-  }
-  for(let c=0;c<n;c++){
-    const vals=[]; for(let r=0;r<n;r++) vals.push(futGrid[r][c]);
-    if(new Set(vals).size!==n){ showMsg('fut-msg',false,'Tem número repetido na coluna '+(c+1)+'.'); return; }
-  }
-  for(const con of p.constraints){
-    const a=futGrid[con.r1][con.c1], b=futGrid[con.r2][con.c2];
-    const ok = con.rel==='<' ? a<b : a>b;
-    if(!ok){ showMsg('fut-msg',false,'Algum sinal de maior/menor não está sendo respeitado.'); return; }
-  }
-  const isLast = futIdx===FUT_PUZZLES.length-1;
-  if(isLast){
-    showMsg('fut-msg',true,'Show, '+greetName()+'! Nível '+(futIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
-  } else {
-    showMsg('fut-msg',true,'Show, '+greetName()+'! Nível '+(futIdx+1)+' concluído. Indo para o próximo nível... 🎉');
-    setTimeout(()=>{ futIdx++; persist('jl_lvl_fut',futIdx); loadFut(futIdx); }, 1400);
-  }
-}
-document.getElementById('fut-check').addEventListener('click',checkFut);
-document.getElementById('fut-reset').addEventListener('click',()=>loadFut(futIdx));
-loadFut(futIdx);
-
-/* ============================================================
-   KENKEN
-   ============================================================ */
-const KK_PUZZLES = [
-  { n:4,
-    cages:[
-      {cells:[[0,0],[1,0]], op:'+', target:4},
-      {cells:[[0,1],[0,2]], op:'+', target:5},
-      {cells:[[0,3]], op:null, target:4},
-      {cells:[[1,1],[2,1]], op:'-', target:3},
-      {cells:[[1,2],[1,3]], op:'+', target:3},
-      {cells:[[2,0],[3,0]], op:'×', target:8},
-      {cells:[[2,2],[2,3]], op:'+', target:7},
-      {cells:[[3,1],[3,2]], op:'-', target:1},
-      {cells:[[3,3]], op:null, target:1}
-    ]
-  },
-  { n:4,
-    cages:[
-      {cells:[[0,0],[1,0]], op:'+', target:3},
-      {cells:[[0,1],[0,2]], op:'+', target:5},
-      {cells:[[0,3]], op:null, target:3},
-      {cells:[[1,1],[2,1]], op:'-', target:1},
-      {cells:[[1,2],[1,3]], op:'+', target:6},
-      {cells:[[2,0],[3,0]], op:'+', target:7},
-      {cells:[[2,2],[2,3]], op:'-', target:2},
-      {cells:[[3,1],[3,2]], op:'+', target:3},
-      {cells:[[3,3]], op:null, target:4}
-    ]
-  },
-  { n:4,
-    cages:[
-      {cells:[[0,0],[1,0]], op:'÷', target:3},
-      {cells:[[0,1],[0,2]], op:'+', target:5},
-      {cells:[[0,3]], op:null, target:2},
-      {cells:[[1,1],[2,1]], op:'-', target:2},
-      {cells:[[1,2],[1,3]], op:'+', target:5},
-      {cells:[[2,0],[3,0]], op:'×', target:8},
-      {cells:[[2,2],[2,3]], op:'-', target:2},
-      {cells:[[3,1],[3,2]], op:'×', target:3},
-      {cells:[[3,3]], op:null, target:4}
-    ]
-  }
-];
-let kkIdx=restore('jl_lvl_kk',0,KK_PUZZLES.length-1), kkGrid=null;
-
-function renderKkPicker(){
-  const picker=document.getElementById('kk-picker');
-  picker.innerHTML='';
-  KK_PUZZLES.forEach((p,i)=>{
-    const b=document.createElement('button');
-    b.textContent='Nível '+(i+1);
-    if(i===kkIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ kkIdx=i; persist('jl_lvl_kk',i); loadKk(i); });
-    picker.appendChild(b);
-  });
-}
-function kkCageIndex(p,r,c){ return p.cages.findIndex(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c)); }
-function kkIsAnchor(cage,r,c){
-  const sorted=[...cage.cells].sort((a,b)=>(a[0]*100+a[1])-(b[0]*100+b[1]));
-  return sorted[0][0]===r && sorted[0][1]===c;
-}
-function loadKk(idx){
-  kkIdx=idx;
-  const p=KK_PUZZLES[idx];
-  kkGrid=Array.from({length:p.n},()=>Array(p.n).fill(0));
-  p.cages.forEach(cg=>{ if(cg.op===null){ kkGrid[cg.cells[0][0]][cg.cells[0][1]]=cg.target; } });
-  renderKkPicker();
-  drawKk();
-  clearMsg('kk-msg');
-}
-function drawKk(){
-  const p=KK_PUZZLES[kkIdx];
-  const n=p.n;
-  const board=document.getElementById('kk-board');
-  board.innerHTML='';
-  const table=document.createElement('table');
-  table.className='num-grid kk-grid';
-  for(let r=0;r<n;r++){
-    const tr=document.createElement('tr');
-    for(let c=0;c<n;c++){
-      const td=document.createElement('td');
-      const cageIdx=kkCageIndex(p,r,c);
-      const cage=p.cages[cageIdx];
-      const isSingle = cage.op===null;
-      td.className='cell'+(isSingle?' given':'');
-      if(kkCageIndex(p,r,c-1)!==cageIdx || c===0) td.classList.add('bl');
-      if(kkCageIndex(p,r,c+1)!==cageIdx || c===n-1) td.classList.add('br');
-      if(kkCageIndex(p,r-1,c)!==cageIdx || r===0) td.classList.add('bt');
-      if(kkCageIndex(p,r+1,c)!==cageIdx || r===n-1) td.classList.add('bb');
-      if(kkIsAnchor(cage,r,c) && !isSingle){
-        const lbl=document.createElement('div');
-        lbl.className='cage-label';
-        lbl.textContent=cage.target+cage.op;
-        td.appendChild(lbl);
-      }
-      const val=document.createElement('div');
-      val.className='cell-val';
-      val.textContent = kkGrid[r][c]===0 ? '' : kkGrid[r][c];
-      td.appendChild(val);
-      if(!isSingle){
-        td.addEventListener('click',()=>{ kkGrid[r][c]=(kkGrid[r][c]+1)%(n+1); drawKk(); });
-      }
-      tr.appendChild(td);
-    }
-    table.appendChild(tr);
-  }
-  board.appendChild(table);
-}
-function checkKk(){
-  const p=KK_PUZZLES[kkIdx];
-  const n=p.n;
-  for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(kkGrid[r][c]===0){
-    showMsg('kk-msg',false,'Preencha todos os quadradinhos antes de verificar.'); return;
-  }
-  for(let r=0;r<n;r++){
-    if(new Set(kkGrid[r]).size!==n){ showMsg('kk-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
-  }
-  for(let c=0;c<n;c++){
-    const vals=[]; for(let r=0;r<n;r++) vals.push(kkGrid[r][c]);
-    if(new Set(vals).size!==n){ showMsg('kk-msg',false,'Tem número repetido na coluna '+(c+1)+'.'); return; }
-  }
-  for(const cage of p.cages){
-    const vals=cage.cells.map(([r,c])=>kkGrid[r][c]);
-    let ok=true;
-    if(cage.op==='+') ok = vals.reduce((a,b)=>a+b,0)===cage.target;
-    else if(cage.op==='×') ok = vals.reduce((a,b)=>a*b,1)===cage.target;
-    else if(cage.op==='-') ok = Math.abs(vals[0]-vals[1])===cage.target;
-    else if(cage.op==='÷') ok = Math.max(vals[0],vals[1])/Math.min(vals[0],vals[1])===cage.target;
-    else if(cage.op===null) ok = vals[0]===cage.target;
-    if(!ok){ showMsg('kk-msg',false,'Alguma região não bate com a conta indicada.'); return; }
-  }
-  const isLast = kkIdx===KK_PUZZLES.length-1;
-  if(isLast){
-    showMsg('kk-msg',true,'Mandou bem, '+greetName()+'! Nível '+(kkIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
-  } else {
-    showMsg('kk-msg',true,'Mandou bem, '+greetName()+'! Nível '+(kkIdx+1)+' concluído. Indo para o próximo nível... 🎉');
-    setTimeout(()=>{ kkIdx++; persist('jl_lvl_kk',kkIdx); loadKk(kkIdx); }, 1400);
-  }
-}
-document.getElementById('kk-check').addEventListener('click',checkKk);
-document.getElementById('kk-reset').addEventListener('click',()=>loadKk(kkIdx));
-loadKk(kkIdx);
-</script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
