@@ -57,7 +57,18 @@ body{
 .brand-mark{width:clamp(76px,12vw,116px);height:auto;flex:0 0 auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.22))}
 .eyebrow{margin:0 0 7px;color:var(--menta);font-weight:800;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase}
 .header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.95rem,5vw,3.45rem);line-height:.98;letter-spacing:-.045em;margin:0 0 10px;max-width:720px}
-.header p:last-child{margin:0;color:#E9DDE7;font-size:clamp(.9rem,2vw,1.05rem);max-width:650px;line-height:1.5}
+.header p:last-of-type{margin:0;color:#E9DDE7;font-size:clamp(.9rem,2vw,1.05rem);max-width:650px;line-height:1.5}
+#student-greeting{margin:12px 0 0;font-size:.85rem;font-weight:700;color:var(--menta);position:relative;z-index:1;display:none}
+#student-greeting a{color:var(--rosa-claro);text-decoration:underline}
+
+/* name gate */
+.name-gate{position:fixed;inset:0;background:rgba(26,15,28,.88);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.name-gate.hidden{display:none}
+.name-card{background:var(--papel);border-radius:24px;padding:34px 28px;max-width:360px;width:100%;text-align:center;box-shadow:var(--shadow)}
+.name-card h2{font-family:'Space Grotesk',sans-serif;margin:0 0 6px;color:var(--ameixa);font-size:1.5rem}
+.name-card p{margin:0 0 18px;color:var(--ink-soft)}
+.name-card input{width:100%;padding:13px 14px;border-radius:12px;border:2px solid var(--line);font-size:1rem;font-family:'DM Sans',sans-serif;margin-bottom:16px;box-sizing:border-box}
+.name-card input:focus{outline:none;border-color:var(--rosa)}
 
 nav.tabs{
   max-width:1080px;
@@ -86,7 +97,6 @@ nav.tabs button{
 }
 nav.tabs button:hover{transform:translateY(-2px);border-color:var(--rosa)}
 nav.tabs button.active{background:var(--ameixa);border-color:var(--ameixa);color:var(--papel)}
-
 main{
   max-width:1080px;
   margin:0 auto;
@@ -111,7 +121,7 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.55rem,3vw,2.15rem);l
   margin-bottom:20px;
   line-height:1.55;
 }
-.puzzle-picker{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.puzzle-picker{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
 .puzzle-picker button{
   min-height:44px;padding:8px 16px;border-radius:999px;border:2px solid var(--ameixa);
   background:#fff;
@@ -121,7 +131,7 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.55rem,3vw,2.15rem);l
   font-family:'DM Sans',sans-serif;
 }
 .puzzle-picker button.active{background:var(--menta);border-color:var(--menta);color:var(--ameixa)}
-
+.round-tag{font-weight:800;color:var(--ink-soft);font-size:.9rem}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
 button.check-btn, button.reset-btn{
   min-height:48px;border:none;font-weight:800;padding:11px 22px;border-radius:999px;
@@ -131,7 +141,6 @@ button.check-btn{background:var(--rosa);color:var(--ameixa);box-shadow:0 9px 20p
 button.check-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(251,88,167,.32)}
 button.reset-btn{background:#fff;color:var(--ameixa);border:2px solid var(--ameixa)}
 button:focus-visible,.ws-cell:focus-visible,td:focus-visible{outline:4px solid rgba(3,227,157,.55);outline-offset:3px}
-
 .msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:700}
 .msg.ok{background:rgba(3,227,157,.13);color:#075A42;border:1px solid rgba(3,227,157,.55)}
 .msg.err{background:rgba(251,88,167,.12);color:#8F174E;border:1px solid rgba(251,88,167,.48)}
@@ -151,7 +160,6 @@ table.tents-grid td.clue{
   font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;
   background:transparent;border:none;cursor:default;color:var(--ameixa);
 }
-table.tents-grid td.clue.match{color:#087B5B}
 table.tents-grid td.corner{border:none;background:transparent;cursor:default;}
 
 /* ---------- WORD SEEK ---------- */
@@ -204,55 +212,6 @@ table.kk-grid td.cell.br{border-right:2px solid var(--ink);}
 }
 .cell-val{display:block;}
 
-/* ---------- TRAVESSIA DO RIO ---------- */
-.river-game{display:grid;gap:16px}
-.river-scene{display:grid;grid-template-columns:minmax(130px,1fr) minmax(160px,1.25fr) minmax(130px,1fr);gap:12px;align-items:stretch}
-.river-bank,.river-water{min-height:220px;border-radius:20px;padding:16px}
-.river-bank{background:linear-gradient(145deg,rgba(3,227,157,.16),rgba(3,227,157,.05));border:1px solid rgba(3,227,157,.3)}
-.river-water{background:linear-gradient(145deg,#DDF6FF,#B8E5F6);border:1px solid #A1D4E7;display:flex;align-items:center;justify-content:center}
-.river-bank h3{font:700 1rem 'Space Grotesk',sans-serif;margin:0 0 12px}
-.river-characters{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
-.character-btn{min-height:48px;border:2px solid transparent;border-radius:14px;background:#fff;padding:8px 11px;font:700 .88rem 'DM Sans',sans-serif;color:var(--ameixa);cursor:pointer;box-shadow:0 5px 14px rgba(26,15,28,.08)}
-.character-btn[aria-pressed="true"]{border-color:var(--rosa);background:rgba(251,88,167,.13)}
-.character-btn:disabled{cursor:default;opacity:.75}
-.boat{width:min(100%,230px);min-height:94px;border:3px solid var(--ameixa);border-top:none;border-radius:12px 12px 60px 60px;background:linear-gradient(120deg,var(--rosa),var(--rosa-claro));padding:20px 12px 12px;text-align:center;position:relative}
-.boat::before{content:"";position:absolute;left:50%;top:-45px;height:45px;border-left:3px solid var(--ameixa)}
-.boat-status{font-weight:800;line-height:1.45}
-.game-counter{margin:0;font-weight:700;color:var(--ink-soft)}
-
-/* ---------- EINSTEIN ---------- */
-.clue-panel{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(220px,.75fr);gap:20px;align-items:start}
-.einstein-clues{margin:0;padding:16px 16px 16px 38px;background:var(--papel);border:1px solid var(--line);border-radius:18px;columns:2;column-gap:30px}
-.einstein-clues li{break-inside:avoid;margin:0 0 8px;line-height:1.4;font-size:.88rem}
-.einstein-question{background:var(--ameixa);color:var(--papel);padding:20px;border-radius:18px;position:sticky;top:12px}
-.einstein-question strong{color:var(--menta);display:block;font:700 1.3rem 'Space Grotesk',sans-serif;margin-bottom:7px}
-.logic-table-wrap{overflow:auto;margin-top:20px;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-.logic-table{border-collapse:separate;border-spacing:5px;min-width:790px;width:100%}
-.logic-table th{font:700 .78rem 'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.05em;padding:8px;color:var(--ink-soft)}
-.logic-table td{padding:0}
-.logic-table select{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ameixa);font:600 .86rem 'DM Sans',sans-serif;padding:7px 28px 7px 9px}
-.logic-table select:focus{outline:3px solid rgba(3,227,157,.35);border-color:#087B5B}
-
-/* ---------- TORRES DE HANÓI ---------- */
-.hanoi-board{display:grid;grid-template-columns:repeat(3,minmax(100px,1fr));gap:14px;align-items:end;min-height:285px;padding:18px;border-radius:20px;background:linear-gradient(180deg,#FFF,#FFF5FB)}
-.tower{height:230px;border:2px solid var(--line);border-radius:16px;background:rgba(255,255,255,.72);position:relative;display:flex;flex-direction:column-reverse;align-items:center;padding:12px 6px 20px;cursor:pointer;overflow:hidden}
-.tower::before{content:"";position:absolute;width:8px;height:165px;left:calc(50% - 4px);bottom:20px;background:var(--ameixa);border-radius:8px 8px 0 0;z-index:0}
-.tower::after{content:"";position:absolute;width:86%;height:10px;left:7%;bottom:12px;background:var(--ameixa);border-radius:8px;z-index:0}
-.tower.selected{border-color:var(--rosa);box-shadow:0 0 0 4px rgba(251,88,167,.14)}
-.disk{height:27px;border:2px solid var(--ameixa);border-radius:999px;margin-top:3px;background:linear-gradient(90deg,var(--menta),var(--rosa));position:relative;z-index:1;box-shadow:0 4px 8px rgba(26,15,28,.14)}
-.disk[data-size="1"]{width:38%}.disk[data-size="2"]{width:52%}.disk[data-size="3"]{width:68%}.disk[data-size="4"]{width:84%}
-.tower-label{position:absolute;top:10px;left:0;right:0;font-weight:800;font-size:.82rem;z-index:2}
-
-/* ---------- SEQUÊNCIAS ---------- */
-.sequence-card{border:1px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,30px);background:linear-gradient(135deg,rgba(244,182,223,.18),rgba(3,227,157,.08))}
-.sequence-level{margin:0 0 10px;color:#8F174E;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.75rem}
-.sequence-display{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 22px}
-.sequence-number{min-width:54px;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center;font:700 clamp(1.15rem,4vw,1.55rem) 'Space Grotesk',sans-serif}
-.sequence-number.missing{background:var(--ameixa);color:var(--menta)}
-.sequence-options{display:flex;gap:10px;flex-wrap:wrap}
-.sequence-options button{min-width:70px;min-height:48px;border:2px solid var(--ameixa);border-radius:14px;background:#fff;color:var(--ameixa);font:800 1rem 'DM Sans',sans-serif;cursor:pointer}
-.sequence-options button:hover,.sequence-options button:focus-visible{background:var(--rosa-claro)}
-
 footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-soft);font-size:.82rem;line-height:1.5}
 @media (max-width:720px){
   body{padding-inline:8px}
@@ -264,27 +223,14 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   .ws-wrap{grid-template-columns:1fr}
   ul.ws-words{grid-template-columns:repeat(3,minmax(78px,1fr))}
   .actions>button{flex:1 1 140px}
-  .river-scene{grid-template-columns:1fr 1fr}
-  .river-water{grid-column:1/-1;grid-row:2;min-height:150px}
-  .river-bank{min-height:145px}
-  .clue-panel{grid-template-columns:1fr}
-  .einstein-clues{columns:1;max-height:330px;overflow:auto}
-  .einstein-question{position:static}
-  .hanoi-board{gap:6px;padding:10px 5px;min-height:245px}
-  .tower{height:205px;padding-inline:2px}
 }
 @media (max-width:430px){
   .brand-mark{width:58px}
   .eyebrow{font-size:.66rem}
   .header h1{font-size:1.72rem}
-  .header p:last-child{font-size:.84rem}
+  .header p:last-of-type{font-size:.84rem}
   nav.tabs button{min-height:44px;padding-inline:14px;font-size:.86rem}
   ul.ws-words{grid-template-columns:repeat(2,minmax(90px,1fr))}
-  .character-btn{flex:1 1 100%;font-size:.8rem;padding-inline:6px}
-  .river-bank,.river-water{padding:10px}
-  .hanoi-board{grid-template-columns:repeat(3,minmax(82px,1fr))}
-  .tower-label{font-size:.72rem}
-  .sequence-number{min-width:46px;padding-inline:8px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -293,13 +239,23 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
 </head>
 <body>
 
+<div id="name-gate" class="name-gate">
+  <div class="name-card">
+    <h2>Antes de começar…</h2>
+    <p>Qual é o seu nome?</p>
+    <input id="name-input" type="text" placeholder="Digite seu nome" maxlength="40">
+    <button class="check-btn" id="name-submit">Começar a jogar</button>
+  </div>
+</div>
+
 <header class="header">
   <div class="brand-row">
     <img class="brand-mark" src="assets/marca-tamiris.svg" alt="">
     <div>
-      <p class="eyebrow">Professora de Matemática</p>
+      <p class="eyebrow">Professora Tamiris · Curso Técnico ADM</p>
       <h1>Desafio de Lógica</h1>
       <p>Exercite seu raciocínio com jogos rápidos, interativos e feitos para qualquer tela.</p>
+      <p id="student-greeting"></p>
     </div>
   </div>
 </header>
@@ -310,10 +266,6 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   <button id="tab-ilhas" role="tab" aria-controls="ilhas" aria-selected="false" data-tab="ilhas">🌉 Ilhas</button>
   <button id="tab-futoshiki" role="tab" aria-controls="futoshiki" aria-selected="false" data-tab="futoshiki">🔢 Davi e Golias</button>
   <button id="tab-kenken" role="tab" aria-controls="kenken" aria-selected="false" data-tab="kenken">➗ KenKen</button>
-  <button id="tab-rio" role="tab" aria-controls="rio" aria-selected="false" data-tab="rio">🚣 Travessia do Rio</button>
-  <button id="tab-einstein" role="tab" aria-controls="einstein" aria-selected="false" data-tab="einstein">🏠 Enigma de Einstein</button>
-  <button id="tab-hanoi" role="tab" aria-controls="hanoi" aria-selected="false" data-tab="hanoi">🗼 Torres de Hanói</button>
-  <button id="tab-sequencias" role="tab" aria-controls="sequencias" aria-selected="false" data-tab="sequencias">✨ Sequências</button>
 </nav>
 
 <main>
@@ -322,7 +274,8 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
     <h2>Barracas</h2>
     <div class="instructions">Clique nos quadradinhos vazios para colocar uma barraca (⛺). Toda barraca precisa
     ficar ao lado de uma árvore (🌳), e duas barracas nunca podem ficar coladas, nem na diagonal. Os números nas
-    bordas mostram quantas barracas cada linha e cada coluna deve ter.</div>
+    bordas mostram quantas barracas cada linha e cada coluna deve ter. Ao acertar, o jogo já leva você pro
+    próximo nível.</div>
     <div class="puzzle-picker" id="barracas-picker"></div>
     <div class="tents-wrap"><div id="barracas-board"></div></div>
     <div class="actions">
@@ -335,8 +288,9 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
   <section id="wordseek" role="tabpanel" aria-labelledby="tab-wordseek">
     <h2>Word Seek — Agilidade Visual</h2>
     <div class="instructions">Arraste do início ao fim de uma palavra (na horizontal, vertical ou diagonal) para
-    marcá-la. As palavras encontradas ficam riscadas na lista.</div>
+    marcá-la. Quando encontrar todas, um novo diagrama aparece automaticamente.</div>
     <div class="actions" style="margin-top:0;margin-bottom:14px;">
+      <span class="round-tag" id="ws-round"></span>
       <button class="check-btn" id="ws-new">Gerar novo diagrama</button>
     </div>
     <div class="ws-wrap">
@@ -350,7 +304,8 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
     <h2>Ilhas</h2>
     <div class="instructions">Clique em duas ilhas alinhadas (mesma linha ou coluna) para criar uma ponte entre
     elas. Clique de novo no mesmo par para aumentar para 2 pontes, e mais uma vez para remover. Cada ilha precisa
-    receber exatamente o número de pontes indicado, e todas as ilhas devem formar uma única figura interligada.</div>
+    receber exatamente o número de pontes indicado, e todas as ilhas devem formar uma única figura interligada.
+    Ao acertar, você avança de nível.</div>
     <div class="puzzle-picker" id="ilhas-picker"></div>
     <div class="hashi-wrap"><div id="ilhas-board"></div></div>
     <div class="actions">
@@ -364,7 +319,7 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
     <h2>Davi e Golias</h2>
     <div class="instructions">Clique num quadradinho para ir passando pelos números (em branco → 1 → 2 → 3...).
     Não pode repetir número na mesma linha nem na mesma coluna. Respeite os sinais de maior/menor entre as
-    células.</div>
+    células. Ao acertar, você avança de nível.</div>
     <div class="puzzle-picker" id="fut-picker"></div>
     <div class="tents-wrap"><div id="fut-board"></div></div>
     <div class="actions">
@@ -378,7 +333,7 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
     <h2>KenKen</h2>
     <div class="instructions">Preencha os quadradinhos com números de 1 a 4, sem repetir na horizontal nem na
     vertical. Em cada região (cercada por linha mais grossa) o resultado da operação indicada deve dar o número
-    mostrado. Clique num quadradinho para passar pelos números.</div>
+    mostrado. Ao acertar, você avança de nível.</div>
     <div class="puzzle-picker" id="kk-picker"></div>
     <div class="tents-wrap"><div id="kk-board"></div></div>
     <div class="actions">
@@ -388,74 +343,51 @@ footer{max-width:1080px;margin:20px auto 0;text-align:center;color:var(--ink-sof
     <div id="kk-msg" aria-live="polite"></div>
   </section>
 
-  <section id="rio" role="tabpanel" aria-labelledby="tab-rio">
-    <h2>Travessia do Rio</h2>
-    <div class="instructions">O barqueiro precisa levar o lobo, a cabra e o repolho para a margem direita. O barco leva o barqueiro e, no máximo, um passageiro. Sem o barqueiro, o lobo não pode ficar com a cabra, e a cabra não pode ficar com o repolho.</div>
-    <div class="river-game">
-      <p class="game-counter" id="river-counter">Travessias: 0</p>
-      <div class="river-scene">
-        <div class="river-bank"><h3>Margem esquerda</h3><div class="river-characters" id="river-left"></div></div>
-        <div class="river-water"><div class="boat"><div class="boat-status" id="boat-status"></div></div></div>
-        <div class="river-bank"><h3>Margem direita</h3><div class="river-characters" id="river-right"></div></div>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="check-btn" id="river-cross">Atravessar o rio</button>
-      <button class="reset-btn" id="river-reset">Recomeçar</button>
-    </div>
-    <div id="river-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="einstein" role="tabpanel" aria-labelledby="tab-einstein">
-    <h2>Enigma de Einstein</h2>
-    <div class="instructions">Há cinco casas, cada uma com cor, morador, bebida, animal e preferência diferentes. Use as pistas para completar a tabela. Nenhuma opção se repete na mesma categoria.</div>
-    <div class="clue-panel">
-      <ol class="einstein-clues">
-        <li>O britânico mora na casa vermelha.</li><li>O sueco cria cachorros.</li><li>O dinamarquês bebe chá.</li>
-        <li>A casa verde fica imediatamente à esquerda da branca.</li><li>O morador da casa verde bebe café.</li>
-        <li>Quem prefere leitura cria pássaros.</li><li>O morador da casa amarela prefere xadrez.</li>
-        <li>O morador da casa central bebe leite.</li><li>O norueguês mora na primeira casa.</li>
-        <li>Quem prefere música mora ao lado de quem cria gatos.</li><li>Quem cria cavalos mora ao lado de quem prefere xadrez.</li>
-        <li>Quem prefere desenho bebe cerveja.</li><li>O alemão prefere fotografia.</li>
-        <li>O norueguês mora ao lado da casa azul.</li><li>Quem prefere música tem um vizinho que bebe água.</li>
-      </ol>
-      <aside class="einstein-question"><strong>Desafio final</strong>Quem é o dono do peixe? Complete todas as casas para descobrir.</aside>
-    </div>
-    <div class="logic-table-wrap"><table class="logic-table" id="einstein-table"></table></div>
-    <div class="actions">
-      <button class="check-btn" id="einstein-check">Verificar solução</button>
-      <button class="reset-btn" id="einstein-hint">Usar uma pista</button>
-      <button class="reset-btn" id="einstein-reset">Limpar tabela</button>
-    </div>
-    <div id="einstein-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="hanoi" role="tabpanel" aria-labelledby="tab-hanoi">
-    <h2>Torres de Hanói</h2>
-    <div class="instructions">Leve todos os discos para a terceira torre. Mova apenas um disco por vez e nunca coloque um disco maior sobre um menor. Clique na torre de origem e depois na torre de destino.</div>
-    <p class="game-counter" id="hanoi-counter">Movimentos: 0 · mínimo: 15</p>
-    <div class="hanoi-board" id="hanoi-board"></div>
-    <div class="actions"><button class="reset-btn" id="hanoi-reset">Recomeçar</button></div>
-    <div id="hanoi-msg" aria-live="polite"></div>
-  </section>
-
-  <section id="sequencias" role="tabpanel" aria-labelledby="tab-sequencias">
-    <h2>Sequências Lógicas</h2>
-    <div class="instructions">Observe como os números mudam e escolha o próximo termo. A regra é diferente em cada desafio.</div>
-    <div class="sequence-card">
-      <p class="sequence-level" id="sequence-level"></p>
-      <div class="sequence-display" id="sequence-display"></div>
-      <div class="sequence-options" id="sequence-options"></div>
-    </div>
-    <div class="actions"><button class="reset-btn" id="sequence-restart">Recomeçar desafios</button></div>
-    <div id="sequence-msg" aria-live="polite"></div>
-  </section>
-
 </main>
 
-<footer>Professora de Matemática<br>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
+<footer>Professora Tamiris · Curso Técnico em Administração<br>Baseado na Oficina de Raciocínio Lógico do Professor Santinho.</footer>
 
 <script>
+/* ============ NOME DO ALUNO (gamificação) ============ */
+const NAME_KEY='jl_name';
+function getName(){ try{return localStorage.getItem(NAME_KEY)||'';}catch(e){return '';} }
+function setName(n){ try{localStorage.setItem(NAME_KEY,n);}catch(e){} }
+function persist(key,val){ try{localStorage.setItem(key,val);}catch(e){} }
+function restore(key,fallback,max){
+  try{
+    const v=parseInt(localStorage.getItem(key));
+    if(!isNaN(v) && v>=0 && v<=max) return v;
+  }catch(e){}
+  return fallback;
+}
+function greetName(){ const n=getName(); return n ? n : 'Você'; }
+
+function updateGreeting(){
+  const n=getName();
+  const el=document.getElementById('student-greeting');
+  if(n){
+    el.style.display='block';
+    el.innerHTML='Jogando como <strong>'+n+'</strong> · <a href="#" id="change-name">trocar</a>';
+    document.getElementById('change-name').addEventListener('click', e=>{ e.preventDefault(); document.getElementById('name-gate').classList.remove('hidden'); });
+  } else {
+    el.style.display='none';
+  }
+}
+(function initGate(){
+  const existing=getName();
+  if(existing) document.getElementById('name-gate').classList.add('hidden');
+  updateGreeting();
+  const submit=()=>{
+    const v=document.getElementById('name-input').value.trim();
+    if(!v) return;
+    setName(v);
+    document.getElementById('name-gate').classList.add('hidden');
+    updateGreeting();
+  };
+  document.getElementById('name-submit').addEventListener('click',submit);
+  document.getElementById('name-input').addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+})();
+
 /* ============ TAB NAVIGATION ============ */
 document.querySelectorAll('nav.tabs button').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -480,16 +412,12 @@ function clearMsg(elId){ document.getElementById(elId).innerHTML=''; }
    BARRACAS (TENTS)
    ============================================================ */
 const TENTS_PUZZLES = [
-  { n:4,
-    trees:[[0,1],[1,3],[2,0],[3,2]],
-    rowClues:[2,0,0,2],
-    colClues:[2,0,0,2] },
-  { n:5,
-    trees:[[0,0],[0,3],[2,2],[4,0],[4,3]],
-    rowClues:[0,2,0,2,1],
-    colClues:[2,0,1,1,1] }
+  { n:4, trees:[[0,1],[1,3],[2,0],[3,2]], rowClues:[2,0,0,2], colClues:[2,0,0,2] },
+  { n:5, trees:[[0,0],[0,3],[2,2],[4,0],[4,3]], rowClues:[0,2,0,2,1], colClues:[2,0,1,1,1] },
+  { n:5, trees:[[0,0],[0,4],[2,2],[4,0],[4,4]], rowClues:[0,2,0,3,0], colClues:[2,0,1,0,2] },
+  { n:6, trees:[[0,0],[0,3],[1,5],[3,0],[4,3],[5,5]], rowClues:[0,2,1,0,3,0], colClues:[2,0,1,1,0,2] }
 ];
-let tentsState=null, tentsPuzzleIdx=0;
+let tentsState=null, tentsPuzzleIdx=restore('jl_lvl_barracas',0,TENTS_PUZZLES.length-1);
 
 function isTree(p,r,c){ return p.trees.some(t=>t[0]===r&&t[1]===c); }
 
@@ -498,21 +426,19 @@ function renderTentsPicker(){
   picker.innerHTML='';
   TENTS_PUZZLES.forEach((p,i)=>{
     const b=document.createElement('button');
-    b.textContent='Diagrama '+(i+1);
+    b.textContent='Nível '+(i+1);
     if(i===tentsPuzzleIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ tentsPuzzleIdx=i; loadTents(i); });
+    b.addEventListener('click',()=>{ tentsPuzzleIdx=i; persist('jl_lvl_barracas',i); loadTents(i); });
     picker.appendChild(b);
   });
 }
-
 function loadTents(idx){
   const p=TENTS_PUZZLES[idx];
-  tentsState = Array.from({length:p.n},()=>Array(p.n).fill(false)); // tent placed?
+  tentsState = Array.from({length:p.n},()=>Array(p.n).fill(false));
   renderTentsPicker();
   drawTents();
   clearMsg('barracas-msg');
 }
-
 function drawTents(){
   const p=TENTS_PUZZLES[tentsPuzzleIdx];
   const board=document.getElementById('barracas-board');
@@ -527,10 +453,7 @@ function drawTents(){
         td.className='tree'; td.textContent='🌳';
       } else {
         if(tentsState[r][c]){ td.className='tent'; td.textContent='⛺'; }
-        td.addEventListener('click',()=>{
-          tentsState[r][c]=!tentsState[r][c];
-          drawTents();
-        });
+        td.addEventListener('click',()=>{ tentsState[r][c]=!tentsState[r][c]; drawTents(); });
       }
       tr.appendChild(td);
     }
@@ -551,14 +474,11 @@ function drawTents(){
   table.appendChild(trBottom);
   board.appendChild(table);
 }
-
 function checkTents(){
   const p=TENTS_PUZZLES[tentsPuzzleIdx];
   const n=p.n;
   let tentCells=[];
   for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(tentsState[r][c]) tentCells.push([r,c]);
-
-  // row/col counts
   for(let r=0;r<n;r++){
     const cnt=tentCells.filter(t=>t[0]===r).length;
     if(cnt!==p.rowClues[r]){ showMsg('barracas-msg',false,'A linha '+(r+1)+' não tem o número certo de barracas.'); return; }
@@ -567,7 +487,6 @@ function checkTents(){
     const cnt=tentCells.filter(t=>t[1]===c).length;
     if(cnt!==p.colClues[c]){ showMsg('barracas-msg',false,'A coluna '+(c+1)+' não tem o número certo de barracas.'); return; }
   }
-  // adjacency (incl diagonal) between tents
   for(let i=0;i<tentCells.length;i++){
     for(let j=i+1;j<tentCells.length;j++){
       const dr=Math.abs(tentCells[i][0]-tentCells[j][0]);
@@ -575,19 +494,24 @@ function checkTents(){
       if(dr<=1 && dc<=1){ showMsg('barracas-msg',false,'Tem duas barracas coladas (ou na diagonal).'); return; }
     }
   }
-  // each tent must touch a tree orthogonally
   for(const [r,c] of tentCells){
     const near=[[r-1,c],[r+1,c],[r,c-1],[r,c+1]];
     const ok=near.some(([nr,nc])=> isTree(p,nr,nc));
     if(!ok){ showMsg('barracas-msg',false,'Tem barraca que não está ao lado de nenhuma árvore.'); return; }
   }
   if(tentCells.length!==p.trees.length){ showMsg('barracas-msg',false,'O número de barracas precisa ser igual ao número de árvores.'); return; }
-  showMsg('barracas-msg',true,'Isso aí! Diagrama resolvido corretamente. 🎉');
-}
 
+  const isLast = tentsPuzzleIdx===TENTS_PUZZLES.length-1;
+  if(isLast){
+    showMsg('barracas-msg',true,'Isso aí, '+greetName()+'! Nível '+(tentsPuzzleIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
+  } else {
+    showMsg('barracas-msg',true,'Isso aí, '+greetName()+'! Nível '+(tentsPuzzleIdx+1)+' concluído. Indo para o próximo nível... 🎉');
+    setTimeout(()=>{ tentsPuzzleIdx++; persist('jl_lvl_barracas',tentsPuzzleIdx); loadTents(tentsPuzzleIdx); }, 1400);
+  }
+}
 document.getElementById('barracas-check').addEventListener('click',checkTents);
 document.getElementById('barracas-reset').addEventListener('click',()=>loadTents(tentsPuzzleIdx));
-loadTents(0);
+loadTents(tentsPuzzleIdx);
 
 /* ============================================================
    WORD SEEK
@@ -595,6 +519,9 @@ loadTents(0);
 const WS_WORDS = ["BORDER","BRICK","CORK","DARK","LIGHT","LOOP","MARBLE","MIXING","MUTED","TILES","TONES","VINYL","WOODS","SLATE","RUSTIC"];
 const WS_SIZE = 13;
 let wsGrid=[], wsRemaining=[], wsSelecting=false, wsStart=null, wsCurrentPath=[];
+let wsRound=restore('jl_round_ws',1,999999) || 1;
+
+function wsUpdateRoundTag(){ document.getElementById('ws-round').textContent='Rodada '+wsRound; }
 
 function wsBuild(){
   const size=WS_SIZE;
@@ -630,9 +557,9 @@ function wsBuild(){
   for(let r=0;r<size;r++) for(let c=0;c<size;c++)
     if(wsGrid[r][c]===null) wsGrid[r][c]=alpha[Math.floor(Math.random()*26)];
   wsRemaining = placed;
+  wsUpdateRoundTag();
   drawWordSeek();
 }
-
 function drawWordSeek(){
   const gridEl=document.getElementById('ws-grid');
   gridEl.style.gridTemplateColumns='repeat('+WS_SIZE+', 1fr)';
@@ -656,13 +583,8 @@ function drawWordSeek(){
   });
   clearMsg('ws-msg');
 }
-
-function wsCellAt(r,c){
-  return document.querySelector('.ws-cell[data-r="'+r+'"][data-c="'+c+'"]');
-}
-function wsClearSelHighlight(){
-  document.querySelectorAll('.ws-cell.sel').forEach(el=>el.classList.remove('sel'));
-}
+function wsCellAt(r,c){ return document.querySelector('.ws-cell[data-r="'+r+'"][data-c="'+c+'"]'); }
+function wsClearSelHighlight(){ document.querySelectorAll('.ws-cell.sel').forEach(el=>el.classList.remove('sel')); }
 function wsPathFrom(start,end){
   const dr=end.r-start.r, dc=end.c-start.c;
   if(!(dr===0 || dc===0 || Math.abs(dr)===Math.abs(dc))) return null;
@@ -677,7 +599,6 @@ function wsGetCellFromPoint(x,y){
   if(el && el.classList.contains('ws-cell')) return {r:+el.dataset.r,c:+el.dataset.c,el};
   return null;
 }
-
 document.getElementById('ws-grid').addEventListener('pointerdown', e=>{
   const cell=wsGetCellFromPoint(e.clientX,e.clientY);
   if(!cell) return;
@@ -706,13 +627,16 @@ document.addEventListener('pointerup', e=>{
     wsRemaining=wsRemaining.filter(w=>w!==match);
     const li=document.querySelector('#ws-words li[data-word="'+match+'"]');
     if(li) li.classList.add('found');
-    if(wsRemaining.length===0) showMsg('ws-msg',true,'Você encontrou todas as palavras! 🎉');
+    if(wsRemaining.length===0){
+      showMsg('ws-msg',true,'Mandou bem, '+greetName()+'! Você encontrou todas as palavras da Rodada '+wsRound+'. Próxima rodada já vem aí... 🎉');
+      setTimeout(()=>{ wsRound++; persist('jl_round_ws',wsRound); wsBuild(); }, 1600);
+    }
   } else {
     wsClearSelHighlight();
   }
   wsCurrentPath=[];
 });
-document.getElementById('ws-new').addEventListener('click', wsBuild);
+document.getElementById('ws-new').addEventListener('click', ()=>{ wsRound++; persist('jl_round_ws',wsRound); wsBuild(); });
 wsBuild();
 
 /* ============================================================
@@ -725,9 +649,25 @@ const ILHAS_PUZZLES = [
       {row:2,col:0,val:2},{row:2,col:2,val:3},{row:2,col:4,val:2}
     ],
     edges:[[0,1],[1,2],[3,4],[4,5],[0,3],[1,4],[2,5]]
+  },
+  {
+    islands:[
+      {row:0,col:0,val:3},{row:0,col:2,val:4},{row:0,col:4,val:2},
+      {row:2,col:0,val:2},{row:2,col:2,val:5},{row:2,col:4,val:3},
+      {row:4,col:2,val:1}
+    ],
+    edges:[[0,1],[1,2],[0,3],[1,4],[2,5],[3,4],[4,5],[4,6]]
+  },
+  {
+    islands:[
+      {row:0,col:0,val:2},{row:0,col:3,val:3},{row:0,col:6,val:2},
+      {row:2,col:0,val:2},{row:2,col:3,val:2},{row:2,col:6,val:2},
+      {row:4,col:0,val:1},{row:4,col:3,val:1},{row:4,col:6,val:1}
+    ],
+    edges:[[0,1],[1,2],[3,4],[4,5],[6,7],[7,8],[0,3],[3,6],[1,4],[4,7],[2,5],[5,8]]
   }
 ];
-let ilhasIdx=0, ilhasBridges={}, ilhasSelected=null;
+let ilhasIdx=restore('jl_lvl_ilhas',0,ILHAS_PUZZLES.length-1), ilhasBridges={}, ilhasSelected=null;
 
 function ilhasKey(a,b){ return a<b ? a+'-'+b : b+'-'+a; }
 function ilhasEdgeExists(p,a,b){ return p.edges.some(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a)); }
@@ -737,13 +677,12 @@ function renderIlhasPicker(){
   picker.innerHTML='';
   ILHAS_PUZZLES.forEach((p,i)=>{
     const b=document.createElement('button');
-    b.textContent='Diagrama '+(i+1);
+    b.textContent='Nível '+(i+1);
     if(i===ilhasIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ ilhasIdx=i; loadIlhas(i); });
+    b.addEventListener('click',()=>{ ilhasIdx=i; persist('jl_lvl_ilhas',i); loadIlhas(i); });
     picker.appendChild(b);
   });
 }
-
 function loadIlhas(idx){
   ilhasIdx=idx;
   ilhasBridges={};
@@ -752,18 +691,13 @@ function loadIlhas(idx){
   drawIlhas();
   clearMsg('ilhas-msg');
 }
-
 function ilhasCurrentTotal(p, id){
   let total=0;
   p.edges.forEach(e=>{
-    if(e[0]===id||e[1]===id){
-      const k=ilhasKey(e[0],e[1]);
-      total += (ilhasBridges[k]||0);
-    }
+    if(e[0]===id||e[1]===id){ const k=ilhasKey(e[0],e[1]); total += (ilhasBridges[k]||0); }
   });
   return total;
 }
-
 function drawIlhas(){
   const p=ILHAS_PUZZLES[ilhasIdx];
   const board=document.getElementById('ilhas-board');
@@ -775,10 +709,7 @@ function drawIlhas(){
   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.setAttribute('width',w); svg.setAttribute('height',h);
   svg.classList.add('hashi-svg');
-
   function pos(i){ return {x:pad+p.islands[i].col*spacing, y:pad+p.islands[i].row*spacing}; }
-
-  // draw bridges first (so islands sit on top)
   p.edges.forEach(e=>{
     const k=ilhasKey(e[0],e[1]);
     const n=ilhasBridges[k]||0;
@@ -799,7 +730,6 @@ function drawIlhas(){
       svg.appendChild(l);
     }
   });
-
   p.islands.forEach((isl,i)=>{
     const {x,y}=pos(i);
     const g=document.createElementNS('http://www.w3.org/2000/svg','g');
@@ -821,34 +751,26 @@ function drawIlhas(){
   });
   board.appendChild(svg);
 }
-
 function ilhasClickIsland(i){
   const p=ILHAS_PUZZLES[ilhasIdx];
-  if(ilhasSelected===null){
-    ilhasSelected=i;
-  } else if(ilhasSelected===i){
-    ilhasSelected=null;
-  } else if(ilhasEdgeExists(p,ilhasSelected,i)){
+  if(ilhasSelected===null){ ilhasSelected=i; }
+  else if(ilhasSelected===i){ ilhasSelected=null; }
+  else if(ilhasEdgeExists(p,ilhasSelected,i)){
     const k=ilhasKey(ilhasSelected,i);
     const cur=ilhasBridges[k]||0;
     ilhasBridges[k]=(cur+1)%3;
     ilhasSelected=null;
-  } else {
-    ilhasSelected=i;
-  }
+  } else { ilhasSelected=i; }
   drawIlhas();
 }
-
 function checkIlhas(){
   const p=ILHAS_PUZZLES[ilhasIdx];
-  // check totals
   for(let i=0;i<p.islands.length;i++){
     if(ilhasCurrentTotal(p,i)!==p.islands[i].val){
       showMsg('ilhas-msg',false,'Ainda tem ilha com número errado de pontes.');
       return;
     }
   }
-  // check connectivity
   const n=p.islands.length;
   const adj=Array.from({length:n},()=>[]);
   p.edges.forEach(e=>{
@@ -865,11 +787,17 @@ function checkIlhas(){
     showMsg('ilhas-msg',false,'As ilhas ainda não formam uma única figura interligada.');
     return;
   }
-  showMsg('ilhas-msg',true,'Perfeito! Todas as ilhas estão ligadas corretamente. 🎉');
+  const isLast = ilhasIdx===ILHAS_PUZZLES.length-1;
+  if(isLast){
+    showMsg('ilhas-msg',true,'Perfeito, '+greetName()+'! Nível '+(ilhasIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
+  } else {
+    showMsg('ilhas-msg',true,'Perfeito, '+greetName()+'! Nível '+(ilhasIdx+1)+' concluído. Indo para o próximo nível... 🎉');
+    setTimeout(()=>{ ilhasIdx++; persist('jl_lvl_ilhas',ilhasIdx); loadIlhas(ilhasIdx); }, 1400);
+  }
 }
 document.getElementById('ilhas-check').addEventListener('click',checkIlhas);
 document.getElementById('ilhas-reset').addEventListener('click',()=>loadIlhas(ilhasIdx));
-loadIlhas(0);
+loadIlhas(ilhasIdx);
 
 /* ============================================================
    DAVI E GOLIAS (FUTOSHIKI)
@@ -896,23 +824,34 @@ const FUT_PUZZLES = [
       {r1:3,c1:1,r2:3,c2:2,rel:'>'},
       {r1:4,c1:2,r2:4,c2:3,rel:'<'}
     ]
+  },
+  { n:5,
+    givens:[{r:2,c:2,val:2}],
+    constraints:[
+      {r1:0,c1:0,r2:0,c2:1,rel:'<'},
+      {r1:0,c1:3,r2:0,c2:4,rel:'<'},
+      {r1:2,c1:0,r2:2,c2:1,rel:'>'},
+      {r1:3,c1:2,r2:3,c2:3,rel:'<'},
+      {r1:0,c1:1,r2:1,c2:1,rel:'<'},
+      {r1:1,c1:3,r2:2,c2:3,rel:'<'},
+      {r1:3,c1:0,r2:4,c2:0,rel:'<'},
+      {r1:2,c1:4,r2:3,c2:4,rel:'<'}
+    ]
   }
 ];
-
-let futIdx=0, futGrid=null;
+let futIdx=restore('jl_lvl_fut',0,FUT_PUZZLES.length-1), futGrid=null;
 
 function renderFutPicker(){
   const picker=document.getElementById('fut-picker');
   picker.innerHTML='';
   FUT_PUZZLES.forEach((p,i)=>{
     const b=document.createElement('button');
-    b.textContent='Diagrama '+(i+1);
+    b.textContent='Nível '+(i+1);
     if(i===futIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ futIdx=i; loadFut(i); });
+    b.addEventListener('click',()=>{ futIdx=i; persist('jl_lvl_fut',i); loadFut(i); });
     picker.appendChild(b);
   });
 }
-
 function loadFut(idx){
   futIdx=idx;
   const p=FUT_PUZZLES[idx];
@@ -922,12 +861,10 @@ function loadFut(idx){
   drawFut();
   clearMsg('fut-msg');
 }
-
 function futIsGiven(p,r,c){ return p.givens.some(g=>g.r===r&&g.c===c); }
 function futConstraintBetween(p,r1,c1,r2,c2){
   return p.constraints.find(k=>(k.r1===r1&&k.c1===c1&&k.r2===r2&&k.c2===c2));
 }
-
 function drawFut(){
   const p=FUT_PUZZLES[futIdx];
   const n=p.n;
@@ -936,17 +873,13 @@ function drawFut(){
   const table=document.createElement('table');
   table.className='num-grid';
   for(let r=0;r<n;r++){
-    // main row
     const tr=document.createElement('tr');
     for(let c=0;c<n;c++){
       const td=document.createElement('td');
       td.className='cell'+(futIsGiven(p,r,c)?' given':'');
       td.textContent=futGrid[r][c]===0?'':futGrid[r][c];
       if(!futIsGiven(p,r,c)){
-        td.addEventListener('click',()=>{
-          futGrid[r][c]=(futGrid[r][c]+1)%(n+1);
-          drawFut();
-        });
+        td.addEventListener('click',()=>{ futGrid[r][c]=(futGrid[r][c]+1)%(n+1); drawFut(); });
       }
       tr.appendChild(td);
       if(c<n-1){
@@ -958,7 +891,6 @@ function drawFut(){
       }
     }
     table.appendChild(tr);
-    // gap row (vertical constraints) if not last row
     if(r<n-1){
       const trGap=document.createElement('tr');
       for(let c=0;c<n;c++){
@@ -978,7 +910,6 @@ function drawFut(){
   }
   board.appendChild(table);
 }
-
 function checkFut(){
   const p=FUT_PUZZLES[futIdx];
   const n=p.n;
@@ -986,8 +917,7 @@ function checkFut(){
     showMsg('fut-msg',false,'Preencha todos os quadradinhos antes de verificar.'); return;
   }
   for(let r=0;r<n;r++){
-    const vals=futGrid[r];
-    if(new Set(vals).size!==n){ showMsg('fut-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
+    if(new Set(futGrid[r]).size!==n){ showMsg('fut-msg',false,'Tem número repetido na linha '+(r+1)+'.'); return; }
   }
   for(let c=0;c<n;c++){
     const vals=[]; for(let r=0;r<n;r++) vals.push(futGrid[r][c]);
@@ -998,11 +928,17 @@ function checkFut(){
     const ok = con.rel==='<' ? a<b : a>b;
     if(!ok){ showMsg('fut-msg',false,'Algum sinal de maior/menor não está sendo respeitado.'); return; }
   }
-  showMsg('fut-msg',true,'Show! Diagrama correto. 🎉');
+  const isLast = futIdx===FUT_PUZZLES.length-1;
+  if(isLast){
+    showMsg('fut-msg',true,'Show, '+greetName()+'! Nível '+(futIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
+  } else {
+    showMsg('fut-msg',true,'Show, '+greetName()+'! Nível '+(futIdx+1)+' concluído. Indo para o próximo nível... 🎉');
+    setTimeout(()=>{ futIdx++; persist('jl_lvl_fut',futIdx); loadFut(futIdx); }, 1400);
+  }
 }
 document.getElementById('fut-check').addEventListener('click',checkFut);
 document.getElementById('fut-reset').addEventListener('click',()=>loadFut(futIdx));
-loadFut(0);
+loadFut(futIdx);
 
 /* ============================================================
    KENKEN
@@ -1033,45 +969,48 @@ const KK_PUZZLES = [
       {cells:[[3,1],[3,2]], op:'+', target:3},
       {cells:[[3,3]], op:null, target:4}
     ]
+  },
+  { n:4,
+    cages:[
+      {cells:[[0,0],[1,0]], op:'÷', target:3},
+      {cells:[[0,1],[0,2]], op:'+', target:5},
+      {cells:[[0,3]], op:null, target:2},
+      {cells:[[1,1],[2,1]], op:'-', target:2},
+      {cells:[[1,2],[1,3]], op:'+', target:5},
+      {cells:[[2,0],[3,0]], op:'×', target:8},
+      {cells:[[2,2],[2,3]], op:'-', target:2},
+      {cells:[[3,1],[3,2]], op:'×', target:3},
+      {cells:[[3,3]], op:null, target:4}
+    ]
   }
 ];
-let kkIdx=0, kkGrid=null;
+let kkIdx=restore('jl_lvl_kk',0,KK_PUZZLES.length-1), kkGrid=null;
 
 function renderKkPicker(){
   const picker=document.getElementById('kk-picker');
   picker.innerHTML='';
   KK_PUZZLES.forEach((p,i)=>{
     const b=document.createElement('button');
-    b.textContent='Diagrama '+(i+1);
+    b.textContent='Nível '+(i+1);
     if(i===kkIdx) b.classList.add('active');
-    b.addEventListener('click',()=>{ kkIdx=i; loadKk(i); });
+    b.addEventListener('click',()=>{ kkIdx=i; persist('jl_lvl_kk',i); loadKk(i); });
     picker.appendChild(b);
   });
 }
-
-function kkCageOf(p,r,c){
-  return p.cages.find(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c));
-}
-function kkCageIndex(p,r,c){
-  return p.cages.findIndex(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c));
-}
+function kkCageIndex(p,r,c){ return p.cages.findIndex(cg=>cg.cells.some(cell=>cell[0]===r&&cell[1]===c)); }
 function kkIsAnchor(cage,r,c){
   const sorted=[...cage.cells].sort((a,b)=>(a[0]*100+a[1])-(b[0]*100+b[1]));
   return sorted[0][0]===r && sorted[0][1]===c;
 }
-
 function loadKk(idx){
   kkIdx=idx;
   const p=KK_PUZZLES[idx];
   kkGrid=Array.from({length:p.n},()=>Array(p.n).fill(0));
-  p.cages.forEach(cg=>{
-    if(cg.op===null){ kkGrid[cg.cells[0][0]][cg.cells[0][1]]=cg.target; }
-  });
+  p.cages.forEach(cg=>{ if(cg.op===null){ kkGrid[cg.cells[0][0]][cg.cells[0][1]]=cg.target; } });
   renderKkPicker();
   drawKk();
   clearMsg('kk-msg');
 }
-
 function drawKk(){
   const p=KK_PUZZLES[kkIdx];
   const n=p.n;
@@ -1091,7 +1030,6 @@ function drawKk(){
       if(kkCageIndex(p,r,c+1)!==cageIdx || c===n-1) td.classList.add('br');
       if(kkCageIndex(p,r-1,c)!==cageIdx || r===0) td.classList.add('bt');
       if(kkCageIndex(p,r+1,c)!==cageIdx || r===n-1) td.classList.add('bb');
-
       if(kkIsAnchor(cage,r,c) && !isSingle){
         const lbl=document.createElement('div');
         lbl.className='cage-label';
@@ -1102,12 +1040,8 @@ function drawKk(){
       val.className='cell-val';
       val.textContent = kkGrid[r][c]===0 ? '' : kkGrid[r][c];
       td.appendChild(val);
-
       if(!isSingle){
-        td.addEventListener('click',()=>{
-          kkGrid[r][c]=(kkGrid[r][c]+1)%(n+1);
-          drawKk();
-        });
+        td.addEventListener('click',()=>{ kkGrid[r][c]=(kkGrid[r][c]+1)%(n+1); drawKk(); });
       }
       tr.appendChild(td);
     }
@@ -1115,7 +1049,6 @@ function drawKk(){
   }
   board.appendChild(table);
 }
-
 function checkKk(){
   const p=KK_PUZZLES[kkIdx];
   const n=p.n;
@@ -1135,292 +1068,21 @@ function checkKk(){
     if(cage.op==='+') ok = vals.reduce((a,b)=>a+b,0)===cage.target;
     else if(cage.op==='×') ok = vals.reduce((a,b)=>a*b,1)===cage.target;
     else if(cage.op==='-') ok = Math.abs(vals[0]-vals[1])===cage.target;
+    else if(cage.op==='÷') ok = Math.max(vals[0],vals[1])/Math.min(vals[0],vals[1])===cage.target;
     else if(cage.op===null) ok = vals[0]===cage.target;
     if(!ok){ showMsg('kk-msg',false,'Alguma região não bate com a conta indicada.'); return; }
   }
-  showMsg('kk-msg',true,'Mandou bem! KenKen resolvido. 🎉');
+  const isLast = kkIdx===KK_PUZZLES.length-1;
+  if(isLast){
+    showMsg('kk-msg',true,'Mandou bem, '+greetName()+'! Nível '+(kkIdx+1)+' concluído. Você terminou todos os níveis! 🏆');
+  } else {
+    showMsg('kk-msg',true,'Mandou bem, '+greetName()+'! Nível '+(kkIdx+1)+' concluído. Indo para o próximo nível... 🎉');
+    setTimeout(()=>{ kkIdx++; persist('jl_lvl_kk',kkIdx); loadKk(kkIdx); }, 1400);
+  }
 }
 document.getElementById('kk-check').addEventListener('click',checkKk);
 document.getElementById('kk-reset').addEventListener('click',()=>loadKk(kkIdx));
-loadKk(0);
-
-/* ============================================================
-   TRAVESSIA DO RIO
-   ============================================================ */
-const RIVER_CHARACTERS = {
-  farmer:{label:'Barqueiro',icon:'🧑‍🌾'},
-  wolf:{label:'Lobo',icon:'🐺'},
-  goat:{label:'Cabra',icon:'🐐'},
-  cabbage:{label:'Repolho',icon:'🥬'}
-};
-let riverState=null;
-
-function riverReset(){
-  riverState={farmer:'left',wolf:'left',goat:'left',cabbage:'left',selected:null,moves:0};
-  clearMsg('river-msg');
-  drawRiver();
-}
-
-function riverIsSafe(state){
-  for(const side of ['left','right']){
-    if(state.farmer===side) continue;
-    if(state.wolf===side && state.goat===side) return false;
-    if(state.goat===side && state.cabbage===side) return false;
-  }
-  return true;
-}
-
-function riverCharacterButton(key){
-  const item=RIVER_CHARACTERS[key];
-  const button=document.createElement('button');
-  button.className='character-btn';
-  button.type='button';
-  button.textContent=item.icon+' '+item.label;
-  if(key==='farmer'){
-    button.disabled=true;
-  } else {
-    button.disabled=riverState[key]!==riverState.farmer;
-    button.setAttribute('aria-pressed',String(riverState.selected===key));
-    button.addEventListener('click',()=>{
-      riverState.selected=riverState.selected===key?null:key;
-      clearMsg('river-msg');
-      drawRiver();
-    });
-  }
-  return button;
-}
-
-function drawRiver(){
-  const left=document.getElementById('river-left');
-  const right=document.getElementById('river-right');
-  left.innerHTML=''; right.innerHTML='';
-  Object.keys(RIVER_CHARACTERS).forEach(key=>{
-    const target=riverState[key]==='left'?left:right;
-    target.appendChild(riverCharacterButton(key));
-  });
-  const sideName=riverState.farmer==='left'?'esquerda':'direita';
-  const passenger=riverState.selected?RIVER_CHARACTERS[riverState.selected].icon+' '+RIVER_CHARACTERS[riverState.selected].label:'sem passageiro';
-  document.getElementById('boat-status').textContent='🧑‍🌾 Barqueiro + '+passenger+'\nMargem '+sideName;
-  document.getElementById('river-counter').textContent='Travessias: '+riverState.moves;
-}
-
-function riverCross(){
-  const from=riverState.farmer;
-  const to=from==='left'?'right':'left';
-  const passenger=riverState.selected;
-  if(passenger && riverState[passenger]!==from){
-    showMsg('river-msg',false,'Esse passageiro não está na mesma margem do barqueiro.');
-    return;
-  }
-  const next={...riverState,farmer:to,selected:null,moves:riverState.moves+1};
-  if(passenger) next[passenger]=to;
-  if(!riverIsSafe(next)){
-    showMsg('river-msg',false,'Essa travessia deixaria dois personagens em perigo. Tente outra escolha.');
-    return;
-  }
-  riverState=next;
-  drawRiver();
-  const solved=Object.keys(RIVER_CHARACTERS).every(key=>riverState[key]==='right');
-  if(solved) showMsg('river-msg',true,'Travessia concluída em '+riverState.moves+' movimentos! O menor caminho usa 7. 🎉');
-  else showMsg('river-msg',true,'Travessia segura. Agora planeje o próximo movimento.');
-}
-
-document.getElementById('river-cross').addEventListener('click',riverCross);
-document.getElementById('river-reset').addEventListener('click',riverReset);
-riverReset();
-
-/* ============================================================
-   ENIGMA DE EINSTEIN
-   ============================================================ */
-const EINSTEIN_CATEGORIES = [
-  {key:'color',label:'Cor',options:['Amarela','Azul','Vermelha','Verde','Branca']},
-  {key:'nationality',label:'Morador',options:['Norueguês','Dinamarquês','Britânico','Alemão','Sueco']},
-  {key:'drink',label:'Bebida',options:['Água','Chá','Leite','Café','Cerveja']},
-  {key:'pet',label:'Animal',options:['Gatos','Cavalos','Pássaros','Peixe','Cachorros']},
-  {key:'hobby',label:'Passatempo',options:['Xadrez','Música','Leitura','Fotografia','Desenho']}
-];
-const EINSTEIN_SOLUTION = [
-  {color:'Amarela',nationality:'Norueguês',drink:'Água',pet:'Gatos',hobby:'Xadrez'},
-  {color:'Azul',nationality:'Dinamarquês',drink:'Chá',pet:'Cavalos',hobby:'Música'},
-  {color:'Vermelha',nationality:'Britânico',drink:'Leite',pet:'Pássaros',hobby:'Leitura'},
-  {color:'Verde',nationality:'Alemão',drink:'Café',pet:'Peixe',hobby:'Fotografia'},
-  {color:'Branca',nationality:'Sueco',drink:'Cerveja',pet:'Cachorros',hobby:'Desenho'}
-];
-let einsteinHints=0;
-
-function buildEinstein(){
-  const table=document.getElementById('einstein-table');
-  table.innerHTML='';
-  const head=document.createElement('thead');
-  const headRow=document.createElement('tr');
-  ['Casa',...EINSTEIN_CATEGORIES.map(category=>category.label)].forEach(label=>{
-    const th=document.createElement('th'); th.scope='col'; th.textContent=label; headRow.appendChild(th);
-  });
-  head.appendChild(headRow); table.appendChild(head);
-  const body=document.createElement('tbody');
-  for(let house=0;house<5;house++){
-    const row=document.createElement('tr');
-    const number=document.createElement('th'); number.scope='row'; number.textContent=house+1; row.appendChild(number);
-    EINSTEIN_CATEGORIES.forEach(category=>{
-      const cell=document.createElement('td');
-      const select=document.createElement('select');
-      select.id='einstein-'+category.key+'-'+house;
-      select.setAttribute('aria-label',category.label+' da casa '+(house+1));
-      const empty=document.createElement('option'); empty.value=''; empty.textContent='Selecione'; select.appendChild(empty);
-      category.options.forEach(value=>{
-        const option=document.createElement('option'); option.value=value; option.textContent=value; select.appendChild(option);
-      });
-      cell.appendChild(select); row.appendChild(cell);
-    });
-    body.appendChild(row);
-  }
-  table.appendChild(body);
-  einsteinHints=0;
-  clearMsg('einstein-msg');
-}
-
-function einsteinValues(){
-  return EINSTEIN_SOLUTION.map((_,house)=>Object.fromEntries(EINSTEIN_CATEGORIES.map(category=>[
-    category.key,document.getElementById('einstein-'+category.key+'-'+house).value
-  ])));
-}
-
-function checkEinstein(){
-  const values=einsteinValues();
-  if(values.some(house=>Object.values(house).some(value=>!value))){
-    showMsg('einstein-msg',false,'Complete todas as casas antes de verificar.'); return;
-  }
-  for(const category of EINSTEIN_CATEGORIES){
-    const chosen=values.map(house=>house[category.key]);
-    if(new Set(chosen).size!==5){
-      showMsg('einstein-msg',false,'Há uma opção repetida na categoria “'+category.label+'”.'); return;
-    }
-  }
-  for(let house=0;house<5;house++){
-    for(const category of EINSTEIN_CATEGORIES){
-      if(values[house][category.key]!==EINSTEIN_SOLUTION[house][category.key]){
-        showMsg('einstein-msg',false,'Algumas relações ainda não atendem a todas as pistas. Revise a tabela.'); return;
-      }
-    }
-  }
-  showMsg('einstein-msg',true,'Correto! O alemão, que mora na casa verde, é o dono do peixe. 🎉');
-}
-
-function einsteinHint(){
-  const cells=[];
-  for(let house=0;house<5;house++) for(const category of EINSTEIN_CATEGORIES) cells.push({house,category});
-  const target=cells.find(({house,category})=>document.getElementById('einstein-'+category.key+'-'+house).value!==EINSTEIN_SOLUTION[house][category.key]);
-  if(!target){ checkEinstein(); return; }
-  const select=document.getElementById('einstein-'+target.category.key+'-'+target.house);
-  select.value=EINSTEIN_SOLUTION[target.house][target.category.key];
-  select.focus();
-  einsteinHints++;
-  showMsg('einstein-msg',true,'Pista '+einsteinHints+': preenchi “'+target.category.label+'” da casa '+(target.house+1)+'.');
-}
-
-document.getElementById('einstein-check').addEventListener('click',checkEinstein);
-document.getElementById('einstein-hint').addEventListener('click',einsteinHint);
-document.getElementById('einstein-reset').addEventListener('click',buildEinstein);
-buildEinstein();
-
-/* ============================================================
-   TORRES DE HANÓI
-   ============================================================ */
-let hanoiTowers=null, hanoiSelected=null, hanoiMoves=0;
-
-function hanoiReset(){
-  hanoiTowers=[[4,3,2,1],[],[]]; hanoiSelected=null; hanoiMoves=0;
-  clearMsg('hanoi-msg'); drawHanoi();
-}
-
-function drawHanoi(){
-  const board=document.getElementById('hanoi-board'); board.innerHTML='';
-  hanoiTowers.forEach((disks,index)=>{
-    const tower=document.createElement('button');
-    tower.type='button'; tower.className='tower'+(hanoiSelected===index?' selected':'');
-    tower.setAttribute('aria-label','Torre '+(index+1)+', '+disks.length+' discos');
-    tower.setAttribute('aria-pressed',String(hanoiSelected===index));
-    const label=document.createElement('span'); label.className='tower-label'; label.textContent='Torre '+(index+1); tower.appendChild(label);
-    disks.forEach(size=>{
-      const disk=document.createElement('span'); disk.className='disk'; disk.dataset.size=size; disk.setAttribute('aria-hidden','true'); tower.appendChild(disk);
-    });
-    tower.addEventListener('click',()=>hanoiClick(index)); board.appendChild(tower);
-  });
-  document.getElementById('hanoi-counter').textContent='Movimentos: '+hanoiMoves+' · mínimo: 15';
-}
-
-function hanoiClick(index){
-  clearMsg('hanoi-msg');
-  if(hanoiSelected===null){
-    if(hanoiTowers[index].length===0){showMsg('hanoi-msg',false,'Essa torre está vazia. Escolha outra.');return;}
-    hanoiSelected=index; drawHanoi(); return;
-  }
-  if(hanoiSelected===index){hanoiSelected=null;drawHanoi();return;}
-  const from=hanoiTowers[hanoiSelected];
-  const to=hanoiTowers[index];
-  const disk=from[from.length-1];
-  const top=to[to.length-1];
-  if(top!==undefined && top<disk){
-    hanoiSelected=null; drawHanoi(); showMsg('hanoi-msg',false,'Um disco maior não pode ficar sobre um menor.'); return;
-  }
-  from.pop(); to.push(disk); hanoiSelected=null; hanoiMoves++; drawHanoi();
-  if(hanoiTowers[2].length===4){
-    const note=hanoiMoves===15?'Você encontrou o menor caminho!':'Tente novamente para chegar ao mínimo de 15.';
-    showMsg('hanoi-msg',true,'Torre concluída em '+hanoiMoves+' movimentos. '+note+' 🎉');
-  }
-}
-
-document.getElementById('hanoi-reset').addEventListener('click',hanoiReset);
-hanoiReset();
-
-/* ============================================================
-   SEQUÊNCIAS LÓGICAS
-   ============================================================ */
-const SEQUENCE_PUZZLES = [
-  {numbers:[2,6,12,20,30],answer:42,options:[36,40,42,44],explanation:'Os termos são 1×2, 2×3, 3×4, 4×5, 5×6; depois vem 6×7.'},
-  {numbers:[81,27,9,3],answer:1,options:[0,1,2,6],explanation:'Cada termo é o anterior dividido por 3.'},
-  {numbers:[1,1,2,3,5,8],answer:13,options:[11,12,13,16],explanation:'Cada termo é a soma dos dois anteriores.'},
-  {numbers:[3,6,11,18,27],answer:38,options:[36,37,38,39],explanation:'Somam-se números ímpares consecutivos: +3, +5, +7, +9 e +11.'},
-  {numbers:[2,3,5,8,12,17],answer:23,options:[21,22,23,24],explanation:'Os acréscimos aumentam uma unidade: +1, +2, +3, +4, +5 e +6.'}
-];
-let sequenceIndex=0, sequenceScore=0, sequenceTimer=null;
-
-function drawSequence(){
-  clearTimeout(sequenceTimer);
-  const puzzle=SEQUENCE_PUZZLES[sequenceIndex];
-  document.getElementById('sequence-level').textContent='Desafio '+(sequenceIndex+1)+' de '+SEQUENCE_PUZZLES.length+' · acertos: '+sequenceScore;
-  const display=document.getElementById('sequence-display'); display.innerHTML='';
-  [...puzzle.numbers,'?'].forEach(value=>{
-    const item=document.createElement('span'); item.className='sequence-number'+(value==='?'?' missing':''); item.textContent=value; display.appendChild(item);
-  });
-  const options=document.getElementById('sequence-options'); options.innerHTML='';
-  puzzle.options.forEach(value=>{
-    const button=document.createElement('button'); button.type='button'; button.textContent=value;
-    button.addEventListener('click',()=>answerSequence(value)); options.appendChild(button);
-  });
-  clearMsg('sequence-msg');
-}
-
-function answerSequence(value){
-  const puzzle=SEQUENCE_PUZZLES[sequenceIndex];
-  if(value!==puzzle.answer){showMsg('sequence-msg',false,'Ainda não. Observe a diferença entre os termos e tente novamente.');return;}
-  sequenceScore++;
-  document.querySelectorAll('#sequence-options button').forEach(button=>button.disabled=true);
-  showMsg('sequence-msg',true,'Correto! '+puzzle.explanation);
-  sequenceTimer=setTimeout(()=>{
-    if(sequenceIndex===SEQUENCE_PUZZLES.length-1){
-      document.getElementById('sequence-level').textContent='Atividade concluída · '+sequenceScore+' de '+SEQUENCE_PUZZLES.length;
-      document.getElementById('sequence-options').innerHTML='';
-      showMsg('sequence-msg',true,'Você concluiu todas as sequências! 🎉');
-    } else {
-      sequenceIndex++; drawSequence();
-    }
-  },1800);
-}
-
-function sequenceRestart(){sequenceIndex=0;sequenceScore=0;drawSequence();}
-document.getElementById('sequence-restart').addEventListener('click',sequenceRestart);
-drawSequence();
+loadKk(kkIdx);
 </script>
 </body>
 </html>
