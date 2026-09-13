@@ -2776,6 +2776,15 @@ button.number-cell:hover {
   opacity: 0.6;
 }
 
+.jigsaw-piece-button:not(.is-placed) {
+  cursor: grab;
+  touch-action: none;
+}
+
+.jigsaw-piece-button.is-dragging {
+  opacity: 0.3;
+}
+
 .jigsaw-piece-preview {
   display: grid;
   width: 4rem;
@@ -2830,17 +2839,51 @@ button.number-cell:hover {
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24), inset 0 -5px 0 rgba(0, 0, 0, 0.12);
 }
 
+.jigsaw-cell.is-preview-valid {
+  background: color-mix(in srgb, var(--mint) 68%, var(--paper-raised));
+  border-color: var(--mint-deep);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.jigsaw-cell.is-preview-invalid {
+  background: color-mix(in srgb, var(--pink) 62%, var(--paper-raised));
+  border-color: var(--pink-deep);
+}
+
+.jigsaw-drag-ghost {
+  position: fixed;
+  z-index: 1000;
+  display: grid;
+  gap: 0.28rem;
+  pointer-events: none;
+  opacity: 0.9;
+  filter: drop-shadow(0 12px 18px rgba(26, 15, 28, 0.35));
+}
+
+.jigsaw-drag-block {
+  width: var(--jigsaw-drag-cell);
+  height: var(--jigsaw-drag-cell);
+  border-radius: 0.55rem;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3), inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+}
+
 .jigsaw-block.color-pink,
+.jigsaw-drag-block.color-pink,
 .jigsaw-cell.color-pink { background: var(--pink); }
 .jigsaw-block.color-mint,
+.jigsaw-drag-block.color-mint,
 .jigsaw-cell.color-mint { background: var(--mint); }
 .jigsaw-block.color-aqua,
+.jigsaw-drag-block.color-aqua,
 .jigsaw-cell.color-aqua { background: #2db8d0; }
 .jigsaw-block.color-yellow,
+.jigsaw-drag-block.color-yellow,
 .jigsaw-cell.color-yellow { background: var(--yellow); }
 .jigsaw-block.color-blush,
+.jigsaw-drag-block.color-blush,
 .jigsaw-cell.color-blush { background: #f3a9c5; }
 .jigsaw-block.color-plum,
+.jigsaw-drag-block.color-plum,
 .jigsaw-cell.color-plum { background: #765277; }
 
 @media (max-width: 760px) {

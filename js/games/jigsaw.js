@@ -35,6 +35,21 @@ let currentLevel = getSelectedLevel(GAME_ID);
 let placements = {};
 let selectedPieceId = null;
 let selectedRotation = 0;
+let dragState = null;
+let suppressPieceClick = false;
+
+function clearDragPreview() {
+  board?.querySelectorAll('.is-preview-valid, .is-preview-invalid').forEach(cell => {
+    cell.classList.remove('is-preview-valid', 'is-preview-invalid');
+  });
+}
+
+function cancelDrag() {
+  dragState?.ghost?.remove();
+  dragState?.source?.classList.remove('is-dragging');
+  clearDragPreview();
+  dragState = null;
+}
 
 function validStoredState(stored, level) {
   if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return false;
@@ -51,6 +66,7 @@ function firstUnplacedPiece(level) {
 }
 
 function setLevel(index) {
+  cancelDrag();
   cancelAdvance(GAME_ID);
   currentLevel = index;
   setSelectedLevel(GAME_ID, index);
@@ -68,6 +84,7 @@ function save() {
 }
 
 function reset() {
+  cancelDrag();
   cancelAdvance(GAME_ID);
   placements = {};
   selectedPieceId = JIGSAW_LEVELS[currentLevel].pieces[0].id;
@@ -96,25 +113,31 @@ function rotateSelected() {
   render();
 }
 
-function placeSelected(row, col) {
+function placePiece(pieceId, row, col, rotation) {
   const level = JIGSAW_LEVELS[currentLevel];
-  if (!selectedPieceId) {
+  if (!pieceId) {
     showMessage(message, 'info', 'Escolha uma peça na bandeja para começar.', { focus: false });
-    return;
+    return false;
   }
 
-  const placement = { row, col, rotation: selectedRotation };
-  if (!jigsawPlacementFits(level, placements, selectedPieceId, placement)) {
+  const placement = { row, col, rotation };
+  if (!jigsawPlacementFits(level, placements, pieceId, placement)) {
     showMessage(message, 'error', 'Essa peça não cabe aí. Tente outro ponto ou gire a peça.', { focus: false });
-    return;
+    return false;
   }
 
-  placements[selectedPieceId] = placement;
+  placements[pieceId] = placement;
   selectedPieceId = firstUnplacedPiece(level);
   selectedRotation = 0;
   save();
   if (message) clearMessage(message);
   render();
+  if (Object.keys(placements).length === level.pieces.length) check();
+  return true;
+}
+
+function placeSelected(row, col) {
+  placePiece(selectedPieceId, row, col, selectedRotation);
 }
 
 function removePlacedPiece(pieceId) {
@@ -161,6 +184,108 @@ function createPiecePreview(piece, rotation) {
   return preview;
 }
 
+function createDragGhost(piece, rotation) {
+  const cells = rotateJigsawCells(piece.cells, rotation);
+  const rows = Math.max(...cells.map(([row]) => row)) + 1;
+  const cols = Math.max(...cells.map(([, col]) => col)) + 1;
+  const cellSize = board?.querySelector('.jigsaw-cell')?.getBoundingClientRect().width || 48;
+  const ghost = document.createElement('div');
+  ghost.className = 'jigsaw-drag-ghost';
+  ghost.style.setProperty('--jigsaw-drag-cell', `${cellSize}px`);
+  ghost.style.gridTemplateRows = `repeat(${rows}, var(--jigsaw-drag-cell))`;
+  ghost.style.gridTemplateColumns = `repeat(${cols}, var(--jigsaw-drag-cell))`;
+  cells.forEach(([row, col]) => {
+    const block = document.createElement('i');
+    block.className = `jigsaw-drag-block color-${piece.color}`;
+    block.style.gridRow = String(row + 1);
+    block.style.gridColumn = String(col + 1);
+    ghost.append(block);
+  });
+  document.body.append(ghost);
+  return ghost;
+}
+
+function startPieceDrag(event, piece) {
+  if (event.button !== 0 || placements[piece.id]) return;
+  event.preventDefault();
+  if (selectedPieceId !== piece.id) {
+    selectedPieceId = piece.id;
+    selectedRotation = 0;
+  }
+  dragState = {
+    pieceId: piece.id,
+    rotation: selectedRotation,
+    startX: event.clientX,
+    startY: event.clientY,
+    dragging: false,
+    source: event.currentTarget,
+    ghost: null,
+    target: null,
+    valid: false
+  };
+}
+
+function previewDragAt(clientX, clientY) {
+  if (!dragState?.ghost) return;
+  const cellSize = Number.parseFloat(dragState.ghost.style.getPropertyValue('--jigsaw-drag-cell')) || 48;
+  dragState.ghost.style.left = `${clientX - cellSize / 2}px`;
+  dragState.ghost.style.top = `${clientY - cellSize / 2}px`;
+  clearDragPreview();
+
+  const targetCell = document.elementFromPoint(clientX, clientY)?.closest('.jigsaw-cell');
+  if (!targetCell || !board?.contains(targetCell)) {
+    dragState.target = null;
+    dragState.valid = false;
+    return;
+  }
+
+  const row = Number(targetCell.dataset.row);
+  const col = Number(targetCell.dataset.col);
+  const level = JIGSAW_LEVELS[currentLevel];
+  const piece = level.pieces.find(candidate => candidate.id === dragState.pieceId);
+  const placement = { row, col, rotation: dragState.rotation };
+  const valid = jigsawPlacementFits(level, placements, piece.id, placement);
+  const previewClass = valid ? 'is-preview-valid' : 'is-preview-invalid';
+  jigsawCellsForPlacement(piece, placement).forEach(([targetRow, targetCol]) => {
+    board.querySelector(`[data-row="${targetRow}"][data-col="${targetCol}"]`)?.classList.add(previewClass);
+  });
+  dragState.target = { row, col };
+  dragState.valid = valid;
+}
+
+function movePieceDrag(event) {
+  if (!dragState) return;
+  const distance = Math.hypot(event.clientX - dragState.startX, event.clientY - dragState.startY);
+  if (!dragState.dragging && distance > 6) {
+    const level = JIGSAW_LEVELS[currentLevel];
+    const piece = level.pieces.find(candidate => candidate.id === dragState.pieceId);
+    dragState.dragging = true;
+    dragState.ghost = createDragGhost(piece, dragState.rotation);
+    dragState.source?.classList.add('is-dragging');
+  }
+  if (dragState.dragging) previewDragAt(event.clientX, event.clientY);
+}
+
+function finishPieceDrag() {
+  if (!dragState) return;
+  const completedDrag = dragState.dragging;
+  const pieceId = dragState.pieceId;
+  const rotation = dragState.rotation;
+  const target = dragState.target;
+  const valid = dragState.valid;
+  cancelDrag();
+
+  suppressPieceClick = true;
+  window.setTimeout(() => { suppressPieceClick = false; }, 0);
+  if (completedDrag && valid && target) {
+    placePiece(pieceId, target.row, target.col, rotation);
+  } else {
+    selectedPieceId = pieceId;
+    selectedRotation = rotation;
+    render();
+  }
+}
+
 function renderPieceBank(level) {
   pieceBank.replaceChildren();
   level.pieces.forEach(piece => {
@@ -175,7 +300,14 @@ function renderPieceBank(level) {
     const label = document.createElement('span');
     label.textContent = placed ? 'Encaixada ✓' : piece.label;
     button.append(label);
-    button.addEventListener('click', () => choosePiece(piece.id));
+    button.addEventListener('pointerdown', event => startPieceDrag(event, piece));
+    button.addEventListener('click', event => {
+      if (suppressPieceClick) {
+        event.preventDefault();
+        return;
+      }
+      choosePiece(piece.id);
+    });
     pieceBank.append(button);
   });
 }
@@ -201,6 +333,8 @@ function renderBoard(level) {
       const cell = document.createElement('button');
       cell.type = 'button';
       cell.className = `jigsaw-cell${piece ? ` is-filled color-${piece.color}` : ''}`;
+      cell.dataset.row = String(row);
+      cell.dataset.col = String(col);
       cell.setAttribute('aria-label', piece
         ? `Linha ${row + 1}, coluna ${col + 1}: ${piece.label}. Clique para retirar a peça`
         : `Linha ${row + 1}, coluna ${col + 1}: espaço vazio`);
@@ -233,5 +367,8 @@ export function refreshJigsaw() {
 rotateButton?.addEventListener('click', rotateSelected);
 checkButton?.addEventListener('click', check);
 resetButton?.addEventListener('click', reset);
+document.addEventListener('pointermove', movePieceDrag);
+document.addEventListener('pointerup', finishPieceDrag);
+document.addEventListener('pointercancel', cancelDrag);
 
 if (panel) setLevel(currentLevel);
