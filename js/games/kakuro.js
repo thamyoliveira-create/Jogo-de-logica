@@ -105,36 +105,30 @@ function render() {
   board.replaceChildren();
 
   const grid = document.createElement('div');
-  grid.className = `kakuro-grid grid-size-${level.size}`;
-  grid.style.gridTemplateColumns = `repeat(${level.size}, minmax(44px, 58px))`;
-
-  // Map black/clue cells for O(1) lookup
-  const blackMap = new Map();
-  level.blackCells.forEach(bc => {
-    blackMap.set(`${bc.row},${bc.col}`, bc);
-  });
+  grid.className = `kakuro-grid grid-size-${level.cols}`;
+  grid.style.gridTemplateColumns = `repeat(${level.cols}, minmax(44px, 58px))`;
 
   // Map white cells
   const whiteSet = new Set(level.cells.map(c => `${c.row},${c.col}`));
 
-  for (let r = 0; r < level.size; r += 1) {
-    for (let c = 0; c < level.size; c += 1) {
+  for (let r = 0; r < level.rows; r += 1) {
+    for (let c = 0; c < level.cols; c += 1) {
       const cellKey = `${r},${c}`;
-      const clueData = blackMap.get(cellKey);
+      const cellData = level.grid[r][c];
 
-      if (clueData) {
+      if (cellData.type !== 'white') {
         // Clue or Blocked Black Cell
         const clueCell = document.createElement('div');
         clueCell.className = 'kakuro-cell kakuro-black-cell';
 
-        if (clueData.down !== undefined || clueData.across !== undefined) {
+        if (cellData.colClue !== undefined || cellData.rowClue !== undefined) {
           clueCell.classList.add('has-clue');
           clueCell.innerHTML = `
             <svg class="kakuro-diagonal" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               <line x1="0" y1="0" x2="100" y2="100" />
             </svg>
-            ${clueData.down !== undefined ? `<span class="kakuro-clue-down" title="Soma vertical: ${clueData.down}">${clueData.down}</span>` : ''}
-            ${clueData.across !== undefined ? `<span class="kakuro-clue-across" title="Soma horizontal: ${clueData.across}">${clueData.across}</span>` : ''}
+            ${cellData.colClue !== undefined ? `<span class="kakuro-clue-down" title="Soma vertical: ${cellData.colClue}">${cellData.colClue}</span>` : ''}
+            ${cellData.rowClue !== undefined ? `<span class="kakuro-clue-across" title="Soma horizontal: ${cellData.rowClue}">${cellData.rowClue}</span>` : ''}
           `;
         }
         grid.append(clueCell);
