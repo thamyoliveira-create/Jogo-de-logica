@@ -663,6 +663,9 @@ export function validateTwentyFour(level, exprStr) {
   return { valid: true, value: evalResult.value };
 }
 
+export const evaluateExpression = evaluateMathExpression;
+export const validateTwentyFourSolution = validateTwentyFour;
+
 // ----------------------------------------------------
 // Kakuro (Cross-Sums Logic Rules)
 // ----------------------------------------------------

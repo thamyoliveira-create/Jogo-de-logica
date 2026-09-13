@@ -7,18 +7,138 @@ const deepFreeze = value => {
 };
 
 export const GAME_META = deepFreeze({
-  tents: { label: 'Barracas', shortLabel: 'Barracas', total: 4 },
-  words: { label: 'Caça-palavras', shortLabel: 'Palavras', total: 3 },
-  bridges: { label: 'Ilhas', shortLabel: 'Ilhas', total: 3 },
-  futoshiki: { label: 'Davi e Golias', shortLabel: 'Davi e Golias', total: 3 },
-  kenken: { label: 'KenKen', shortLabel: 'KenKen', total: 3 },
-  river: { label: 'Travessia do Rio', shortLabel: 'Travessia', total: 3 },
-  einstein: { label: 'Enigma de Einstein', shortLabel: 'Einstein', total: 3 },
-  hanoi: { label: 'Torre de Hanói', shortLabel: 'Hanói', total: 4 },
-  twentyfour: { label: 'Jogo do 24', shortLabel: 'Jogo do 24', total: 4 },
-  kakuro: { label: 'Kakuro', shortLabel: 'Kakuro', total: 3 },
-  pyramid: { label: 'Pirâmides & Quadrados', shortLabel: 'Pirâmides', total: 4 },
-  balance: { label: 'Balança Lógica', shortLabel: 'Balança', total: 4 }
+  tents: {
+    label: 'Barracas',
+    shortLabel: 'Barracas',
+    category: 'Dedução Espacial',
+    filter: 'spatial',
+    icon: '▲',
+    iconClass: 'tents-icon',
+    desc: 'Posicione barracas ao lado de árvores respeitando as contagens de linhas e colunas.',
+    skill: 'Raciocínio Espacial e Contagem',
+    total: 4
+  },
+  words: {
+    label: 'Caça-palavras',
+    shortLabel: 'Palavras',
+    category: 'Atenção & Inglês',
+    filter: 'spatial',
+    icon: 'A',
+    iconClass: 'words-icon',
+    desc: 'Localize termos técnicos de gestão e negócios em inglês na matriz de letras.',
+    skill: 'Atenção Visual e Vocabulário',
+    total: 3
+  },
+  bridges: {
+    label: 'Ilhas',
+    shortLabel: 'Ilhas',
+    category: 'Grafos & Redes',
+    filter: 'spatial',
+    icon: '━',
+    iconClass: 'bridges-icon',
+    desc: 'Conecte todas as ilhas com pontes retas até atingir a contagem necessária.',
+    skill: 'Planejamento e Teoria dos Grafos',
+    total: 3
+  },
+  futoshiki: {
+    label: 'Davi e Golias',
+    shortLabel: 'Davi e Golias',
+    category: 'Inequações & Ordem',
+    filter: 'deduction',
+    icon: '<',
+    iconClass: 'futoshiki-icon',
+    desc: 'Preencha a grade latina respeitando sinais de maior (>) e menor (<) entre os números.',
+    skill: 'Inequações e Comparação Numérica',
+    total: 3
+  },
+  kenken: {
+    label: 'KenKen',
+    shortLabel: 'KenKen',
+    category: 'Aritmética & Matrizes',
+    filter: 'math',
+    icon: '×',
+    iconClass: 'kenken-icon',
+    desc: 'Calcule as operações matemáticas em cada bloco sem repetir números nas linhas e colunas.',
+    skill: 'Cálculo Mental e Lógica Combinatória',
+    total: 3
+  },
+  river: {
+    label: 'Travessia do Rio',
+    shortLabel: 'Travessia',
+    category: 'Logística & Algoritmos',
+    filter: 'strategy',
+    icon: '⛵',
+    iconClass: 'river-icon',
+    desc: 'Atravesse personagens no barco respeitando restrições de segurança e o teste japonês.',
+    skill: 'Planejamento de Estados e Logística',
+    total: 3
+  },
+  einstein: {
+    label: 'Enigma de Einstein',
+    shortLabel: 'Einstein',
+    category: 'Dedução Matricial',
+    filter: 'deduction',
+    icon: '🧠',
+    iconClass: 'einstein-icon',
+    desc: 'Deduza as características de cada casa combinando todas as pistas com coloração dinâmica.',
+    skill: 'Pensamento Hipotético-Dedutivo',
+    total: 3
+  },
+  hanoi: {
+    label: 'Torre de Hanói',
+    shortLabel: 'Hanói',
+    category: 'Recursão & Estratégia',
+    filter: 'strategy',
+    icon: '🗼',
+    iconClass: 'hanoi-icon',
+    desc: 'Transfira todos os discos entre as três torres sem nunca apoiar um disco maior sobre um menor.',
+    skill: 'Recursão e Otimização de Movimentos',
+    total: 4
+  },
+  twentyfour: {
+    label: 'Jogo do 24',
+    shortLabel: 'Jogo do 24',
+    category: 'Expressões & Operações',
+    filter: 'math',
+    icon: '24',
+    iconClass: 'twentyfour-icon',
+    desc: 'Combine as 4 cartas com operações básicas e parênteses para atingir exatamente 24.',
+    skill: 'Expressões Numéricas e Frações',
+    total: 4
+  },
+  kakuro: {
+    label: 'Kakuro',
+    shortLabel: 'Kakuro',
+    category: 'Somas Cruzadas',
+    filter: 'math',
+    icon: '∑',
+    iconClass: 'kakuro-icon',
+    desc: 'Preencha as palavras cruzadas numéricas decompondo os totais em dígitos únicos de 1 a 9.',
+    skill: 'Partição de Inteiros e Aritmética',
+    total: 3
+  },
+  pyramid: {
+    label: 'Pirâmides & Quadrados',
+    shortLabel: 'Pirâmides',
+    category: 'Estruturas Numéricas',
+    filter: 'math',
+    icon: '🔺',
+    iconClass: 'pyramid-icon',
+    desc: 'Resolva pirâmides aritméticas e quadrados mágicos lendários de Lo Shu e Dürer.',
+    skill: 'Propriedades Aritméticas e Matrizes',
+    total: 4
+  },
+  balance: {
+    label: 'Balança Lógica',
+    shortLabel: 'Balança',
+    category: 'Sistemas Algébricos',
+    filter: 'deduction',
+    icon: '⚖️',
+    iconClass: 'balance-icon',
+    desc: 'Descubra os pesos relativos das formas geométricas e equilibre a balança interativa.',
+    skill: 'Sistemas de Equações e Equivalência',
+    total: 4
+  }
 });
 
 export const TENTS_LEVELS = deepFreeze([

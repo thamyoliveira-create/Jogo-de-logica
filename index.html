@@ -50,7 +50,12 @@
     <aside class="game-rail" aria-label="Jogos disponíveis">
       <p class="rail-kicker">Escolha a missão</p>
       <div class="game-tabs" role="tablist" aria-orientation="vertical">
-        <button id="tab-tents" class="game-tab" type="button" role="tab" aria-controls="panel-tents" aria-selected="true" tabindex="0" data-game="tents">
+        <button id="tab-catalog" class="game-tab catalog-tab" type="button" role="tab" aria-controls="panel-catalog" aria-selected="true" tabindex="0" data-game="catalog">
+          <span class="game-tab-icon catalog-icon" aria-hidden="true">🗂️</span>
+          <span class="game-tab-copy"><strong>Catálogo</strong><small>todos os jogos</small></span>
+          <span class="game-tab-score" data-catalog-progress>0/50</span>
+        </button>
+        <button id="tab-tents" class="game-tab" type="button" role="tab" aria-controls="panel-tents" aria-selected="false" tabindex="-1" data-game="tents">
           <span class="game-tab-icon tents-icon" aria-hidden="true">▲</span>
           <span class="game-tab-copy"><strong>Barracas</strong><small>dedução espacial</small></span>
           <span class="game-tab-score" data-game-progress>0/4</span>
@@ -118,7 +123,47 @@
     </aside>
 
     <main id="game-workspace" class="workspace" tabindex="-1">
-      <section id="panel-tents" class="game-panel" role="tabpanel" aria-labelledby="tab-tents" data-game="tents">
+      <section id="panel-catalog" class="game-panel catalog-panel" role="tabpanel" aria-labelledby="tab-catalog" data-game="catalog">
+        <div class="game-intro catalog-intro">
+          <div>
+            <p class="eyebrow">Mesa de Desafios · Escolha Livre</p>
+            <h1>Catálogo de Jogos</h1>
+            <p class="lead">Escolha qualquer jogo para começar. Os 12 jogos estão liberados desde o início — avance de fase dentro de cada jogo no seu próprio ritmo!</p>
+          </div>
+          <div class="catalog-summary-card">
+            <span class="micro-label">Resumo Geral</span>
+            <div class="catalog-summary-stats">
+              <div class="summary-stat">
+                <strong id="catalog-games-unlocked">12/12</strong>
+                <span>Jogos Livres</span>
+              </div>
+              <div class="summary-stat">
+                <strong id="catalog-levels-completed">0/50</strong>
+                <span>Fases Concluídas</span>
+              </div>
+            </div>
+            <p class="catalog-summary-tip">💡 <em>Dica:</em> Você pode alternar entre os jogos a qualquer momento pela barra lateral ou voltando aqui.</p>
+          </div>
+        </div>
+
+        <div class="catalog-filters-bar" role="toolbar" aria-label="Filtrar jogos por categoria">
+          <span class="micro-label">Filtrar por tipo:</span>
+          <div class="catalog-filters-list">
+            <button type="button" class="catalog-filter-btn" data-filter="all" aria-pressed="true">Todos (12)</button>
+            <button type="button" class="catalog-filter-btn" data-filter="math" aria-pressed="false">🔢 Aritmética & Álgebra</button>
+            <button type="button" class="catalog-filter-btn" data-filter="deduction" aria-pressed="false">🧠 Dedução & Lógica</button>
+            <button type="button" class="catalog-filter-btn" data-filter="strategy" aria-pressed="false">♟️ Estratégia & Logística</button>
+            <button type="button" class="catalog-filter-btn" data-filter="spatial" aria-pressed="false">🗺️ Espacial & Grafos</button>
+          </div>
+        </div>
+
+        <div class="catalog-grid" id="catalog-grid" aria-label="Grade de jogos disponíveis"></div>
+      </section>
+
+      <section id="panel-tents" class="game-panel" role="tabpanel" aria-labelledby="tab-tents" data-game="tents" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 01 · Dedução espacial</p>
@@ -151,6 +196,9 @@
       </section>
 
       <section id="panel-words" class="game-panel" role="tabpanel" aria-labelledby="tab-words" data-game="words" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 02 · Atenção visual</p>
@@ -187,6 +235,9 @@
       </section>
 
       <section id="panel-bridges" class="game-panel" role="tabpanel" aria-labelledby="tab-bridges" data-game="bridges" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 03 · Rede e conexão</p>
@@ -218,6 +269,9 @@
       </section>
 
       <section id="panel-futoshiki" class="game-panel" role="tabpanel" aria-labelledby="tab-futoshiki" data-game="futoshiki" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 04 · Ordem e comparação</p>
@@ -250,6 +304,9 @@
       </section>
 
       <section id="panel-kenken" class="game-panel" role="tabpanel" aria-labelledby="tab-kenken" data-game="kenken" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 05 · Cálculo estratégico</p>
@@ -282,6 +339,9 @@
       </section>
 
       <section id="panel-river" class="game-panel" role="tabpanel" aria-labelledby="tab-river" data-game="river" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 06 · Planejamento e travessia</p>
@@ -315,6 +375,9 @@
       </section>
 
       <section id="panel-einstein" class="game-panel" role="tabpanel" aria-labelledby="tab-einstein" data-game="einstein" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 07 · Dedução e matriz lógica</p>
@@ -352,6 +415,9 @@
       </section>
 
       <section id="panel-hanoi" class="game-panel" role="tabpanel" aria-labelledby="tab-hanoi" data-game="hanoi" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 08 · Recursão e estratégia espacial</p>
@@ -384,6 +450,9 @@
       </section>
 
       <section id="panel-twentyfour" class="game-panel" role="tabpanel" aria-labelledby="tab-twentyfour" data-game="twentyfour" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 09 · Aritmética e ordem das operações</p>
@@ -416,6 +485,9 @@
       </section>
 
       <section id="panel-kakuro" class="game-panel" role="tabpanel" aria-labelledby="tab-kakuro" data-game="kakuro" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 10 · Somas cruzadas e raciocínio combinatório</p>
@@ -448,6 +520,9 @@
       </section>
 
       <section id="panel-pyramid" class="game-panel" role="tabpanel" aria-labelledby="tab-pyramid" data-game="pyramid" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 11 · Estruturas numéricas e álgebra visual</p>
@@ -478,6 +553,9 @@
       </section>
 
       <section id="panel-balance" class="game-panel" role="tabpanel" aria-labelledby="tab-balance" data-game="balance" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
         <div class="game-intro">
           <div>
             <p class="eyebrow">Missão 12 · Dedução algébrica e sistemas de equações</p>

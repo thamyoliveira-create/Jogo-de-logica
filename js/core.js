@@ -16,7 +16,7 @@ function blankState() {
   return {
     version: 2,
     profile: { started: false, name: '' },
-    activeGame: 'tents',
+    activeGame: 'catalog',
     selectedLevels,
     completed,
     boards: {}
@@ -43,7 +43,7 @@ function normalizeState(value) {
   const state = blankState();
   state.profile.started = Boolean(value.profile?.started);
   state.profile.name = typeof value.profile?.name === 'string' ? value.profile.name.slice(0, 40) : '';
-  state.activeGame = GAME_META[value.activeGame] ? value.activeGame : fallback.activeGame;
+  state.activeGame = value.activeGame === 'catalog' || GAME_META[value.activeGame] ? value.activeGame : fallback.activeGame;
 
   Object.entries(GAME_META).forEach(([gameId, meta]) => {
     const selected = Number.parseInt(value.selectedLevels?.[gameId], 10);
@@ -110,9 +110,10 @@ export function playerCallout() {
 }
 
 export function setActiveGame(gameId) {
-  if (!GAME_META[gameId] || appState.activeGame === gameId) return;
+  if (gameId !== 'catalog' && !GAME_META[gameId]) return;
+  if (appState.activeGame === gameId) return;
   appState.activeGame = gameId;
-  save();
+  save({ notify: true });
 }
 
 export function getActiveGame() {
@@ -250,7 +251,7 @@ export function clearMessage(element) {
 
 export function scheduleAdvance(gameId, callback, delay = 1500) {
   cancelAdvance(gameId);
-  const timer = window.setTimeout(() => {
+  const timer = globalThis.setTimeout(() => {
     advanceTimers.delete(gameId);
     callback();
   }, delay);
@@ -259,19 +260,23 @@ export function scheduleAdvance(gameId, callback, delay = 1500) {
 
 export function cancelAdvance(gameId) {
   const timer = advanceTimers.get(gameId);
-  if (timer !== undefined) window.clearTimeout(timer);
+  if (timer !== undefined) globalThis.clearTimeout(timer);
   advanceTimers.delete(gameId);
 }
 
 export function cancelAllAdvances() {
-  advanceTimers.forEach(timer => window.clearTimeout(timer));
+  advanceTimers.forEach(timer => globalThis.clearTimeout(timer));
   advanceTimers.clear();
 }
 
 export function celebrate(element) {
   element.classList.remove('is-celebrating');
-  window.requestAnimationFrame(() => element.classList.add('is-celebrating'));
-  window.setTimeout(() => element.classList.remove('is-celebrating'), 900);
+  if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+    window.requestAnimationFrame(() => element.classList.add('is-celebrating'));
+  } else {
+    element.classList.add('is-celebrating');
+  }
+  globalThis.setTimeout(() => element.classList.remove('is-celebrating'), 900);
 }
 
 export function moveGridFocus(event, container) {

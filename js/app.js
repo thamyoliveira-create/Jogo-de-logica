@@ -57,7 +57,14 @@ const cancelResetButton = document.querySelector('#cancel-reset');
 const confirmResetButton = document.querySelector('#confirm-reset');
 const firstTab = tabs[0];
 const tabList = document.querySelector('[role="tablist"]');
+const catalogGrid = document.querySelector('#catalog-grid');
+const catalogProgressEl = document.querySelector('[data-catalog-progress]');
+const catalogLevelsCompletedEl = document.querySelector('#catalog-levels-completed');
+const catalogGamesUnlockedEl = document.querySelector('#catalog-games-unlocked');
+const catalogFilterBtns = [...document.querySelectorAll('.catalog-filter-btn')];
+const backToCatalogButtons = [...document.querySelectorAll('[data-action="back-to-catalog"]')];
 const dialogReturnFocus = new WeakMap();
+let currentCatalogFilter = 'all';
 let lastRenderedSignature = '';
 
 function syncTabOrientation() {
@@ -91,16 +98,144 @@ function renderProgress() {
   progressBar.max = summary.total;
   progressText.textContent = `${summary.percentage}% dos desafios concluídos`;
 
+  if (catalogProgressEl) {
+    catalogProgressEl.textContent = `${summary.completed}/${summary.total}`;
+  }
+  if (catalogLevelsCompletedEl) {
+    catalogLevelsCompletedEl.textContent = `${summary.completed}/${summary.total}`;
+  }
+  if (catalogGamesUnlockedEl) {
+    const totalGames = Object.keys(GAME_META).length;
+    catalogGamesUnlockedEl.textContent = `${totalGames}/${totalGames}`;
+  }
+
   const state = getState();
   Object.keys(GAME_META).forEach(gameId => {
     const tab = document.querySelector(`#tab-${gameId}`);
-    const completed = state.completed[gameId].length;
-    tab.querySelector('[data-game-progress]').textContent = `${completed}/${GAME_META[gameId].total}`;
+    if (tab) {
+      const completed = state.completed[gameId]?.length || 0;
+      const scoreEl = tab.querySelector('[data-game-progress]');
+      if (scoreEl) scoreEl.textContent = `${completed}/${GAME_META[gameId].total}`;
+    }
+  });
+}
+
+function renderCatalog() {
+  if (!catalogGrid) return;
+  catalogGrid.replaceChildren();
+  const state = getState();
+
+  const entries = Object.entries(GAME_META).filter(([, meta]) => {
+    if (currentCatalogFilter === 'all') return true;
+    return meta.filter === currentCatalogFilter;
+  });
+
+  entries.forEach(([gameId, meta]) => {
+    const completed = state.completed[gameId]?.length || 0;
+    const isComplete = completed === meta.total;
+    const nextLevel = Math.min(completed + 1, meta.total);
+
+    const card = document.createElement('article');
+    card.className = `catalog-game-card${isComplete ? ' is-complete' : ''}`;
+    card.dataset.game = gameId;
+
+    // Header: Badge + Category
+    const header = document.createElement('div');
+    header.className = 'catalog-card-header';
+
+    const badge = document.createElement('span');
+    badge.className = 'catalog-card-badge';
+    badge.textContent = isComplete ? '✓ Concluído' : `${completed}/${meta.total} Fases`;
+
+    const category = document.createElement('span');
+    category.className = 'catalog-card-category';
+    category.textContent = meta.category;
+
+    header.append(badge, category);
+
+    // Main: Icon + Title + Skill Pill
+    const main = document.createElement('div');
+    main.className = 'catalog-card-main';
+
+    const icon = document.createElement('div');
+    icon.className = `catalog-card-icon ${meta.iconClass || ''}`;
+    icon.textContent = meta.icon;
+    icon.setAttribute('aria-hidden', 'true');
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'catalog-card-title-wrap';
+
+    const title = document.createElement('h3');
+    title.textContent = meta.label;
+
+    const skills = document.createElement('div');
+    skills.className = 'catalog-card-skills';
+    const skillPill = document.createElement('span');
+    skillPill.className = 'catalog-skill-pill';
+    skillPill.textContent = meta.skill;
+    skills.append(skillPill);
+
+    titleWrap.append(title, skills);
+    main.append(icon, titleWrap);
+
+    // Description
+    const desc = document.createElement('p');
+    desc.className = 'catalog-card-desc';
+    desc.textContent = meta.desc;
+
+    // Footer: Level dots + Play Button
+    const footer = document.createElement('div');
+    footer.className = 'catalog-card-footer';
+
+    const levelsWrap = document.createElement('div');
+    levelsWrap.className = 'catalog-card-levels';
+    levelsWrap.setAttribute('aria-label', `Progresso: ${completed} de ${meta.total} fases concluídas`);
+
+    for (let i = 0; i < meta.total; i += 1) {
+      const dot = document.createElement('span');
+      dot.className = `catalog-level-dot ${
+        i < completed ? 'dot-complete' : i === completed ? 'dot-unlocked' : 'dot-locked'
+      }`;
+      dot.title = `Fase ${i + 1}: ${i < completed ? 'Concluída' : i === completed ? 'Disponível' : 'Bloqueada'}`;
+      levelsWrap.append(dot);
+    }
+
+    const levelsText = document.createElement('span');
+    levelsText.className = 'catalog-card-levels-text';
+    levelsText.textContent = `${completed}/${meta.total}`;
+    levelsWrap.append(levelsText);
+
+    const playBtn = document.createElement('button');
+    playBtn.type = 'button';
+    playBtn.className = 'catalog-card-play-btn';
+    playBtn.setAttribute('aria-label', `Jogar ${meta.label}`);
+    if (completed === 0) {
+      playBtn.textContent = 'Começar →';
+    } else if (isComplete) {
+      playBtn.textContent = 'Rejogar ↺';
+    } else {
+      playBtn.textContent = `Fase ${nextLevel} →`;
+    }
+
+    playBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      cancelAllAdvances();
+      activateGame(gameId, { moveFocus: true });
+    });
+
+    card.addEventListener('click', () => {
+      cancelAllAdvances();
+      activateGame(gameId, { moveFocus: true });
+    });
+
+    footer.append(levelsWrap, playBtn);
+    card.append(header, main, desc, footer);
+    catalogGrid.append(card);
   });
 }
 
 function activateGame(gameId, { moveFocus = false } = {}) {
-  if (!GAME_META[gameId]) return;
+  if (gameId !== 'catalog' && !GAME_META[gameId]) return;
   tabs.forEach(tab => {
     const active = tab.dataset.game === gameId;
     tab.setAttribute('aria-selected', String(active));
@@ -112,11 +247,15 @@ function activateGame(gameId, { moveFocus = false } = {}) {
     panel.hidden = !active;
   });
   setActiveGame(gameId);
+  if (gameId === 'catalog') {
+    renderCatalog();
+  }
 }
 
 function render() {
   renderProfile();
   renderProgress();
+  renderCatalog();
   const state = getState();
   const signature = JSON.stringify(state.completed);
   if (signature !== lastRenderedSignature) {
@@ -210,6 +349,24 @@ confirmResetButton.addEventListener('click', () => {
 resetDialog.addEventListener('cancel', event => {
   event.preventDefault();
   closeDialog(resetDialog);
+});
+
+catalogFilterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentCatalogFilter = btn.dataset.filter || 'all';
+    catalogFilterBtns.forEach(other => {
+      other.setAttribute('aria-pressed', String(other === btn));
+    });
+    renderCatalog();
+  });
+});
+
+backToCatalogButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    cancelAllAdvances();
+    activateGame('catalog', { moveFocus: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 });
 
 window.addEventListener('resize', syncTabOrientation);
