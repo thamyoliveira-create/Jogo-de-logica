@@ -1,6 +1,6 @@
 # Mesa de Lógica
 
-Uma coleção completa de 12 jogos de raciocínio lógico e matemático (50 níveis no total) criada para estudantes da Professora Tamiris (Ensino Fundamental, Médio e Técnico).
+Uma coleção completa de 13 jogos de raciocínio lógico e matemático (45 desafios no total) criada para estudantes da Professora Tamiris (Ensino Fundamental, Médio e Técnico).
 
 ## 🧩 Jogos Disponíveis
 
@@ -47,7 +47,7 @@ js/app.js                 Navegação global, abas, perfil e barra de progresso
 js/core.js                Gerenciador de estado reativo, persistência e efeitos
 js/puzzles.js             Definições imutáveis dos 50 puzzles e soluções
 js/rules.js               Regras puras de validação e parser de expressões
-js/games/                 Controladores dos 12 jogos
+js/games/                 Controladores dos 13 jogos
 assets/                   Marca e favicon
 test/                     Testes automatizados com Node.js test runner
 ```

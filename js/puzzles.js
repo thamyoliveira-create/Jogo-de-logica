@@ -138,6 +138,17 @@ export const GAME_META = deepFreeze({
     desc: 'Descubra os pesos relativos das formas geométricas e equilibre a balança interativa.',
     skill: 'Sistemas de Equações e Equivalência',
     total: 4
+  },
+  jigsaw: {
+    label: 'Logic Jigsaw',
+    shortLabel: 'Logic Jigsaw',
+    category: 'Formas & Encaixes',
+    filter: 'spatial',
+    icon: '▦',
+    iconClass: 'jigsaw-icon',
+    desc: 'Gire e encaixe peças geométricas até preencher o tabuleiro sem deixar espaços.',
+    skill: 'Visualização Espacial e Decomposição',
+    total: 4
   }
 });
 
@@ -955,6 +966,60 @@ export const BALANCE_LEVELS = deepFreeze([
   }
 ]);
 
+export const JIGSAW_LEVELS = deepFreeze([
+  {
+    id: 'primeiros-blocos',
+    title: 'Primeiros blocos',
+    rows: 4,
+    cols: 4,
+    pieces: [
+      { id: 'rosa', label: 'Peça rosa', color: 'pink', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] },
+      { id: 'menta', label: 'Peça menta', color: 'mint', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] },
+      { id: 'amarela', label: 'Peça amarela', color: 'yellow', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] },
+      { id: 'ameixa', label: 'Peça ameixa', color: 'plum', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] }
+    ]
+  },
+  {
+    id: 'quatro-formas',
+    title: 'Quatro formas',
+    rows: 4,
+    cols: 4,
+    pieces: [
+      { id: 'linha', label: 'Linha', color: 'pink', cells: [[0, 0], [0, 1], [0, 2], [0, 3]] },
+      { id: 'ele', label: 'Peça L', color: 'mint', cells: [[0, 0], [1, 0], [2, 0], [2, 1]] },
+      { id: 'jota', label: 'Peça J', color: 'yellow', cells: [[0, 1], [1, 1], [2, 0], [2, 1]] },
+      { id: 'quadrado', label: 'Quadrado', color: 'plum', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] }
+    ]
+  },
+  {
+    id: 'mosaico',
+    title: 'Mosaico',
+    rows: 4,
+    cols: 5,
+    pieces: [
+      { id: 'linha-1', label: 'Linha rosa', color: 'pink', cells: [[0, 0], [0, 1], [0, 2], [0, 3]] },
+      { id: 'linha-2', label: 'Linha menta', color: 'mint', cells: [[0, 0], [0, 1], [0, 2], [0, 3]] },
+      { id: 'linha-3', label: 'Linha amarela', color: 'yellow', cells: [[0, 0], [0, 1], [0, 2], [0, 3]] },
+      { id: 'quadrado-1', label: 'Quadrado claro', color: 'blush', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] },
+      { id: 'quadrado-2', label: 'Quadrado ameixa', color: 'plum', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] }
+    ]
+  },
+  {
+    id: 'mestre-dos-encaixes',
+    title: 'Mestre dos encaixes',
+    rows: 4,
+    cols: 6,
+    pieces: [
+      { id: 'linha-final', label: 'Linha', color: 'pink', cells: [[0, 0], [0, 1], [0, 2], [0, 3]] },
+      { id: 'te-1', label: 'Peça T rosa', color: 'blush', cells: [[0, 0], [0, 1], [0, 2], [1, 1]] },
+      { id: 'te-2', label: 'Peça T amarela', color: 'yellow', cells: [[0, 0], [0, 1], [0, 2], [1, 1]] },
+      { id: 'esse', label: 'Peça S', color: 'mint', cells: [[0, 1], [0, 2], [1, 0], [1, 1]] },
+      { id: 'ele-final', label: 'Peça L', color: 'plum', cells: [[0, 0], [1, 0], [2, 0], [2, 1]] },
+      { id: 'quadrado-final', label: 'Quadrado', color: 'aqua', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] }
+    ]
+  }
+]);
+
 export const PUZZLES = deepFreeze({
   tents: TENTS_LEVELS,
   words: WORD_LEVELS,
@@ -967,7 +1032,7 @@ export const PUZZLES = deepFreeze({
   twentyfour: TWENTYFOUR_LEVELS,
   kakuro: KAKURO_LEVELS,
   pyramid: PYRAMID_LEVELS,
-  balance: BALANCE_LEVELS
+  balance: BALANCE_LEVELS,
+  jigsaw: JIGSAW_LEVELS
 });
-
 

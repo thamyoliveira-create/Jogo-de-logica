@@ -23,6 +23,7 @@ import { refreshTwentyFour } from './games/twentyfour.js';
 import { refreshKakuro } from './games/kakuro.js';
 import { refreshPyramid } from './games/pyramid.js';
 import { refreshBalance } from './games/balance.js';
+import { refreshJigsaw } from './games/jigsaw.js';
 
 const refreshGames = {
   tents: refreshTents,
@@ -36,7 +37,8 @@ const refreshGames = {
   twentyfour: refreshTwentyFour,
   kakuro: refreshKakuro,
   pyramid: refreshPyramid,
-  balance: refreshBalance
+  balance: refreshBalance,
+  jigsaw: refreshJigsaw
 };
 
 const tabs = [...document.querySelectorAll('[role="tab"]')];

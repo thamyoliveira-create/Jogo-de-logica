@@ -23,11 +23,11 @@ import {
   validateBalance
 } from '../js/rules.js';
 
-test('GAME_META covers exactly 12 games with 41 total levels', () => {
+test('GAME_META covers exactly 13 games with 45 total levels', () => {
   const gameIds = Object.keys(GAME_META);
-  assert.equal(gameIds.length, 12);
+  assert.equal(gameIds.length, 13);
   const totalLevels = gameIds.reduce((sum, id) => sum + GAME_META[id].total, 0);
-  assert.equal(totalLevels, 41);
+  assert.equal(totalLevels, 45);
 });
 
 test('Every game has matching level definitions in PUZZLES', () => {
@@ -116,7 +116,7 @@ test('Word Search grid generator produces solvable letter matrix', () => {
   });
 });
 
-test('All 12 games have Level 1 (index 0) unlocked at the beginning without sequential dependency', () => {
+test('All games have Level 1 (index 0) unlocked at the beginning without sequential dependency', () => {
   resetProgress();
   const gameIds = Object.keys(GAME_META);
   gameIds.forEach(gameId => {

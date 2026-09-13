@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mesa de Lógica</title>
-  <meta name="description" content="Cinco jogos interativos para exercitar estratégia, atenção e raciocínio lógico com a Professora Tamiris.">
+  <meta name="description" content="Treze jogos interativos para exercitar estratégia, atenção e raciocínio lógico com a Professora Tamiris.">
   <meta name="theme-color" content="#211720">
   <meta property="og:title" content="Mesa de Lógica">
   <meta property="og:description" content="Uma mesa de desafios rápidos de estratégia, atenção e raciocínio.">
@@ -30,8 +30,8 @@
     <div class="header-progress" aria-labelledby="progress-heading">
       <span id="progress-heading" class="micro-label">Seu percurso</span>
       <div class="progress-line">
-        <strong id="progress-value">0/41</strong>
-        <progress id="progress-bar" value="0" max="41">0 de 41</progress>
+        <strong id="progress-value">0/45</strong>
+        <progress id="progress-bar" value="0" max="45">0 de 45</progress>
       </div>
       <span id="progress-text">0% dos desafios concluídos</span>
     </div>
@@ -53,7 +53,7 @@
         <button id="tab-catalog" class="game-tab catalog-tab" type="button" role="tab" aria-controls="panel-catalog" aria-selected="true" tabindex="0" data-game="catalog">
           <span class="game-tab-icon catalog-icon" aria-hidden="true">🗂️</span>
           <span class="game-tab-copy"><strong>Catálogo</strong><small>todos os jogos</small></span>
-          <span class="game-tab-score" data-catalog-progress>0/41</span>
+          <span class="game-tab-score" data-catalog-progress>0/45</span>
         </button>
         <button id="tab-tents" class="game-tab" type="button" role="tab" aria-controls="panel-tents" aria-selected="false" tabindex="-1" data-game="tents">
           <span class="game-tab-icon tents-icon" aria-hidden="true">▲</span>
@@ -115,6 +115,11 @@
           <span class="game-tab-copy"><strong>Balança Lógica</strong><small>dedução algébrica</small></span>
           <span class="game-tab-score" data-game-progress>0/4</span>
         </button>
+        <button id="tab-jigsaw" class="game-tab" type="button" role="tab" aria-controls="panel-jigsaw" aria-selected="false" tabindex="-1" data-game="jigsaw">
+          <span class="game-tab-icon jigsaw-icon" aria-hidden="true">▦</span>
+          <span class="game-tab-copy"><strong>Logic Jigsaw</strong><small>formas e encaixes</small></span>
+          <span class="game-tab-score" data-game-progress>0/4</span>
+        </button>
       </div>
       <div class="rail-note">
         <span aria-hidden="true">↗</span>
@@ -128,17 +133,17 @@
           <div>
             <p class="eyebrow">Mesa de Desafios · Escolha Livre</p>
             <h1>Catálogo de Jogos</h1>
-            <p class="lead">Escolha qualquer jogo para começar. Os 12 jogos estão liberados desde o início — avance de fase dentro de cada jogo no seu próprio ritmo!</p>
+            <p class="lead">Escolha qualquer jogo para começar. Os 13 jogos estão liberados desde o início — avance de fase dentro de cada jogo no seu próprio ritmo!</p>
           </div>
           <div class="catalog-summary-card">
             <span class="micro-label">Resumo Geral</span>
             <div class="catalog-summary-stats">
               <div class="summary-stat">
-                <strong id="catalog-games-unlocked">12/12</strong>
+                <strong id="catalog-games-unlocked">13/13</strong>
                 <span>Jogos Livres</span>
               </div>
               <div class="summary-stat">
-                <strong id="catalog-levels-completed">0/41</strong>
+                <strong id="catalog-levels-completed">0/45</strong>
                 <span>Fases Concluídas</span>
               </div>
             </div>
@@ -149,7 +154,7 @@
         <div class="catalog-filters-bar" role="toolbar" aria-label="Filtrar jogos por categoria">
           <span class="micro-label">Filtrar por tipo:</span>
           <div class="catalog-filters-list">
-            <button type="button" class="catalog-filter-btn" data-filter="all" aria-pressed="true">Todos (12)</button>
+            <button type="button" class="catalog-filter-btn" data-filter="all" aria-pressed="true">Todos (13)</button>
             <button type="button" class="catalog-filter-btn" data-filter="math" aria-pressed="false">🔢 Aritmética & Álgebra</button>
             <button type="button" class="catalog-filter-btn" data-filter="deduction" aria-pressed="false">🧠 Dedução & Lógica</button>
             <button type="button" class="catalog-filter-btn" data-filter="strategy" aria-pressed="false">♟️ Estratégia & Logística</button>
@@ -582,6 +587,49 @@
           <div class="game-actions">
             <button class="primary-button" type="button" data-action="check">Conferir equilíbrio</button>
             <button class="text-button" type="button" data-action="reset">Limpar prato</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-jigsaw" class="game-panel" role="tabpanel" aria-labelledby="tab-jigsaw" data-game="jigsaw" hidden>
+        <div class="game-nav-bar">
+          <button type="button" class="back-to-catalog-btn" data-action="back-to-catalog">← Voltar ao Catálogo de Jogos</button>
+        </div>
+        <div class="game-intro">
+          <div>
+            <p class="eyebrow">Missão 13 · Visualização espacial e decomposição</p>
+            <h1>Logic Jigsaw</h1>
+            <p class="lead">Gire e encaixe peças inspiradas em blocos de montar e Tetris até preencher todo o tabuleiro.</p>
+          </div>
+          <details class="rules-card">
+            <summary>Como jogar</summary>
+            <ol>
+              <li>Escolha uma peça colorida na bandeja.</li>
+              <li>Use “Girar peça” para mudar a orientação.</li>
+              <li>Toque em um espaço do tabuleiro para posicionar a peça a partir dali.</li>
+              <li>As peças não podem sair do tabuleiro nem ficar uma sobre a outra.</li>
+              <li>Toque em uma peça encaixada para retirá-la e tentar outra posição.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="level-strip" data-level-picker aria-label="Níveis do Logic Jigsaw"></div>
+        <div class="play-surface">
+          <div class="surface-heading">
+            <div><span class="micro-label">Mesa de montagem</span><h2>Complete o mosaico</h2></div>
+            <span class="legend">sem lacunas · sem sobreposição</span>
+          </div>
+          <div class="jigsaw-layout">
+            <aside class="jigsaw-tray" aria-label="Bandeja de peças">
+              <span class="micro-label">Peças disponíveis</span>
+              <div class="jigsaw-piece-bank" data-piece-bank></div>
+              <button class="secondary-button" type="button" data-action="rotate">Girar peça ↻</button>
+            </aside>
+            <div class="board-wrap jigsaw-board-wrap" data-board></div>
+          </div>
+          <div class="game-message" data-message role="status" aria-live="polite" hidden></div>
+          <div class="game-actions">
+            <button class="primary-button" type="button" data-action="check">Conferir encaixes</button>
+            <button class="text-button" type="button" data-action="reset">Retirar todas as peças</button>
           </div>
         </div>
       </section>

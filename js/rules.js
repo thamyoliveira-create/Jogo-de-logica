@@ -875,4 +875,72 @@ export function validateBalance(level, userState) {
   return { valid: true, code: 'balanced' };
 }
 
+// ----------------------------------------------------
+// Logic Jigsaw (Polyomino Packing Rules)
+// ----------------------------------------------------
+
+export function rotateJigsawCells(cells, turns = 0) {
+  let rotated = cells.map(([row, col]) => [row, col]);
+  const normalizedTurns = ((turns % 4) + 4) % 4;
+  for (let turn = 0; turn < normalizedTurns; turn += 1) {
+    rotated = rotated.map(([row, col]) => [col, -row]);
+  }
+  const minRow = Math.min(...rotated.map(([row]) => row));
+  const minCol = Math.min(...rotated.map(([, col]) => col));
+  return rotated
+    .map(([row, col]) => [row - minRow, col - minCol])
+    .sort(([aRow, aCol], [bRow, bCol]) => aRow - bRow || aCol - bCol);
+}
+
+export function jigsawCellsForPlacement(piece, placement) {
+  return rotateJigsawCells(piece.cells, placement.rotation)
+    .map(([row, col]) => [row + placement.row, col + placement.col]);
+}
+
+export function jigsawPlacementFits(level, placements, pieceId, placement) {
+  const piece = level.pieces.find(candidate => candidate.id === pieceId);
+  if (!piece || !Number.isInteger(placement?.row) || !Number.isInteger(placement?.col)
+    || !Number.isInteger(placement?.rotation)) return false;
+
+  const occupied = new Set();
+  Object.entries(placements || {}).forEach(([placedId, placed]) => {
+    if (placedId === pieceId) return;
+    const placedPiece = level.pieces.find(candidate => candidate.id === placedId);
+    if (!placedPiece) return;
+    jigsawCellsForPlacement(placedPiece, placed).forEach(([row, col]) => occupied.add(`${row},${col}`));
+  });
+
+  return jigsawCellsForPlacement(piece, placement).every(([row, col]) => (
+    row >= 0 && row < level.rows && col >= 0 && col < level.cols
+      && !occupied.has(`${row},${col}`)
+  ));
+}
+
+export function validateJigsaw(level, placements) {
+  if (!placements || typeof placements !== 'object' || Array.isArray(placements)) {
+    return { valid: false, code: 'incomplete', reason: 'Comece escolhendo uma peça para encaixar.' };
+  }
+
+  const occupied = new Set();
+  for (const [pieceId, placement] of Object.entries(placements)) {
+    const piece = level.pieces.find(candidate => candidate.id === pieceId);
+    if (!piece || !jigsawPlacementFits(level, placements, pieceId, placement)) {
+      return { valid: false, code: 'invalid-placement', reason: 'Há uma peça fora do tabuleiro ou sobre outra peça.' };
+    }
+    for (const [row, col] of jigsawCellsForPlacement(piece, placement)) {
+      const cellKey = `${row},${col}`;
+      if (occupied.has(cellKey)) {
+        return { valid: false, code: 'overlap', reason: 'Duas peças estão ocupando o mesmo espaço.' };
+      }
+      occupied.add(cellKey);
+    }
+  }
+
+  const targetCells = level.rows * level.cols;
+  if (Object.keys(placements).length !== level.pieces.length || occupied.size !== targetCells) {
+    return { valid: false, code: 'incomplete', reason: `Ainda faltam ${targetCells - occupied.size} espaços para preencher.` };
+  }
+
+  return { valid: true, code: 'complete' };
+}
 
