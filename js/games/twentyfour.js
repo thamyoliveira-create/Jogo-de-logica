@@ -228,14 +228,6 @@ function render() {
   });
   container.append(keypad);
 
-  // Hint element if level has one
-  if (level.hint) {
-    const hintCard = document.createElement('div');
-    hintCard.className = 'twentyfour-hint';
-    hintCard.innerHTML = `<strong>Dica Pedagógica:</strong> ${level.hint}`;
-    container.append(hintCard);
-  }
-
   board.append(container);
 }
 
