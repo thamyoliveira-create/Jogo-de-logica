@@ -228,16 +228,22 @@ function startPieceDrag(event, piece) {
 function previewDragAt(clientX, clientY) {
   if (!dragState?.ghost) return;
   const cellSize = Number.parseFloat(dragState.ghost.style.getPropertyValue('--jigsaw-drag-cell')) || 48;
-  dragState.ghost.style.left = `${clientX - cellSize / 2}px`;
-  dragState.ghost.style.top = `${clientY - cellSize / 2}px`;
+  
+  
   clearDragPreview();
 
   const targetCell = document.elementFromPoint(clientX, clientY)?.closest('.jigsaw-cell');
   if (!targetCell || !board?.contains(targetCell)) {
+    dragState.ghost.style.left = `${clientX - cellSize / 2}px`;
+    dragState.ghost.style.top = `${clientY - cellSize / 2}px`;
     dragState.target = null;
     dragState.valid = false;
     return;
   }
+
+  const cellRect = targetCell.getBoundingClientRect();
+  dragState.ghost.style.left = `${cellRect.left}px`;
+  dragState.ghost.style.top = `${cellRect.top}px`;
 
   const row = Number(targetCell.dataset.row);
   const col = Number(targetCell.dataset.col);
