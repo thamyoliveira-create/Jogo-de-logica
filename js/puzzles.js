@@ -833,6 +833,9 @@ export const BALANCE_LEVELS = deepFreeze([
       left: ['square', 'triangle'], // 5 + 3 = 8
       allowedShapes: ['circle', 'triangle', 'square']
     },
+    solution: {
+      rightPan: ['square', 'triangle']
+    },
     hint: '3 Círculos = 2 Triângulos e 1 Quadrado = 1 Triângulo + 1 Círculo. Quanto pesam juntos 1 Quadrado e 1 Triângulo?'
   },
   {
@@ -863,6 +866,9 @@ export const BALANCE_LEVELS = deepFreeze([
       title: 'Balança Misteriosa',
       left: ['star', 'diamond'], // 6 + 4 = 10
       allowedShapes: ['moon', 'diamond', 'star']
+    },
+    solution: {
+      rightPan: ['star', 'diamond']
     },
     hint: '1 Diamante vale 2 Luas. 1 Estrela vale 1 Diamante + 1 Lua. Quantas Luas equivalem a 1 Estrela + 1 Diamante?'
   },
@@ -900,6 +906,9 @@ export const BALANCE_LEVELS = deepFreeze([
       title: 'Balança Misteriosa',
       left: ['gold', 'heart'], // 7 + 3 = 10
       allowedShapes: ['heart', 'gem', 'gold']
+    },
+    solution: {
+      rightPan: ['gold', 'heart']
     },
     hint: '1 Barra de Ouro = 1 Gema + 1 Coração. Descubra como equilibrar 1 Barra de Ouro + 1 Coração.'
   },
@@ -939,8 +948,26 @@ export const BALANCE_LEVELS = deepFreeze([
       left: ['air', 'earth'], // 10 + 7 = 17
       allowedShapes: ['fire', 'water', 'earth', 'air']
     },
+    solution: {
+      rightPan: ['air', 'earth']
+    },
     hint: 'Substitua as variáveis sucessivamente para encontrar a combinação de equilíbrio.'
   }
 ]);
+
+export const PUZZLES = deepFreeze({
+  tents: TENTS_LEVELS,
+  words: WORD_LEVELS,
+  bridges: BRIDGE_LEVELS,
+  futoshiki: FUTOSHIKI_LEVELS,
+  kenken: KENKEN_LEVELS,
+  river: RIVER_LEVELS,
+  einstein: EINSTEIN_LEVELS,
+  hanoi: HANOI_LEVELS,
+  twentyfour: TWENTYFOUR_LEVELS,
+  kakuro: KAKURO_LEVELS,
+  pyramid: PYRAMID_LEVELS,
+  balance: BALANCE_LEVELS
+});
 
 
