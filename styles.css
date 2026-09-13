@@ -2826,9 +2826,9 @@ button.number-cell:hover {
 .jigsaw-cell {
   width: var(--jigsaw-cell);
   aspect-ratio: 1;
-  border: 1px dashed color-mix(in srgb, var(--paper) 35%, transparent);
+  border: 1px dashed var(--line-strong);
   border-radius: 0.55rem;
-  background: color-mix(in srgb, var(--paper) 8%, transparent);
+  background: var(--paper-raised);
   cursor: pointer;
   transition: transform 120ms ease, filter 120ms ease;
 }
