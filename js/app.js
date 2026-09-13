@@ -164,16 +164,22 @@ editProfileButton.addEventListener('click', () => {
 });
 
 profileDialog.addEventListener('cancel', event => {
-  if (!hasStarted()) {
-    event.preventDefault();
-    return;
-  }
   event.preventDefault();
-  closeDialog(profileDialog);
+  if (!hasStarted()) {
+    submitProfile('');
+  } else {
+    closeDialog(profileDialog);
+  }
 });
 
 profileDialog.addEventListener('click', event => {
-  if (event.target === profileDialog && hasStarted()) closeDialog(profileDialog);
+  if (event.target === profileDialog) {
+    if (!hasStarted()) {
+      submitProfile('');
+    } else {
+      closeDialog(profileDialog);
+    }
+  }
 });
 
 tabs.forEach((tab, index) => {
